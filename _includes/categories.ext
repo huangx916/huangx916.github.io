@@ -1,3 +1,0 @@
-{% raw %}
-{% include categories.ext %}
-{% endraw %}
