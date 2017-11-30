@@ -4,7 +4,7 @@ SEOTitle: A-SHIN的博客 | A-SHIN BLOG
 header-img: img/home-bg.jpg
 email: huangx916@163.com
 description: "游戏引擎、图形渲染 | A-SHIN，GameEngine Lover，Software | 这里是 @A-SHIN 的个人博客，与你一起发现更大的世界。"
-keyword: "A-SHIN, huangx916, Game, GameEngine, Graphics, Rendering"
+keyword: "A-SHIN, huangx916, Game, Game Engine, Graphics, Rendering"
 url: "https://huangx916.github.io/"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
@@ -12,11 +12,11 @@ baseurl: ""                             # for example, '/blog' if your blog host
 
 # SNS settings
 RSS: false
-weibo_username:     huangx916
-zhihu_username:     huangx916
-github_username:    huangx916
-twitter_username:   huangx916
-#facebook_username:  huangx916
+weibo_username:     A-SHIN
+zhihu_username:     A-SHIN
+github_username:    A-SHIN
+twitter_username:   A-SHIN
+#facebook_username:  A-SHIN
 # linkedin_username:  firstname-lastname-idxxxx
 
 
@@ -48,7 +48,7 @@ kramdown:
 
 
 # Disqus settings
-disqus_username: huangx916
+disqus_username: A-SHIN
 
 # Netease setttings
 netease_comment: false
@@ -61,13 +61,13 @@ netease_comment: false
 
 # Google Analytics
 ga_track_id: 'UA-49627206-1'            # Format: UA-xxxxxx-xx
-ga_domain: huangx916
+ga_domain: A-SHIN
 
 
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "写写代码，玩玩游戏，<br>离开世界之前，一切都是过程"
+sidebar-about-description: "写写代码，玩玩游戏，<br>也是极好的"
 sidebar-avatar: /img/avatar-ashin.png      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
