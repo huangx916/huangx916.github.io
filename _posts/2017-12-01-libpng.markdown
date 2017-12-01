@@ -1,0 +1,36 @@
+---
+layout:     post
+title:      "windows平台下编译libpng库"
+subtitle:   " \"踩坑记录\""
+date:       2017-12-01 16:09:00
+author:     "A-SHIN"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 技术
+---
+
+> “Yeah It's on. ”
+
+
+## 前言
+
+最近需要在[引擎][GitHub Pages](https://github.com/huangx916/HXEngine)
+中加入PNG图片加载功能，因此找了些方法。比如使用CImage简单加载等，权衡了下感觉还是采用libpng库来加载。。。
+
+## 正文
+其实编译libpng库挺简单，不过还是碰到些问题，浪费了些时间
+一、libpng库需要依赖zlib库，下载地址：
+libpng：http://libmng.com/pub/png/libpng.html
+zlib：http://www.zlib.net/
+二、下载下来后解压到同一文件夹下。接下来我就碰到了个问题，一看有CMAKE文件，没看其他的，直接打开CMAKE开始搭建工程。结果一直报错。
+其实libpng提供了现成的sln
+<img class="shadow" src="/img/in-post/libpng/1.png" width="260">
+修改zlib.props中的zlib路径宏(匹配刚解压的zlib文件夹)，打开工程文件就可以编译了
+编译成功后整理并提取所需文件
+<img class="shadow" src="/img/in-post/libpng/3.png" width="260">
+<img class="shadow" src="/img/in-post/libpng/4.png" width="260">
+
+## 后记
+说说为什么写这篇没啥技术点的文章：一方面跟之前碰到的源码编译(freetype等)有些不一样的地方，比如不能Windows下CMAKE。编译后的文件比较比较乱，需要自己整理。
+另一方面纯粹是为了写blog练练手 :)
