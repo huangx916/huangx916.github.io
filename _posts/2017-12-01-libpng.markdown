@@ -21,7 +21,7 @@ tags:
 ## 正文
 其实编译libpng库挺简单，不过还是碰到些问题，浪费了些时间  
 * libpng库需要依赖zlib库，下载地址：  
-libpng：[http://libmng.com/pub/png/libpng.html](http://libmng.com/pub/png/libpng.html)  
+libpng：[http://www.libpng.org/pub/png/pngcode.html](http://www.libpng.org/pub/png/pngcode.html)  
 zlib：[http://www.zlib.net/](http://www.zlib.net/) 
  
 ---
