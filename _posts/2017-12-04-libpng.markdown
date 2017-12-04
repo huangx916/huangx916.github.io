@@ -21,15 +21,16 @@ tags:
 
 ## 正文
 这个问题困扰了我好久，反反复复看了好几遍自己的代码，用gDEBugger调试了N次，最后终于找到了原因。
-问题出在设置纹理过滤模式的时候使用了  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, **GL_LINEAR_MIPMAP_LINEAR**);
+问题出在设置纹理过滤模式的时候使用了  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, **GL_LINEAR_MIPMAP_LINEAR**)
 然而加载PNG的时候没生成MIPMAP
-<img class="shadow" src="/img/in-post/pngblack/2.png" width="600">
-解决方法有二种:  
-* 过滤模式模式换成**GL_LINEAR** glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, **GL_LINEAR**);
+<img class="shadow" src="/img/in-post/pngblack/2.png" width="600">  
+### 解决方法有二种:  
+* 过滤模式模式换成**GL_LINEAR**:  
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, **GL_LINEAR**)
 <img class="shadow" src="/img/in-post/pngblack/3.png" width="600">
-* 调用**glGenerateMipmap(GL_TEXTURE_2D);**生成MIPMAP
+* 调用**glGenerateMipmap(GL_TEXTURE_2D)**生成MIPMAP
 <img class="shadow" src="/img/in-post/pngblack/4.png" width="600">
-最后纹理正常显示出来了 :)  
+最后纹理正常显示出来了 :)
 <img class="shadow" src="/img/in-post/pngblack/5.png" width="600">
 
 ## 后记
