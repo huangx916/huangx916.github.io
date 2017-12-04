@@ -1,0 +1,35 @@
+---
+layout:     post
+title:      "纹理贴图错误显示为黑色"
+subtitle:   " \"踩坑记录\""
+date:       2017-12-04 14:43:00
+author:     "A-SHIN"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 技术
+---
+
+> “Yeah It's on. ”
+
+
+## 前言
+
+[前篇文章](https://huangx916.github.io/2017/12/01/libpng/)介绍了libpng库。(关于OpenGL如何加载显示PNG，可参考[此篇](http://blog.csdn.net/glunoy/article/details/50968326))
+我在使用时却错误的显示为黑色
+<img class="shadow" src="/img/in-post/pngblack/1.png" width="600">
+
+## 正文
+这个问题困扰了我好久，反反复复看了好几遍自己的代码，用gDEBugger调试了N次，最后终于找到了原因。
+问题出在设置纹理过滤模式的时候使用了  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, **GL_LINEAR_MIPMAP_LINEAR**);
+然而加载PNG的时候没生成MIPMAP
+<img class="shadow" src="/img/in-post/pngblack/2.png" width="600">
+解决方法有二种:  
+* 过滤模式模式换成**GL_LINEAR** glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, **GL_LINEAR**);
+<img class="shadow" src="/img/in-post/pngblack/3.png" width="600">
+* 调用**glGenerateMipmap(GL_TEXTURE_2D);**生成MIPMAP
+<img class="shadow" src="/img/in-post/pngblack/4.png" width="600">
+最后纹理正常显示出来了 :)  
+<img class="shadow" src="/img/in-post/pngblack/5.png" width="600">
+
+## 后记
