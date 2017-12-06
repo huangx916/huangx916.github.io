@@ -169,9 +169,9 @@ layout: default
     </div>
 </article>
 
-
+<!----
 {% if site.netease_comment %}
-<!-- 网易云跟帖JS代码 start -->
+<!-- 网易云跟帖JS代码 start ->
 <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
 <script>
   var cloudTieConfig = {
@@ -183,12 +183,13 @@ layout: default
   var yunManualLoad = true;
   Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vcGMvbGl2ZXNjcmlwdC5odG1s", true);
 </script>
-<!-- 网易云跟帖JS代码 end -->
+<!-- 网易云跟帖JS代码 end ->
 {% endif %}
+---->
 
-
+<!----
 {% if site.disqus_username %}
-<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) ->
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "{{site.disqus_username}}";
@@ -201,9 +202,9 @@ layout: default
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
 </script>
-<!-- disqus 公共JS代码 end -->
+<!-- disqus 公共JS代码 end ->
 {% endif %}
-
+---->
 {% if site.livere_uid %}
 <!-- livere 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
