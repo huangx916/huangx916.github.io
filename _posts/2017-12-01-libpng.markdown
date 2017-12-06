@@ -2,7 +2,7 @@
 layout:     post
 title:      "windows平台下编译libpng库"
 subtitle:   " \"踩坑记录\""
-date:       2017-12-11 16:09:00
+date:       2017-12-01 16:09:00
 author:     "A-SHIN"
 header-img: "img/post-bg-2015.jpg"
 catalog: true
