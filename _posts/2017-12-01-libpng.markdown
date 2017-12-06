@@ -39,5 +39,5 @@ zlib：[http://www.zlib.net/](http://www.zlib.net/)
 ## 后记
 * 说说为什么写这篇没啥技术点的文章：  
 	* 一方面跟之前碰到的源码编译(freetype等)有些不一样的地方，比如**不能Windows下CMAKE**。编译后的文件比较比较乱，需要自己整理。  
-	* 另一方面纯粹是当做blog的hello world练练手 :blush:  
-	
+	* 另一方面纯粹是当做blog的hello world练练手  
+最后希望能努力做到不断增加内容。
