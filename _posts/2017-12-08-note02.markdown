@@ -1,0 +1,71 @@
+---
+layout:     post
+title:      "游戏开发笔记(二)"
+subtitle:   " \"开发笔记\""
+date:       2017-12-08 21:00:00
+author:     "A-SHIN"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 杂记
+---
+
+> “Yeah It's on. ”
+
+
+## 前言
+[接前篇](https://huangx916.github.io/2017/12/08/note01/)早些年游戏开发工作中的笔记，放上来以防丢失。有些规则现在可能不适用了(如一些是U3D4早些版本的记录)。有些因为水平有限，有理解错误的地方，望指正！~  
+笔记比较乱，没整理
+
+## 正文
+内存泄漏查找 profiler cup gcalloc 显示的是每帧分配的托管堆内存  
+用StringBuilder代替string避免分配堆内存  
+int 转 string 时会分配堆内存  
+
+如果assetbundle没有unload(false),profiler里others项里有serializedfile，NotSave里有AssetBundle  
+
+不能自己调用Destroy(this.gameObject) 不然内存里的资源不会释放  
+
+静态批处理会生成大的mesh占内存，但是能减少drawcall。勾掉静态批处理会增加drawcall，但是相同的mesh内存中只会有一份。动态批处理mesh内存中只会有一份  
+把Mesh的calculate tangent勾掉会减少很多mesh内存。      Rig选项里的animation type 设置成none 会减少很多animationclips内存占用  
+
+基础颜色/漫反射颜色是在sRGB(gamma)空间，而其它的(如法线贴图，需要参与光照计算的)是在线性空间的  
+光照计算是在线性空间进行的。所有gamma编码过的贴图，比如基础色或者漫反射通常是通过着色器来转换到线性空间的，但是你可能需要在你的游戏引擎或者渲染器里面通过选择相应的选项来确保正常转换。描述表面属性的贴图如粗糙度，光泽度，金属度或者高度图应该被设置为解释成线性空间的  
+
+Unity中事项,Metallic 贴图,金属性质占用R通道，光滑性占用A通道，GB被忽略。　  
+
+对于导体和电介材质记得使用不同的Fresnel公式  
+
+U3D5.X Reflection Probe RealTime类型下 非静态物体黑色问题，可以通过调整Reflection Bounces 1-->2解决  
+
+OpenGL ES针对手机平台, SM针对主机和PC平台. 从iPhone5s开始支持了OpenGL ES 3.0版本. 而对于SM版本来说, 目前还停留在SM2.0的显卡基本已经不存在了  
+
+Deferred适用于全动态阴影的主机以及PC游戏. Forward适用于烘焙阴影与实时阴影相结合的手机游戏.   http://tieba.baidu.com/p/3690939628#66782121432l  
+
+RenderPath: Forward  Light Baking: Mixed   Light界面Precomputed RealTime GI 及 Baked GI   AUTO都勾选上  
+
+o.worldNormal = normalize(mul(v.normal, (float3x3)_World2Object)); ----- v.normal 行向量or列向量？  
+
+heightmap:切线空间下的高度图  
+
+Lightmap Encode ： RGBM | DoubleLDR  
+
+buildassetbundles时，有相同依赖的资源也要打包成assetbundle，防止所有依赖相同的资源无法引用，引起每个assetbundle过大。  
+
+控制贴图(保存在线性空间的)及UI贴图(?)要勾选Bypass sRGB sampling    http://blog.csdn.net/golden_shadow/article/details/40183561  
+
+pc和android路径不区分大小写。IOS区分大小写  
+
+静态mesh初始设置为active false，后续设置为true后就不会进行静态合并了，导致drawcall很高  
+不管是否在视锥体范围内，只要active为true，mesh都会提交到VBO。 active为false时不提交VBO  
+
+画面卡住来回不正常抖动，可能是因为有shader用到的变量未定义导致错误  
+
+ogre cmake时 freetype-2.6.5.tar.gz下载出错，要自己去下载个，然后解压到cmake输出文件下(? findfreetype.cmake  FREETYPE_LIBRARY_NAMES添加freetype256 ?)  
+
+打包成assertbundle时，游戏加载的时候需要自己做内存管理object，不然资源会重复加载  
+
+顶点着色器不能和固定管线着色器混合使用  
+
+unreal engine 4：  前缀 “A” 代表它是一个 Actor 的子类，而前缀 “U” 代表它是一个 Object 的子类。还有其他一些前缀，比如 “F” 用于代表一个平铺的数据结构体，或者其他非 Uboject 的类。   
+## 后记

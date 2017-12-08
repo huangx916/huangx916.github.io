@@ -1,0 +1,118 @@
+---
+layout:     post
+title:      "游戏开发笔记(一)"
+subtitle:   " \"开发笔记\""
+date:       2017-12-08 21:00:00
+author:     "A-SHIN"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 杂记
+---
+
+> “Yeah It's on. ”
+
+
+## 前言
+早些年游戏开发工作中的笔记，放上来以防丢失。有些规则现在可能不适用了(如一些是U3D4早些版本的记录)。有些因为水平有限，有理解错误的地方，望指正！~  
+笔记比较乱，没整理
+
+## 正文
+移动平台一个PASS最多进行8个纹理采样（包括光照贴图等）  
+如果原来有两个PASS  A和B， 那么改写成接收光照和支持lightmap的shader时，需要四个PASS:  FowardBase A  FowardBase B  FowardAdd A  FowardAdd B  
+
+在 Cg 的逐像素着色的最后，每一个颜色值相加和每一个颜色相乘从数学角度有什么差别？ 不同光源的结果都是相加的，而光源作用在材质上就是相乘  
+
+IOS打包不支持DDS格式的图片  
+IOS打包时Resources文件夹打包后的文件不能超过2G(表现为Splash后黑屏)    
+打包卡在Building list of referenced assemblies 这步，要删除Temp文件夹和VS工程文件  
+
+2的N次方图片PVRTC会自动变成正方形，导致原来不是正方形的图集错乱。 ETC只要不带alpha 2的N次方就可以，压缩后不会变正方形。  
+2的N次方正方形带alpha贴图：Default:AutomaticCompressed  ios:RGBA PVRTC 4bit   android:RGBA 16bit  
+2的N次方正方形无alpha贴图：Default:AutomaticCompressed  ios:RGB PVRTC 4bit   android:RGB ETC 4bit  
+2的N次方正方形带alpha图集: Default:AutomaticCompressed  ios:RGBA PVRTC 4bit   android:RGBA 16bit  
+2的N次方正方形无alpha图集：Default:AutomaticCompressed  ios:RGB PVRTC 4bit   android:RGB ETC 4bit  
+2的N次方非正方形带alpha贴图：Default:AutomaticCompressed  ios:RGBA PVRTC 4bit   android:RGBA 16bit  
+2的N次方非正方形无alpha贴图：Default:AutomaticCompressed  ios:RGB PVRTC 4bit   android:RGB ETC 4bit  
+2的N次方非正方形带alpha图集：Default:RGBA 16bit  ios:RGBA 16bit   android:RGBA 16bit  
+2的N次方非正方形无alpha图集(一般图集都带alpha)  Default:RGB 16bit  ios:RGB 16bit   android:RGB 16bit  
+非2的N次方的图无法自动压缩(可选择NonPower of 2: ToNearest)  
+
+主角换装动作提交文件方案  
+主角动作提交文件  主角skin 主角模型和骨头   武器skin  武器模型和骨头   主角动作  主角动作武器动作的骨头fbx （骨头包含主角骨头和武器骨头）     
+npc动作提交文件    npcskin（包含武器模型npc模型武器骨头npc角色骨头）   动作文件  npc和武器骨头动作(包含武器骨头npc角色骨头)   
+贴图    主角      主角贴图  一张    武器贴图一张     npc   npc只有贴图一张（包含武器和npc角色）  
+
+(1)别用实时光照，模型会额外渲染shadowmap(为了sampler会渲染多遍)和depthtexture导致增加drawcall和面数      
+(2)地表的castershadow要勾掉，不然为了生存shadowmap会重复渲染多次sampler  
+(3)动态角色阴影用一个directlight (动态角色阴影最好用动态假阴影)，静态物体阴影都用lightmap烘焙        
+(4)超大地形的mesh要分割成几个submesh，相机会裁剪看不到的submesh  
+(5)场景贴图按类别合并、透贴和非透贴不要合到一张图  
+(6)同屏保持在10W面、drawcall:有实时光500-1000 无实时光100  角色模型2000面 骨骼主角100根以内 NPC50根以内  
+(7)shader多一个能被执行到的pass、渲染时模型面数就会多一倍  (如果是ForwardAdd 被调用的时候也会增加drawcall和面数)  
+(8)u3d自带的地形，会进行LOD和submesh相机裁剪  
+(9)Forward Rendering来说，只有Bass Pass中处理的第一个平行光可以有阴影效果  
+(10) 如果相机设置渲染深度图（camera.depthTextureMode |= DepthTextureMode.Depth;），则所有渲染的物体会多一遍渲染(不会静态合并)，drawcall会翻好几倍  
+(11) 有些体积雾会使每个物件单独渲染，没有静态合并，使drawcall变态的增加  
+(12) 模型关闭Read/Write功能、顶点不要切线等属性，以提升加载效率和减少内存  
+
+
+1.根据程序要求，贴图的数量大地图类似洛阳杭州控制在20张1024以下，其他小的地图需要保证10张1024以下，贴图可以用512只要不超出前面1024的总量就行，这个数量是单个地图中所有物件的贴图。  
+2.贴图需要分类合并到一张贴图中，共用物件需要保证一套uv和贴图。可以优先处理小地图中的物件，大地图可以调用小地图的物件，如果有单独物件可以再单独制作一张贴图，如果有多个单独物件再合并一张贴图。  
+3.保证贴图精度统一，不要同样一张1024贴图一张很多物件合并一张贴图没几个物件合并  
+4.根据程序这边要求，透明贴图需要单独处理不能和别的贴图合并到一起  
+5.贴图需要合理利用不要出现很多空白  
+
+Mesh超过2W面，generate lightmap UV   U3D会无响应(可以切分成多个submesh，保证每个submesh不超过2W面，但是submesh之间lightmap会有缝)  
+
+Resources.UnloadUnusedAssets();会占用大量CUP时间，使用时要谨慎  
+
+场景没light 不管如何都不产生Camera-DepthTexture和ShadowMap  不产生阴影  
+场景有light 物体无shadowcaster pass 不管是否开启 caster shadows  都不会产生Camera-DepthTexture和ShadowMap 不产生阴影  
+场景有light 物体有shadowcaster pass 关闭 caster shadows 则产生Camera-DepthTexture但不产生ShadowMap 不产生阴影  
+场景有light 物体有shadowcaster pass 开启 caster shadows 则产生Camera-DepthTexture和ShadowMap 产生阴影  
+
+
+其实直接用tex2D（）来实现tex2Dproj（）的功能也仅仅是在纹理坐标上手动除以其最后一个分量（这里补充一下：其实tex2D本身就已经有tex2Dproj的功能，完全可以代替tex2Dproj使用！说白了就是有用tex2Dproj的地方都可以用tex2D代替，反之不成立。这是我后来在Cg Reference中发现的，之前没有注意到而已啦），如下：  
+float4 textureColor = tex2Dproj(projectiveMap,texCoordProj);  
+float4 textureColor = tex2D(projectiveMap,texCoordProj.xy/texCoordProj.w);  
+texCoordProj = vertex*MVP  
+
+前向渲染路劲下用：Shade4PointLights函数计算顶点光照（不包括ambient处理，ambient处理在ShadeSH9函数里处理）  
+顶点渲染路径下用：ShadeVertexLights函数计算顶点光照 （包含了ambient处理）  
+对于Forward Rendering来说，我们应该使用Shade4PointLights来计算最多四个逐顶点光照，而且只能计算Point Lights和Spot Lights，如果一个平行光被设置成逐顶点光源，那么是不会被计算的。  
+换句话说，我们应该使用unity_4LightPosX0、unity_4LightPosY0、unity_4LightPosZ0、unity_4LightAtten0这些数据来访问逐顶点的光源数据。而另一组是在Vertex Pass（e.g. Tags { "LightMode"="Vertex"}）中使用的。  
+
+OpenGL中不能使用UNITY_TRANSFER_DEPTH、要使用COMPUTE_EYEDEPTH来计算深度  
+
+Android手机上persistentdatapath文件夹路径：  
+/mnt/sdcard/Android/data/com.gameabc.xkfyz/files/Config/SaveData  
+
+创建旧anim文件时，对象上要挂上animation组件先  
+
+关闭模型的Read/Write后，该模型不能静态合并了（因为要读取顶点生成新的模型）  ????????  
+
+SVN树冲突用revert(删除后，提交的时候revert)  
+
+Offset -1, -1 // 防止zbuff冲突，做的偏移(http://blog.csdn.net/cexgiant/article/details/52756253)  
+
+lightmap曝光关掉DX11设置  
+
+有些手机不支持顶点函数里面进行纹理采样，不支持pow函数指数为0。  
+
+float2 bumpuv[2] : TEXCOORD0; ANDROID支持，IOS下不支持，要用float2 bumpuv0 : TEXCOORD0;  
+	float2 bumpuv1 : TEXCOORD1;分开写  
+	
+UI有黑边，环绕模式repeat改成clamp  
+
+材质球的RenderQueue（Debug下能看到）优先级比shader里的RenderQueue高  
+
+Unity计算出来的Z是负值，但OpenGL是正的  http://blog.csdn.net/yxriyin/article/details/50160123  
+
+OpenGL:  按列存储矩阵(column-major)。调用API形成的矩阵用来和一个列向量相乘，矩阵在左，列向量在右  
+GLSL:  　存储方式和OpenGL相同(column-major)  
+DirectX:    按行存储矩阵(row-major)。调用API形成的矩阵用来和一个行向量相乘，矩阵在右，行向量在左  
+HLSL：　存储方式和DirectX相反(column-major)   http://www.cnblogs.com/minggoddess/p/3672863.html  
+
+fixed3 lightRefl = reflect(-i.lightDir, i.worldNormal);  
+## 后记
