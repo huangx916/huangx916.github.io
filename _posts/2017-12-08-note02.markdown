@@ -18,54 +18,46 @@ tags:
 笔记比较乱，没整理
 
 ## 正文
-内存泄漏查找 profiler cup gcalloc 显示的是每帧分配的托管堆内存  
-用StringBuilder代替string避免分配堆内存  
-int 转 string 时会分配堆内存  
+其实直接用tex2D（）来实现tex2Dproj（）的功能也仅仅是在纹理坐标上手动除以其最后一个分量（这里补充一下：其实tex2D本身就已经有tex2Dproj的功能，完全可以代替tex2Dproj使用！说白了就是有用tex2Dproj的地方都可以用tex2D代替，反之不成立。这是我后来在Cg Reference中发现的，之前没有注意到而已啦），如下：  
+float4 textureColor = tex2Dproj(projectiveMap,texCoordProj);  
+float4 textureColor = tex2D(projectiveMap,texCoordProj.xy/texCoordProj.w);  
+texCoordProj = vertex*MVP  
 
-如果assetbundle没有unload(false),profiler里others项里有serializedfile，NotSave里有AssetBundle  
+前向渲染路劲下用：Shade4PointLights函数计算顶点光照（不包括ambient处理，ambient处理在ShadeSH9函数里处理）  
+顶点渲染路径下用：ShadeVertexLights函数计算顶点光照 （包含了ambient处理）  
+对于Forward Rendering来说，我们应该使用Shade4PointLights来计算最多四个逐顶点光照，而且只能计算Point Lights和Spot Lights，如果一个平行光被设置成逐顶点光源，那么是不会被计算的。  
+换句话说，我们应该使用unity_4LightPosX0、unity_4LightPosY0、unity_4LightPosZ0、unity_4LightAtten0这些数据来访问逐顶点的光源数据。而另一组是在Vertex Pass（e.g. Tags { "LightMode"="Vertex"}）中使用的。  
 
-不能自己调用Destroy(this.gameObject) 不然内存里的资源不会释放  
+OpenGL中不能使用UNITY_TRANSFER_DEPTH、要使用COMPUTE_EYEDEPTH来计算深度  
 
-静态批处理会生成大的mesh占内存，但是能减少drawcall。勾掉静态批处理会增加drawcall，但是相同的mesh内存中只会有一份。动态批处理mesh内存中只会有一份  
-把Mesh的calculate tangent勾掉会减少很多mesh内存。      Rig选项里的animation type 设置成none 会减少很多animationclips内存占用  
+Android手机上persistentdatapath文件夹路径：  
+/mnt/sdcard/Android/data/com.gameabc.xkfyz/files/Config/SaveData  
 
-基础颜色/漫反射颜色是在sRGB(gamma)空间，而其它的(如法线贴图，需要参与光照计算的)是在线性空间的  
-光照计算是在线性空间进行的。所有gamma编码过的贴图，比如基础色或者漫反射通常是通过着色器来转换到线性空间的，但是你可能需要在你的游戏引擎或者渲染器里面通过选择相应的选项来确保正常转换。描述表面属性的贴图如粗糙度，光泽度，金属度或者高度图应该被设置为解释成线性空间的  
+创建旧anim文件时，对象上要挂上animation组件先  
 
-Unity中事项,Metallic 贴图,金属性质占用R通道，光滑性占用A通道，GB被忽略。　  
+关闭模型的Read/Write后，该模型不能静态合并了（因为要读取顶点生成新的模型）  ????????  
 
-对于导体和电介材质记得使用不同的Fresnel公式  
+SVN树冲突用revert(删除后，提交的时候revert)  
 
-U3D5.X Reflection Probe RealTime类型下 非静态物体黑色问题，可以通过调整Reflection Bounces 1-->2解决  
+Offset -1, -1 // 防止zbuff冲突，做的偏移(http://blog.csdn.net/cexgiant/article/details/52756253)  
 
-OpenGL ES针对手机平台, SM针对主机和PC平台. 从iPhone5s开始支持了OpenGL ES 3.0版本. 而对于SM版本来说, 目前还停留在SM2.0的显卡基本已经不存在了  
+lightmap曝光关掉DX11设置  
 
-Deferred适用于全动态阴影的主机以及PC游戏. Forward适用于烘焙阴影与实时阴影相结合的手机游戏.   http://tieba.baidu.com/p/3690939628#66782121432l  
+有些手机不支持顶点函数里面进行纹理采样，不支持pow函数指数为0。  
 
-RenderPath: Forward  Light Baking: Mixed   Light界面Precomputed RealTime GI 及 Baked GI   AUTO都勾选上  
+float2 bumpuv[2] : TEXCOORD0; ANDROID支持，IOS下不支持，要用float2 bumpuv0 : TEXCOORD0;  
+	float2 bumpuv1 : TEXCOORD1;分开写  
+	
+UI有黑边，环绕模式repeat改成clamp  
 
-o.worldNormal = normalize(mul(v.normal, (float3x3)_World2Object)); ----- v.normal 行向量or列向量？  
+材质球的RenderQueue（Debug下能看到）优先级比shader里的RenderQueue高  
 
-heightmap:切线空间下的高度图  
+Unity计算出来的Z是负值，但OpenGL是正的  http://blog.csdn.net/yxriyin/article/details/50160123  
 
-Lightmap Encode ： RGBM | DoubleLDR  
+OpenGL:  按列存储矩阵(column-major)。调用API形成的矩阵用来和一个列向量相乘，矩阵在左，列向量在右  
+GLSL:  　存储方式和OpenGL相同(column-major)  
+DirectX:    按行存储矩阵(row-major)。调用API形成的矩阵用来和一个行向量相乘，矩阵在右，行向量在左  
+HLSL：　存储方式和DirectX相反(column-major)   http://www.cnblogs.com/minggoddess/p/3672863.html  
 
-buildassetbundles时，有相同依赖的资源也要打包成assetbundle，防止所有依赖相同的资源无法引用，引起每个assetbundle过大。  
-
-控制贴图(保存在线性空间的)及UI贴图(?)要勾选Bypass sRGB sampling    http://blog.csdn.net/golden_shadow/article/details/40183561  
-
-pc和android路径不区分大小写。IOS区分大小写  
-
-静态mesh初始设置为active false，后续设置为true后就不会进行静态合并了，导致drawcall很高  
-不管是否在视锥体范围内，只要active为true，mesh都会提交到VBO。 active为false时不提交VBO  
-
-画面卡住来回不正常抖动，可能是因为有shader用到的变量未定义导致错误  
-
-ogre cmake时 freetype-2.6.5.tar.gz下载出错，要自己去下载个，然后解压到cmake输出文件下(? findfreetype.cmake  FREETYPE_LIBRARY_NAMES添加freetype256 ?)  
-
-打包成assertbundle时，游戏加载的时候需要自己做内存管理object，不然资源会重复加载  
-
-顶点着色器不能和固定管线着色器混合使用  
-
-unreal engine 4：  前缀 “A” 代表它是一个 Actor 的子类，而前缀 “U” 代表它是一个 Object 的子类。还有其他一些前缀，比如 “F” 用于代表一个平铺的数据结构体，或者其他非 Uboject 的类。   
+fixed3 lightRefl = reflect(-i.lightDir, i.worldNormal);  
 ## 后记

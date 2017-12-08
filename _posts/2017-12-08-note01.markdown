@@ -72,47 +72,4 @@ Resources.UnloadUnusedAssets();会占用大量CUP时间，使用时要谨慎
 场景有light 物体有shadowcaster pass 关闭 caster shadows 则产生Camera-DepthTexture但不产生ShadowMap 不产生阴影  
 场景有light 物体有shadowcaster pass 开启 caster shadows 则产生Camera-DepthTexture和ShadowMap 产生阴影  
 
-
-其实直接用tex2D（）来实现tex2Dproj（）的功能也仅仅是在纹理坐标上手动除以其最后一个分量（这里补充一下：其实tex2D本身就已经有tex2Dproj的功能，完全可以代替tex2Dproj使用！说白了就是有用tex2Dproj的地方都可以用tex2D代替，反之不成立。这是我后来在Cg Reference中发现的，之前没有注意到而已啦），如下：  
-float4 textureColor = tex2Dproj(projectiveMap,texCoordProj);  
-float4 textureColor = tex2D(projectiveMap,texCoordProj.xy/texCoordProj.w);  
-texCoordProj = vertex*MVP  
-
-前向渲染路劲下用：Shade4PointLights函数计算顶点光照（不包括ambient处理，ambient处理在ShadeSH9函数里处理）  
-顶点渲染路径下用：ShadeVertexLights函数计算顶点光照 （包含了ambient处理）  
-对于Forward Rendering来说，我们应该使用Shade4PointLights来计算最多四个逐顶点光照，而且只能计算Point Lights和Spot Lights，如果一个平行光被设置成逐顶点光源，那么是不会被计算的。  
-换句话说，我们应该使用unity_4LightPosX0、unity_4LightPosY0、unity_4LightPosZ0、unity_4LightAtten0这些数据来访问逐顶点的光源数据。而另一组是在Vertex Pass（e.g. Tags { "LightMode"="Vertex"}）中使用的。  
-
-OpenGL中不能使用UNITY_TRANSFER_DEPTH、要使用COMPUTE_EYEDEPTH来计算深度  
-
-Android手机上persistentdatapath文件夹路径：  
-/mnt/sdcard/Android/data/com.gameabc.xkfyz/files/Config/SaveData  
-
-创建旧anim文件时，对象上要挂上animation组件先  
-
-关闭模型的Read/Write后，该模型不能静态合并了（因为要读取顶点生成新的模型）  ????????  
-
-SVN树冲突用revert(删除后，提交的时候revert)  
-
-Offset -1, -1 // 防止zbuff冲突，做的偏移(http://blog.csdn.net/cexgiant/article/details/52756253)  
-
-lightmap曝光关掉DX11设置  
-
-有些手机不支持顶点函数里面进行纹理采样，不支持pow函数指数为0。  
-
-float2 bumpuv[2] : TEXCOORD0; ANDROID支持，IOS下不支持，要用float2 bumpuv0 : TEXCOORD0;  
-	float2 bumpuv1 : TEXCOORD1;分开写  
-	
-UI有黑边，环绕模式repeat改成clamp  
-
-材质球的RenderQueue（Debug下能看到）优先级比shader里的RenderQueue高  
-
-Unity计算出来的Z是负值，但OpenGL是正的  http://blog.csdn.net/yxriyin/article/details/50160123  
-
-OpenGL:  按列存储矩阵(column-major)。调用API形成的矩阵用来和一个列向量相乘，矩阵在左，列向量在右  
-GLSL:  　存储方式和OpenGL相同(column-major)  
-DirectX:    按行存储矩阵(row-major)。调用API形成的矩阵用来和一个行向量相乘，矩阵在右，行向量在左  
-HLSL：　存储方式和DirectX相反(column-major)   http://www.cnblogs.com/minggoddess/p/3672863.html  
-
-fixed3 lightRefl = reflect(-i.lightDir, i.worldNormal);  
 ## 后记
