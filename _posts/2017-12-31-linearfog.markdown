@@ -17,7 +17,7 @@ tags:
 用GLSL实现了简单的linear fog.  exp fog ect.待后续加入...
 
 ## 正文
-#  首先vert shader 计算出每个点到视点距离，我是在视图坐标系下计算的:  
+####  首先vert shader 计算出每个点到视点距离，我是在视图坐标系下计算的:  
 ```
 uniform int useFog;
 out float vs_fs_distance;
@@ -30,7 +30,7 @@ if(useFog == 1)
 	vs_fs_distance = sqrt(mvPosition.x * mvPosition.x + mvPosition.y * mvPosition.y + mvPosition.z * mvPosition.z);
 }
 ```
-#  然后frag shader 根据距离计算出雾的权重对目标颜色和雾颜色进行线性插值:  
+####  然后frag shader 根据距离计算出雾的权重对目标颜色和雾颜色进行线性插值:  
 ```
 uniform int useFog;
 uniform int fogType;

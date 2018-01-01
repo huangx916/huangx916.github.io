@@ -17,7 +17,7 @@ tags:
 用GLSL实现ambient direction point spot multi-lighting
 
 ## 正文
-#  首先vert shader 输出每个点世界空间中的坐标和法线(##如果是非统一缩放，计算法线时需要乘以逆转置矩阵##)
+####  首先vert shader 输出每个点世界空间中的坐标和法线(##如果是非统一缩放，计算法线时需要乘以逆转置矩阵##)
 ```
 // lighting world space
 out vec4 vs_fs_normal;
@@ -29,7 +29,7 @@ out vec4 vs_fs_position;
 vs_fs_normal = model_matrix * vec4(normal,0);
 vs_fs_position = model_matrix * position;
 ```
-#  然后frag shader 定义灯光信息结构体数组从应用程序传入，根据光照类型分别进行散射、反射值计算
+####  然后frag shader 定义灯光信息结构体数组从应用程序传入，根据光照类型分别进行散射、反射值计算
 ```
 uniform vec3 ambient;
 uniform vec3 eyePos;
@@ -171,7 +171,7 @@ vec3 rgb = min(fColor.rgb * scatteredLight + reflactedLight, vec3(1.0));
 fColor = vec4(rgb, fColor.a);
 ```  
 
-#  应用程序自定义结构体数组uniform传入:
+####  应用程序自定义结构体数组uniform传入:
 ```
 // light
 for (int index = 0; index < HXSceneManager::GetInstance()->lightVct.size(); ++index)
@@ -239,7 +239,7 @@ for (int index = 0; index < HXSceneManager::GetInstance()->lightVct.size(); ++in
 }
 ```  
 
-#  场景配置文件中的灯光数据:  
+####  场景配置文件中的灯光数据:  
 ```
 <Lights>
 	<Light Enable="1" LightType="1" Shininess="10" Strength="0.2" constantAttenuation="0" LinearAttenuation="0" QuadraticAttenuation="0" SpotCosCutoff="0" SpotExponent="0">
