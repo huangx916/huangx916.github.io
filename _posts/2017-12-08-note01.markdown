@@ -20,6 +20,7 @@ tags:
 ## 正文
 移动平台一个PASS最多进行8个纹理采样（包括光照贴图等）  
 如果原来有两个PASS  A和B， 那么改写成接收光照和支持lightmap的shader时，需要四个PASS:  FowardBase A  FowardBase B  FowardAdd A  FowardAdd B  
+OpenGL同时支持很多重纹理，比如支持每个着色器阶段至少16个纹理，再乘以OpenGL支持的着色器阶段数目，最后结果是80个纹理。GL_TEXTURE0到GL_TEXTURE79。
 
 在 Cg 的逐像素着色的最后，每一个颜色值相加和每一个颜色相乘从数学角度有什么差别？ 不同光源的结果都是相加的，而光源作用在材质上就是相乘  
 
