@@ -68,4 +68,7 @@ ogre cmake时 freetype-2.6.5.tar.gz下载出错，要自己去下载个，然后
 顶点着色器不能和固定管线着色器混合使用  
 
 unreal engine 4：  前缀 “A” 代表它是一个 Actor 的子类，而前缀 “U” 代表它是一个 Object 的子类。还有其他一些前缀，比如 “F” 用于代表一个平铺的数据结构体，或者其他非 Uboject 的类。   
+
+U3D GUI显示字符串最长支持16382长。超过会报：String too long for TextMeshGenerator. Cutting off characters.  
+
 ## 后记
