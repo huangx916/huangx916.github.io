@@ -71,4 +71,6 @@ unreal engine 4：  前缀 “A” 代表它是一个 Actor 的子类，而前�
 
 U3D GUI显示字符串最长支持16382长。超过会报：String too long for TextMeshGenerator. Cutting off characters.  
 
+U3D 5.X 打包assetbundle时 原始资源可以重名，只要确保**assetBundleName不重名**即可（可包括文件夹结构使其不重名）  
+
 ## 后记
