@@ -25,7 +25,7 @@ OpenGL同时支持很多重纹理，比如支持每个着色器阶段至少16个
 在 Cg 的逐像素着色的最后，每一个颜色值相加和每一个颜色相乘从数学角度有什么差别？ 不同光源的结果都是相加的，而光源作用在材质上就是相乘  
 
 IOS打包不支持DDS格式的图片  
-IOS打包时Resources文件夹打包后的文件不能超过2G(表现为Splash后黑屏)    
+IOS打包时Resources文件夹打包后的文件不能超过2G(表现为Splash后黑屏，实质是resource下所有物体都无法加载)    
 打包卡在Building list of referenced assemblies 这步，要删除Temp文件夹和VS工程文件  
 
 2的N次方图片PVRTC会自动变成正方形，导致原来不是正方形的图集错乱。 ETC只要不带alpha 2的N次方就可以，压缩后不会变正方形。  
@@ -40,8 +40,8 @@ IOS打包时Resources文件夹打包后的文件不能超过2G(表现为Splash�
 非2的N次方的图无法自动压缩(可选择NonPower of 2: ToNearest)  
 
 主角换装动作提交文件方案  
-主角动作提交文件  主角skin 主角模型和骨头   武器skin  武器模型和骨头   主角动作  主角动作武器动作的骨头fbx （骨头包含主角骨头和武器骨头）     
-npc动作提交文件    npcskin（包含武器模型npc模型武器骨头npc角色骨头）   动作文件  npc和武器骨头动作(包含武器骨头npc角色骨头)   
+主角动作提交文件  主角skin 主角模型和骨骼   武器skin  武器模型和骨骼   主角动作  主角动作武器动作的骨骼fbx （骨骼包含主角骨骼和武器骨骼）     
+npc动作提交文件    npcskin（包含武器模型npc模型武器骨骼npc角色骨骼）   动作文件  npc和武器骨骼动作(包含武器骨骼npc角色骨骼)   
 贴图    主角      主角贴图  一张    武器贴图一张     npc   npc只有贴图一张（包含武器和npc角色）  
 
 (1)别用实时光照，模型会额外渲染shadowmap(为了sampler会渲染多遍)和depthtexture导致增加drawcall和面数      
@@ -55,7 +55,7 @@ npc动作提交文件    npcskin（包含武器模型npc模型武器骨头npc角
 (9)Forward Rendering来说，只有Bass Pass中处理的第一个平行光可以有阴影效果  
 (10) 如果相机设置渲染深度图（camera.depthTextureMode |= DepthTextureMode.Depth;），则所有渲染的物体会多一遍渲染(不会静态合并)，drawcall会翻好几倍  
 (11) 有些体积雾会使每个物件单独渲染，没有静态合并，使drawcall变态的增加  
-(12) 模型关闭Read/Write功能、顶点不要切线等属性，以提升加载效率和减少内存  
+(12) ~~模型关闭Read/Write功能~~、顶点不要切线等属性，以提升加载效率和减少内存  
 
 
 1.根据程序要求，贴图的数量大地图类似洛阳杭州控制在20张1024以下，其他小的地图需要保证10张1024以下，贴图可以用512只要不超出前面1024的总量就行，这个数量是单个地图中所有物件的贴图。  
@@ -68,6 +68,7 @@ Mesh超过2W面，generate lightmap UV   U3D会无响应(可以切分成多个su
 
 Resources.UnloadUnusedAssets();会占用大量CUP时间，使用时要谨慎  
 
+只考虑光照阴影环境下（不包括其他产生DepthTexture的情况，如SSAO等）：  
 场景没light 不管如何都不产生Camera-DepthTexture和ShadowMap  不产生阴影  
 场景有light 物体无shadowcaster pass 不管是否开启 caster shadows  都不会产生Camera-DepthTexture和ShadowMap 不产生阴影  
 场景有light 物体有shadowcaster pass 关闭 caster shadows 则产生Camera-DepthTexture但不产生ShadowMap 不产生阴影  
