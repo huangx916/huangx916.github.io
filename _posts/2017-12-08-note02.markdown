@@ -43,7 +43,7 @@ Offset -1, -1 // 防止zbuff冲突，做的偏移(http://blog.csdn.net/cexgiant/
 
 lightmap曝光关掉DX11设置  
 
-有些手机不支持顶点函数里面进行纹理采样，不支持pow函数指数为0。  
+有些手机（小米红米居多）不支持顶点函数里面进行纹理采样，不支持pow函数指数为0。不支持+=操作（小于1的值也会返回1）
 
 float2 bumpuv[2] : TEXCOORD0; ANDROID支持，IOS下不支持，要用float2 bumpuv0 : TEXCOORD0;  
 	float2 bumpuv1 : TEXCOORD1;分开写  
