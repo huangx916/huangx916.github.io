@@ -1,0 +1,59 @@
+---
+layout:     post
+title:      "NGUI源码阅读笔记(未完结)"
+subtitle:   " \"开发笔记\""
+date:       2018-03-10 22:22:00
+author:     "A-SHIN"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 笔记
+---
+
+> “Yeah It's on. ”
+
+## 前言
+由于新开项目开发周期短人手少，最近忙于NGUI界面制作及LUA逻辑编写。之前也一直打算系统地看遍NGUI源码，过年刚好有时间看了一部分，在此记录些要点备忘。剩余部分后续阅读更新。  
+## 正文
+#####  UIRoot:  
+    UI分辨率设置  
+    activeHeight计算  
+    transform.localScale = 2/activeHeight  
+
+#####  UICamera(NGUI Event System):  
+	UICameraTool 统计场景中所有的Camera  
+	[RequireComponent(typeof(Camera))]  
+	各种Mouse、Touch、Controller的Event处理，所有可用的响应函数在开头的注释里  
+	GameObject.SendMessage(funcName, ...)	GameObject下的脚本执行响应函数  
+	
+#####  UIRect:  
+	Anchor处理  
+	AnchorPoint.relative	0:left or bottom	0.5:center	1:right or top	0<=custom<=1  
+	
+#####  UIWidget:  
+	Base class for all UI components that should be derived from when creating new widget types.  
+	Depth controls the rendering order -- lowest to highest.  
+	raycastDepth = panel.depth * 1000 + widget.depth  
+	public UIGeometry geometry = new UIGeometry();  
+	mColor、mPivot、mWidth、mHeight、mDepth  
+	
+#####  UIDrawCall:  
+	depthStart、depthEnd  
+	verts、norms、tans、uvs、cols  
+	mMaterial、mTexture、mShader、mClipCount、mTrans、mMesh、mFilter、mRenderer、mDynamicMat、mIndices、... 、mRenderQueue、mTriangles  
+	如果panel选了clip 则CreateMaterial时会自动替换成带clip功能的shader，并在OnWillRenderObject时传参给shader  
+	用SHOW_HIDDEN_OBJECTS宏编辑器模式里显示UIDrawCall GameObject，此时的material和shader才是最终渲染所用的。  
+	
+#####  UIGeometry:  
+	All widgets have one.  
+	the widget's transformed coordinates only change if the widget's transform moves relative to the panel, so that can be cached as well.  
+	verts、uvs、cols、mRtpVerts、mRtpNormal、mRtpTan  
+	
+#####  UIPanel:  
+	UIPanelTool 统计场景中所有的Panel  
+	每个drawCall负责渲染连续depth的widgets，并且各widget的material和mainTexture分别相同  
+	
+#####  UIGrid:  
+
+## 后记
+新项目开始了，996了，引擎开发暂时放放。
