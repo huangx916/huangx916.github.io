@@ -38,11 +38,12 @@ tags:
 	mColor、mPivot、mWidth、mHeight、mDepth  
 	
 #####  UIDrawCall:  
+	drawcallTool 统计场景中所有的drawcall
 	depthStart、depthEnd  
 	verts、norms、tans、uvs、cols  
 	mMaterial、mTexture、mShader、mClipCount、mTrans、mMesh、mFilter、mRenderer、mDynamicMat、mIndices、... 、mRenderQueue、mTriangles  
 	如果panel选了clip 则CreateMaterial时会自动替换成带clip功能的shader，并在OnWillRenderObject时传参给shader  
-	用SHOW_HIDDEN_OBJECTS宏编辑器模式里显示UIDrawCall GameObject，此时的material和shader才是最终渲染所用的。  
+	用SHOW_HIDDEN_OBJECTS宏编辑器模式里显示UIDrawCall GameObject，此时的material和shader才是最终渲染所用的。  mDynamicMat是实例化后真正用的material
 	
 #####  UIGeometry:  
 	All widgets have one.  
@@ -51,9 +52,23 @@ tags:
 	
 #####  UIPanel:  
 	UIPanelTool 统计场景中所有的Panel  
+	widgets、drawCalls、mClipping、.. 、mDepth
 	每个drawCall负责渲染连续depth的widgets，并且各widget的material和mainTexture分别相同  
+	
 	
 #####  UIGrid:  
 
+#####  UIFont:  
+
+####  执行过程:  
+首先所有panel排序，然后panel中所有的widget排序后，每个pannel中按排序将相邻相同Material、Texture、Shader的widget中的geometry信息写入到生成的同一个drawcall中并计算drawcall的renderqueue。最后U3D引擎渲染的是drawcall gameobject.  
+UISprite sliced triangles 18  when  simple triangles 2	 具体UI组件在UpdateGeometry时通过OnFill函数生成几何数据(verts、norms、tans、uvs、cols)到widget的geometry内.  
+
+####  待解决:  
+
+
 ## 后记
 新项目开始了，996了，引擎开发暂时放放。
+
+
+
