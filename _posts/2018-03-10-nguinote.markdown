@@ -52,13 +52,20 @@ tags:
 	
 #####  UIPanel:  
 	UIPanelTool 统计场景中所有的Panel  
-	widgets、drawCalls、mClipping、.. 、mDepth
+	widgets、drawCalls、mClipping、mClipRange、mClipSoftness、mClipOffset、mClipTexture.. 、mDepth、mAlpha
 	每个drawCall负责渲染连续depth的widgets，并且各widget的material和mainTexture分别相同  
 	
 	
 #####  UIGrid:  
 
 #####  UIFont:  
+
+#####  EventDelegate:  
+	Delegate callback that Unity can serialize and set via Inspector.
+	可序列化、通过反射调用委托
+	mTarget、mMethodName、mParameters
+
+
 
 ####  执行过程:  
 首先所有panel排序，然后panel中所有的widget排序后，每个pannel中按排序将相邻相同Material、Texture、Shader的widget中的geometry信息写入到生成的同一个drawcall中并计算drawcall的renderqueue。最后U3D引擎渲染的是drawcall gameobject.  
