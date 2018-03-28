@@ -24,7 +24,7 @@ tags:
 	UICameraTool 统计场景中所有的Camera  
 	[RequireComponent(typeof(Camera))]  
 	各种Mouse、Touch、Controller的Event处理，所有可用的响应函数在开头的注释里  
-	GameObject.SendMessage(funcName, ...)	GameObject下的脚本执行响应函数  
+	gameObject.SendMessage(funcName, ...)	GameObject下的脚本执行响应函数  
 	
 #####  UIRect:  
 	Anchor处理  
@@ -65,8 +65,13 @@ tags:
 	Delegate callback that Unity can serialize and set via Inspector.
 	可序列化、通过反射调用委托
 	mTarget、mMethodName、mParameters
-
-
+	UICamera事件响应后通过gameObject.SendMessage(funcName, ...)调用相应组件(如:UIButton)中的相应函数(如:OnClick，然后OnClick会调用EventDelegate.Execute(onClick); onClick为之前设置的序列化的List<EventDelegate>)
+	
+#####  UIEventTrigger:
+	
+#####  UIEventListener:
+	Example usage: UIEventListener.Get(gameObject).onClick += MyClickFunction;
+	会自动给gameObject添加UIEventListener组件，UICamera事件响应后通过gameObject.SendMessage(funcName, ...)调用UIEventListener中的相应函数(如:OnClick，然后OnClick会调用之前赋值的委托)
 
 ####  执行过程:  
 首先所有panel排序，然后panel中所有的widget排序后，每个pannel中按排序将相邻相同Material、Texture、Shader的widget中的geometry信息通过WriteToBuffers函数写入到生成的同一个drawcall中(如果panel的clip不为none则需要进行材质替换)并计算drawcall的renderqueue。drawcall的transform为panel的世界transform，geometry里的transform是相对panel的。最后U3D引擎渲染的是drawcall gameobject.  
