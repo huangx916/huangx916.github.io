@@ -1,0 +1,63 @@
+---
+layout:     post
+title:      "游戏开发笔记(四)"
+subtitle:   " \"开发笔记\""
+date:       2018-03-30 22:00:00
+author:     "A-SHIN"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 杂记
+---
+
+> “Yeah It's on. ”
+
+
+## 前言
+[接前篇](https://huangx916.github.io/2017/12/08/note03/)早些年游戏开发工作中的笔记，放上来以防丢失。有些规则现在可能不适用了(如一些是U3D4早些版本的记录)。有些因为水平有限，有理解错误的地方，望指正！~  
+笔记比较乱，没整理
+
+## 正文
+##### UnityEngine  
+GameObject	： Base class for all entities in Unity scenes.  
+Component ： Base class for everything attached to GameObjects.  
+MonoBehaviour ： MonoBehaviour is the base class from which every Unity script derives.  
+MonoBehaviour继承自Component。GameObject包含各种Component(默认包含Transform)  
+只有继承自MonoBehaviour的类才能挂到GameObject上(除默认包含的Transform继承自Component)  
+
+编辑器模式下GetComponent时，如果Component不存在，继承自MonoBehaviour的返回null，U3D自带的Component返回重载输出null字符串的非空对象。  
+Component初始状态为unenable(脚本未勾上)时，Awake也会调用。当GameObject初始状态为unactive(游戏对象没勾上)时，GameObject下的所有Component脚本都不会调用Awake。  
+
+##### NGUI  
+在UIGrid上添加UICenterOnChild脚本可以使Item居中  
+循环播放可使用UIWrapContent代替UIGrid  
+UIScrollView为防止缝隙拖动不了，可在UIScrollView**外**(防止随Clip offset一起移动)加一个整体的BoxCollider(还需添加UIWidget组件不然BoxCollider不起作用)并添加UIDragScrollView组件关联该UIScrollView。  
+UIEventListener以SendMessage形式响应回调，包含UIButton中OnClick等功能。制作Button两者可选其一。原理都是所在的GameObject.SendMessage(methodName, ...);  
+
+##### Lua  
+LUA不是通过table.pack而来的table传入table.unpack时，需要指明unpack的后两个参数。不然遇到nil会忽略后续内容  
+
+##### C#  
+C#事件不能在其他类里调用，事件在其他类里注册用+=，不能用=
+string 是 C# 中的类，String 是 .net Framework 的类(在 C# IDE 中不会显示蓝色) C# string 映射为 .net Framework 的String 如果用 string, 编译器会把它编译成 String，所以如果直接用 String 就可以让编译器少做一点点工作。  
+
+C#中只能使用指向值类型的指针  
+在 C# 中，结构体是值类型数据结构。类是引用类型。枚举是值类型。结构不支持继承。  
+结构可定义构造函数，但不能定义析构函数。但是，不能为结构定义默认的构造函数。默认的构造函数是自动定义的，且不能被改变。  
+当使用 New 操作符创建一个结构对象时，会调用适当的构造函数来创建结构。与类不同，结构可以不使用 New 操作符即可被实例化。如果不使用 New 操作符，只有在所有的字段都被初始化之后，字段才被赋值，对象才被使用。  
+类的默认访问标识符是 internal，成员的默认访问标识符是 private。  
+
+C# 提供了一个特殊的数据类型，nullable 类型（可空类型），可空类型可以表示其基础值类型正常范围内的值，再加上一个 null 值。  
+int? i = 3 等同于 Nullable<int> i = new Nullable<int>(3);  
+int i; //默认值0  
+int? ii; //默认值null  
+double? num1 = null;  
+double? num2 = 3.14157;  
+double num3;  
+num3 = num1 ?? 5.34;      // num1 如果为空值则返回 5.34  
+
+C#多维数组: int[,] a = new int[5, 2] {{0,0}, {1,2}, {2,4}, {3,6}, {4,8} };	int n = a[0,0];  
+C#交错数组: int[][] scores = new int[2][]{new int[]{92,93,94},new int[]{85,66,87,88}};	// 其中，scores 是一个由两个整型数组组成的数组 -- scores[0] 是一个带有 3 个整数的数组，scores[1] 是一个带有 4 个整数的数组。  
+
+
+## 后记
