@@ -2,7 +2,7 @@
 layout:     post
 title:      "游戏开发笔记(四)"
 subtitle:   " \"开发笔记\""
-date:       2017-12-18 21:00:00
+date:       2018-03-30 22:00:00
 author:     "A-SHIN"
 header-img: "img/post-bg-2015.jpg"
 catalog: true
@@ -48,16 +48,25 @@ C#中只能使用指向值类型的指针
 类的默认访问标识符是 internal，成员的默认访问标识符是 private。  
 
 C# 提供了一个特殊的数据类型，nullable 类型（可空类型），可空类型可以表示其基础值类型正常范围内的值，再加上一个 null 值。  
-int? i = 3 等同于 Nullable<int> i = new Nullable<int>(3);  
-int i; //默认值0  
-int? ii; //默认值null  
+```
+int? i = 3 // 等同于 Nullable<int> i = new Nullable<int>(3);  
+int ii; // 默认值0  
+int? iii; // 默认值null  
 double? num1 = null;  
 double? num2 = 3.14157;  
 double num3;  
 num3 = num1 ?? 5.34;      // num1 如果为空值则返回 5.34  
+```  
 
-C#多维数组: int[,] a = new int[5, 2] {{0,0}, {1,2}, {2,4}, {3,6}, {4,8} };	int n = a[0,0];  
-C#交错数组: int[][] scores = new int[2][]{new int[]{92,93,94},new int[]{85,66,87,88}};	// 其中，scores 是一个由两个整型数组组成的数组 -- scores[0] 是一个带有 3 个整数的数组，scores[1] 是一个带有 4 个整数的数组。  
+C#多维数组:   
+```
+int[,] a = new int[5, 2] {{0,0}, {1,2}, {2,4}, {3,6}, {4,8}};  
+int n = a[0,0];  
+```  
+C#交错数组:   
+```
+int[][] scores = new int[2][]{new int[]{92,93,94},new int[]{85,66,87,88}};	// 其中，scores 是一个由两个整型数组组成的数组 -- scores[0] 是一个带有 3 个整数的数组，scores[1] 是一个带有 4 个整数的数组。  
+```  
 
 
 ## 后记
