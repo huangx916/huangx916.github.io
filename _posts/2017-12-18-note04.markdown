@@ -69,5 +69,33 @@ C#交错数组:
 int[][] scores = new int[2][]{new int[]{92,93,94},new int[]{85,66,87,88} };	
 ```  
 
+C#不支持多重继承。但是可以使用接口来实现多重继承  
+不能在抽象类外定义抽象方法  
+接口声明默认是 public 的  
+
+using的用法：  
+1. using指令：引入命名空间  
+···
+using System;
+using Namespace1.SubNameSpace;
+···  
+2. using static 指令：指定无需指定类型名称即可访问其静态成员的类型  
+···
+using static System.Math;
+var = PI; // 直接使用System.Math.PI
+···  
+3. 起别名  
+···
+using Project = PC.MyCompany.Project;
+···  
+4. using语句：将实例与代码绑定  
+···
+using (Font font3 = new Font("Arial", 10.0f),
+            font4 = new Font("Arial", 10.0f))
+{
+    // Use font3 and font4.
+}
+···  
+代码段结束时，自动调用font3和font4的Dispose方法，释放实例。  
 
 ## 后记
