@@ -45,8 +45,12 @@ C#中只能使用指向值类型的指针
 在 C# 中，结构体是值类型数据结构。类是引用类型。枚举是值类型。结构不支持继承。  
 结构可定义构造函数，但不能定义析构函数。但是，不能为结构定义默认的构造函数。默认的构造函数是自动定义的，且不能被改变。  
 当使用 New 操作符创建一个结构对象时，会调用适当的构造函数来创建结构。与类不同，结构可以不使用 New 操作符即可被实例化。如果不使用 New 操作符，只有在所有的字段都被初始化之后，字段才被赋值，对象才被使用。  
-类的默认访问标识符是 internal，成员的默认访问标识符是 private。  
-
+类和结构体的默认访问标识符是 internal，成员的默认访问标识符是 private。枚举的默认访问标识符是 internal，成员的默认访问标识符是 public。接口默认是internal类型的，也可以显示的定义为public类型，不允许是其他访问类型，接口中不能定义成员变量，接口中的方法默认为public的访问权限，但是不能显示的定义任何访问类型。抽象类中必须有一个以上的抽象方法，抽象方法可以是public、internal、protected,不能是private的访问类型。  
+  
+B继承自A，C继承自B。A有函数virtual F	B有函数override F	C有函数override F。	A或者B或者C类型引用都能调用到C对象的多态F。  
+起始父类必须使用virt，子类必须使用override重写(C++用virtual)。  
+从类型的F开始到对象F过程中，类型F可以是virtual或override(类型定义不一定是起始父类，起始父类必须是virtual)，其余必须是override，若中间出现virtual则会调用该virtual之前的那个override F(若之前无override则调用类型的virtual F)。  
+  
 C# 提供了一个特殊的数据类型，nullable 类型（可空类型），可空类型可以表示其基础值类型正常范围内的值，再加上一个 null 值。  
 ```
 int? i = 3 // 等同于 Nullable<int> i = new Nullable<int>(3);  
