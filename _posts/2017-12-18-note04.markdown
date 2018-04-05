@@ -37,7 +37,7 @@ UIEventListener以SendMessage形式响应回调，包含UIButton中OnClick等功
 ##### Lua  
 LUA不是通过table.pack而来的table传入table.unpack时，需要指明unpack的后两个参数。不然遇到nil会忽略后续内容  
 
-##### C#  
+##### C##  
 C#事件不能在其他类里调用，事件在其他类里注册用+=，不能用=
 string 是 C# 中的类，String 是 .net Framework 的类(在 C# IDE 中不会显示蓝色) C# string 映射为 .net Framework 的String 如果用 string, 编译器会把它编译成 String，所以如果直接用 String 就可以让编译器少做一点点工作。  
 
