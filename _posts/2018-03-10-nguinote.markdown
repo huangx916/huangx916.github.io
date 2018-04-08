@@ -75,6 +75,14 @@ tags:
 	Example usage: UIEventListener.Get(gameObject).onClick += MyClickFunction;  
 	会自动给gameObject添加UIEventListener组件，UICamera事件响应后通过gameObject.SendMessage(funcName, ...)调用UIEventListener中的相应函数(如:OnClick，然后OnClick会调用之前赋值的委托)  
 
+#####  UITweener:
+	animationCurve、mStarted、mStartTime、mDuration、mAmountPerDelta、mFactor  
+	DoUpdate中计算出当前mFactor的值，根据选择的Method算出对应的val，再通过animationCurve.Evaluate(val)计算出对应Keyframe的value。最后传递value给子类调用子类重写的抽象函数OnUpdate处理具体逻辑。  
+	PlayForward、PlayReverse  
+	
+#####  TweenPosition:  
+	调用Begin函数可自动查找或者添加运行一个tweenGroup为0的TweenPosition实例。如果UI中挂了TweenPosition组件，也可调用父类的PlayForward、PlayReverse。  
+	
 ####  执行过程:  
 首先所有panel排序，然后panel中所有的widget排序后，每个pannel中按排序将相邻相同Material、Texture、Shader的widget中的geometry信息通过WriteToBuffers函数写入到生成的同一个drawcall中(如果panel的clip不为none则需要进行材质替换)并计算drawcall的renderqueue。drawcall的transform为panel的世界transform，geometry里的transform是相对panel的。最后U3D引擎渲染的是drawcall gameobject.  
 UISprite sliced triangles 18  when  simple triangles 2	 具体UI组件在UpdateGeometry时通过OnFill函数生成几何数据(verts、norms、tans、uvs、cols)到widget的geometry内.  
