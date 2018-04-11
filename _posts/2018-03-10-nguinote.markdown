@@ -19,6 +19,7 @@ tags:
     UI分辨率设置  
     activeHeight计算  
     transform.localScale = 2/activeHeight  
+	content height (如1080) fit勾上后，切换到任何分辨率下高恒定为1080，宽为当前分辨率w/h * 1080。如果一个UI及父物体没有anchor那么坐标值在任何分辨率下是不会改变的。  
 
 #####  UICamera(NGUI Event System):  
 	UICameraTool 统计场景中所有的Camera  
@@ -79,16 +80,18 @@ tags:
 	animationCurve、mStarted、mStartTime、mDuration、mAmountPerDelta、mFactor  
 	DoUpdate中计算出当前mFactor的值，根据选择的Method算出对应的val，再通过animationCurve.Evaluate(val)计算出对应Keyframe的value。最后传递value给子类调用子类重写的抽象函数OnUpdate处理具体逻辑。  
 	PlayForward、PlayReverse  
-	
 #####  TweenPosition:  
 	调用Begin函数可自动查找或者添加运行一个tweenGroup为0的TweenPosition实例。如果UI中挂了TweenPosition组件，也可调用父类的PlayForward、PlayReverse。  
+#####  UIPlayTween:  
+	响应trigger对应事件，根据设置处理tweenTarget的播放逻辑。
 	
 ####  执行过程:  
-首先所有panel排序，然后panel中所有的widget排序后，每个pannel中按排序将相邻相同Material、Texture、Shader的widget中的geometry信息通过WriteToBuffers函数写入到生成的同一个drawcall中(如果panel的clip不为none则需要进行材质替换)并计算drawcall的renderqueue。drawcall的transform为panel的世界transform，geometry里的transform是相对panel的。最后U3D引擎渲染的是drawcall gameobject.  
+首先所有panel排序，然后panel中所有的widget排序后，每个pannel中按排序将相邻相同Material、Texture、Shader的widget中的geometry信息通过WriteToBuffers函数写入到生成的同一个drawcall中(如果panel的clip不为none则需要进行材质替换)并计算drawcall的renderqueue。drawcall的transform为panel的世界transform，geometry里的transform是相对panel的。最后U3D引擎渲染的是drawcall gameobject(drawcall的renderqueue赋值给material.**U3D按material的renderqueue顺序渲染**drawcall中的meshRender).  
 UISprite sliced triangles 18  when  simple triangles 2	 具体UI组件在UpdateGeometry时通过OnFill函数生成几何数据(verts、norms、tans、uvs、cols)到widget的geometry内.  
 更改widget的alpha或者transform或者SetActive ture or false会使他们对应的drawcall重新WriteToBuffers和UpdateGeometry。更改panel的alpha或者SetActive ture也会。不过更改panel的transform或者SetActive false不会。  
 
 ####  待解决:  
+	
 
 
 ## 后记
