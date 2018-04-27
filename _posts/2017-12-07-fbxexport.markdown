@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "fbx导出轴变换及骨骼动画加载Tip"
+title:      "fbx导出轴变换及骨骼动画加载Tricks"
 subtitle:   " \"踩坑记录\""
 date:       2017-12-07 21:00:00
 author:     "A-SHIN"
