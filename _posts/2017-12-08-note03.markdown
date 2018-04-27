@@ -55,6 +55,8 @@ buildassetbundles时，有相同依赖的资源也要打包成assetbundle，防�
 控制贴图(保存在线性空间的)及UI贴图(?)要勾选Bypass sRGB sampling    http://blog.csdn.net/golden_shadow/article/details/40183561  
 
 pc和android路径不区分大小写。IOS区分大小写  
+Windows不区分大小写，Linux区分大小写。AssetImporter.assetBundleName赋值后自动变为小写路劲名。资源在Linux服务器时，游戏里资源加载的时候也需转成小写路径名去加载资源
+开发时最好统一转成小写的  
 
 静态mesh初始设置为active false，后续设置为true后就不会进行静态合并了，导致drawcall很高  
 不管是否在视锥体范围内，只要active为true，mesh都会提交到VBO。 active为false时不提交VBO  

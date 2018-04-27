@@ -43,6 +43,7 @@ tags:
 	depthStart、depthEnd  
 	verts、norms、tans、uvs、cols  
 	mMaterial、mTexture、mShader、mClipCount、mTrans、mMesh、mFilter、mRenderer、mDynamicMat、mIndices、... 、mRenderQueue、mTriangles  
+	renderQueue(material)、sortingOrder(render)
 	如果panel选了clip 则CreateMaterial时会自动替换成带clip功能的shader，并在OnWillRenderObject时传参给shader  
 	用SHOW_HIDDEN_OBJECTS宏编辑器模式里显示UIDrawCall GameObject，此时的material和shader才是最终渲染所用的。  mDynamicMat是实例化后真正用的material
 	
@@ -53,7 +54,7 @@ tags:
 	
 #####  UIPanel:  
 	UIPanelTool 统计场景中所有的Panel  
-	widgets、drawCalls、mClipping、mClipRange、mClipSoftness、mClipOffset、mClipTexture.. 、mDepth、mAlpha、mRebuild(为true时重构panel中的所有drawcall)、mResized  
+	widgets、drawCalls、mAlpha、mClipping、mClipRange、mClipSoftness、mClipOffset、mClipTexture.. 、mDepth、mSortingOrder、mRebuild(为true时重构panel中的所有drawcall)、mResized  
 	FillAllDrawCalls中产生的每个drawCall负责渲染连续depth的widgets，并且各widget的material和mainTexture、shader分别相同  
 	LateUpdate时更新UI(TransformMatrix、Layers、Widgets、DrawCalls并对所有Panel中的各个DrawCall设置Transform和RenderQueue等)  
 	移动Panel的Transform时(子物体跟随移动)，Clipping自动反向移动，确保裁切区域在屏幕中位置不变。(UIScrollView)  
@@ -63,6 +64,10 @@ tags:
 #####  UIScrollView:  
 
 #####  UIFont:  
+
+#####  UIAtlas:  
+
+#####  UILabel:  
 
 #####  EventDelegate:  
 	Delegate callback that Unity can serialize and set via Inspector.  
