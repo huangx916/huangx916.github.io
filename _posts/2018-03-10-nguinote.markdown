@@ -39,6 +39,7 @@ tags:
 	mColor、mPivot、mWidth、mHeight、mDepth  
 	
 #####  UIDrawCall:  
+	继承自MonoBehaviour  
 	drawcallTool 统计场景中所有的drawcall
 	depthStart、depthEnd  
 	verts、norms、tans、uvs、cols  
@@ -58,6 +59,7 @@ tags:
 	FillAllDrawCalls中产生的每个drawCall负责渲染连续depth的widgets，并且各widget的material和mainTexture、shader分别相同  
 	LateUpdate时更新UI(TransformMatrix、Layers、Widgets、DrawCalls并对所有Panel中的各个DrawCall设置Transform和RenderQueue等)  
 	移动Panel的Transform时(子物体跟随移动)，Clipping自动反向移动，确保裁切区域在屏幕中位置不变。(UIScrollView)  
+	每个panel渲染顶点数不能大于等于65000个
 	
 #####  UIGrid:  
 
