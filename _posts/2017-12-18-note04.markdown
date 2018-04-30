@@ -28,6 +28,10 @@ MonoBehaviour继承自Component。GameObject包含各种Component(默认包含Tr
 编辑器模式下GetComponent时，如果Component不存在，继承自MonoBehaviour的返回null，U3D自带的Component返回重载输出null字符串的非空对象。  
 Component初始状态为unenable(脚本未勾上)时，Awake也会调用。当GameObject初始状态为unactive(游戏对象没勾上)时，GameObject下的所有Component脚本都不会调用Awake。  
 
+Camera.viewport  0<=x<=1  0<=y<=1  
+各Camera下的world坐标可通过 viewport screen world坐标系相互转换计算而来(例如：场景相机下角色的UI相机下的血条 同步关系)  
+Component的OnEnable也会受所在GameObject的active影响  
+
 ##### NGUI  
 在UIGrid上添加UICenterOnChild脚本可以使Item居中  
 循环播放可使用UIWrapContent代替UIGrid  
@@ -103,5 +107,7 @@ using (Font font3 = new Font("Arial", 10.0f),
 }
 ```  
 代码段结束时，自动调用font3和font4的Dispose方法，释放实例。  
+
+类中的静态变量只会存在一份(在类型对象中)，不管类产生多少个实例对象。(CLR via C# page 96)  
 
 ## 后记
