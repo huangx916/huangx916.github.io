@@ -15,11 +15,11 @@ tags:
 
 ## 前言
 U3D 5.2.2f1版本 BRDF及GI相关shader:  
-*Standard.shader  
-*StandardSpecular.shader  
-*UnityStandardCore.cginc 
-*UnityStandardBRDF.cginc  
-*UnityGloballllumination.cginc  
+* Standard.shader  
+* StandardSpecular.shader  
+* UnityStandardCore.cginc  
+* UnityStandardBRDF.cginc  
+* UnityGloballllumination.cginc  
 以下是之前阅读shader时做的笔记备忘  
 
 
