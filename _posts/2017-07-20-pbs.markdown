@@ -1,0 +1,38 @@
+---
+layout:     post
+title:      "U3D 5.2.2f1 PBS解析"
+subtitle:   " \"开发笔记\""
+date:       2017-07-20 21:00:00
+author:     "A-SHIN"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 技术
+---
+
+> “Yeah It's on. ”
+
+
+## 前言
+U3D 5.2.2f1版本 BRDF及GI相关shader:  
+*Standard.shader  
+*StandardSpecular.shader  
+*UnityStandardCore.cginc 
+*UnityStandardBRDF.cginc  
+*UnityGloballllumination.cginc  
+以下是之前阅读shader时做的笔记备忘  
+
+
+## 正文
+<img class="shadow" src="/img/in-post/pbs/1.png" width="600">
+<img class="shadow" src="/img/in-post/pbs/2.png" width="600">
+<img class="shadow" src="/img/in-post/pbs/3.png" width="600">
+
+
+Standard和StandardSpecular材质相关参数如下  
+<img class="shadow" src="/img/in-post/pbs/4.png" width="600">
+<img class="shadow" src="/img/in-post/pbs/5.png" width="600">
+
+## 后记
+不同版本的shader可能稍有差异，如5.3.1f1中unity_LightGammaCorrectionConsts未定义。如需模拟，可在5.2.2中将其缩放到0-1之间渲染到RenderTexture通过Texture2D获取并反缩放回该值。
+## 完结
