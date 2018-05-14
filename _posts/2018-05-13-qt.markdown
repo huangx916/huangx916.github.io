@@ -1,0 +1,36 @@
+---
+layout:     post
+title:      "QT visual studio 2015 部署"
+subtitle:   " \"开发笔记\""
+date:       2018-05-13 22:22:00
+author:     "A-SHIN"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 笔记
+---
+
+> “Yeah It's on. ”
+
+## 前言
+计划用QT编写引擎编辑器，抽空部署了下QT开发环境。
+## 正文  
+1. 从官网下载商业试用版下载器，打开选择MSVC 2015 32-bit进行下载  
+<img class="shadow" src="/img/in-post/qtSetup/1.png" width="600">  
+完毕后添加如下路径到系统环境中：D:\Qt\5.10.1\msvc2015\bin  
+2. 为了在vs2015中使用Qt5，需要首先安装插件。在visual studio 2015中依次点击“工具”-“扩展和更新...”，打开管理窗口。在左侧栏中点击“联机”标签，在搜索中输入Qt，可以找到扩展包QtPackage，如下图：  
+<img class="shadow" src="/img/in-post/qtSetup/2.png" width="600">  
+安装后如果遇到VS显示问题(例如工具栏图标消失等问题，可禁用QT后再启用试试)  
+安装后可以在Visual Studio 2015的IDE菜单中看到“QT5”项。点击“QT5”-“Qt Option...”，打开管理窗口。点击按钮“Add”，选择Qt5安装路径。  
+<img class="shadow" src="/img/in-post/qtSetup/3.png" width="600">  
+添加QTDIR宏，文本形式打开工程的.vcxproj.user文件，添加如下宏定义  
+<img class="shadow" src="/img/in-post/qtSetup/4.png" width="600">  
+
+参考:  
+[https://www.cnblogs.com/yunhaisoft/p/5341918.html](https://www.cnblogs.com/yunhaisoft/p/5341918.html)  
+[http://www.mamicode.com/info-detail-1683773.html](http://www.mamicode.com/info-detail-1683773.html)
+
+## 后记
+由于原来环境装了Perl，不确定是否必须的，如遇相关问题，可先下载Perl。
+
+
