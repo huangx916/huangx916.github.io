@@ -1,13 +1,13 @@
 ---
 layout:     post
-title:      "QT visual studio 2015 部署"
+title:      "QT Visual Studio 2015 部署"
 subtitle:   " \"游戏引擎\""
 date:       2018-05-13 22:22:00
 author:     "A-SHIN"
 header-img: "img/post-bg-2015.jpg"
 catalog: true
 tags:
-    - 笔记
+    - 技术
 ---
 
 > “Yeah It's on. ”
