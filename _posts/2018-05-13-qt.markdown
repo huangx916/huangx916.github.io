@@ -25,6 +25,8 @@ tags:
 <img class="shadow" src="/img/in-post/qtSetup/3.png" width="600">  
 添加QTDIR宏，文本形式打开工程的.vcxproj.user文件，添加如下宏定义  
 <img class="shadow" src="/img/in-post/qtSetup/4.png" width="600">  
+资源文件编辑器在如下目录下
+<img class="shadow" src="/img/in-post/qtSetup/5.png" width="600">  
 
 参考:  
 [https://www.cnblogs.com/yunhaisoft/p/5341918.html](https://www.cnblogs.com/yunhaisoft/p/5341918.html)  
