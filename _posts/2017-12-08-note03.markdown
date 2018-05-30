@@ -63,7 +63,7 @@ Windows不区分大小写，Linux区分大小写。AssetImporter.assetBundleName
 
 画面卡住来回不正常抖动，可能是因为有shader用到的变量未定义导致错误  
 
-ogre cmake时 freetype-2.6.5.tar.gz下载出错，要自己去下载个，然后解压到cmake输出文件下(? findfreetype.cmake  FREETYPE_LIBRARY_NAMES添加freetype256 ?)  
+ogre cmake时 freetype-2.6.5.tar.gz下载出错，要自己去下载个，然后复制并*解压*到cmake输出文件下,删掉其他文件重新用cmakeui config  (源文件夹中搜索findfreetype.cmake  给FREETYPE_LIBRARY_NAMES添加freetype265 freetype256)  
 
 打包成assertbundle时，游戏加载的时候需要自己做内存管理object，不然资源会重复加载  
 
