@@ -1,0 +1,39 @@
+---
+layout:     post
+title:      "QT 游戏引擎编辑器制作注意事项"
+subtitle:   " \"游戏引擎\""
+date:       2018-06-14 12:22:00
+author:     "A-SHIN"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 技术
+---
+
+> “Yeah It's on. ”
+
+## 前言
+QT编写引擎编辑器中遇到的问题，逐一记录
+## 正文  
+由于引擎底层使用了glew、freeglut库。编辑器引用引擎库后，使用freeglut库函数会报错，
+改用官方glut后函数能正常使用。但是官方glut库引擎不支持鼠标滚轮事件。因此又换回了freeglut库，编辑器中不使用该库的函数即可。编辑器初始化时需调用glewInit();  
+QT的paintGL函数不会每帧刷新，需要开个定时器调用update刷新函数:
+```
+connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
+timer.start(16);
+```
+使用fbo之前需要保存系统帧缓存对象(**QT里不是0**)
+```
+GLint originalFBO;
+glGetIntegerv(GL_FRAMEBUFFER_BINDING, &originalFBO);
+
+mShadowMap->PreRender();	//glBindFramebuffer(GL_FRAMEBUFFER, depth_fbo);
+RenderScene(true);
+mShadowMap->PostRender();	//glBindFramebuffer(GL_FRAMEBUFFER, originalFBO);
+RenderScene(false);
+```
+
+
+## 后记
+
+
