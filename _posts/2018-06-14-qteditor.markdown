@@ -32,7 +32,10 @@ RenderScene(true);
 mShadowMap->PostRender();	//glBindFramebuffer(GL_FRAMEBUFFER, originalFBO);
 RenderScene(false);
 ```
-
+编辑器模式下帧缓存gDEBugger截图如下:
+<img class="shadow" src="/img/in-post/qtEditor/1.png" width="600"> 
+游戏模式下帧缓存gDEBugger截图如下:
+<img class="shadow" src="/img/in-post/qtEditor/2.png" width="600"> 
 
 ## 后记
 
