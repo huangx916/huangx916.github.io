@@ -35,7 +35,8 @@ RenderScene(false);
 编辑器模式下帧缓存gDEBugger截图如下:
 <img class="shadow" src="/img/in-post/qtEditor/1.png" width="600"> 
 游戏模式下帧缓存gDEBugger截图如下:
-<img class="shadow" src="/img/in-post/qtEditor/2.png" width="600"> 
+<img class="shadow" src="/img/in-post/qtEditor/2.png" width="600">  
+QT Widget中的OpenGL相关处理(如:模型加载后的VBO生成等)必须在继承QOpenGLWidget的函数里处理
 
 ## 后记
 
