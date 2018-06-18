@@ -13,7 +13,7 @@ tags:
 > “Yeah It's on. ”
 
 ## 前言
-QT编写引擎编辑器中遇到的问题，逐一记录
+QT编写[引擎编辑器](https://github.com/huangx916/HXEngine)中遇到的问题，逐一记录
 ## 正文  
 由于引擎底层使用了glew、freeglut库。编辑器引用引擎库后，使用freeglut库函数会报错，
 改用官方glut后函数能正常使用。但是官方glut库引擎不支持鼠标滚轮事件。因此又换回了freeglut库，编辑器中不使用该库的函数即可。编辑器初始化时需调用glewInit();  
