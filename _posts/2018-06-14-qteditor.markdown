@@ -43,6 +43,7 @@ QOpenGLWidget默认只响应鼠标时间，无法响应键盘事件(焦点不在
 如果信号槽函数有重载，使用QT4形式connect时，槽函数参数必须和信号函数参数完全一致。  
 ~~connect(spinboxPositionX, SIGNAL(valueChanged(double)), this, SLOT(PositionXValueChanged(double value)));~~  
 connect(spinboxPositionX, SIGNAL(valueChanged(double)), this, SLOT(PositionXValueChanged(double)));  
+函数申明和定义可使用(double value)参数形式。函数申明前要加 public Q_SLOTS: 宏  
 
 ## 后记
 
