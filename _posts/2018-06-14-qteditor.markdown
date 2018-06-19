@@ -40,11 +40,9 @@ QT Widget中的OpenGL相关处理(如:模型加载后的VBO生成等)必须在�
 
 QOpenGLWidget默认只响应鼠标时间，无法响应键盘事件(焦点不在该Widget上)。需要在鼠标左键响应函数里添加setFocus();才能响应到键盘事件。
 
-如果信号槽函数有重载，使用QT4形式connect时，槽函数参数必须和信号函数参数完全一致。
-```
-~~connect(spinboxPositionX, SIGNAL(valueChanged(double)), this, SLOT(PositionXValueChanged(double value)));~~
-connect(spinboxPositionX, SIGNAL(valueChanged(double)), this, SLOT(PositionXValueChanged(double)));
-```
+如果信号槽函数有重载，使用QT4形式connect时，槽函数参数必须和信号函数参数完全一致。  
+~~connect(spinboxPositionX, SIGNAL(valueChanged(double)), this, SLOT(PositionXValueChanged(double value)));~~  
+connect(spinboxPositionX, SIGNAL(valueChanged(double)), this, SLOT(PositionXValueChanged(double)));  
 
 ## 后记
 
