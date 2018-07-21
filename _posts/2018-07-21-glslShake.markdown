@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "GLSL 光照计算 抖动BUG解决"
+title:      "GLSL 切线空间光照计算 抖动BUG解决"
 subtitle:   " \"游戏引擎\""
 date:       2018-07-21 16:38:00
 author:     "A-SHIN"
