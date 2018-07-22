@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "HXEgine场景管理及动态批处理"
+title:      "游戏引擎场景管理及动态批处理"
 subtitle:   " \"游戏引擎\""
 date:       2018-07-22 10:00:00
 author:     "A-SHIN"
@@ -13,10 +13,10 @@ tags:
 > “Yeah It's on. ”
 
 ## 前言
-这段时间对游戏引擎[HXEngine](https://github.com/huangx916/HXEngine)进行了简单的场景管理及动态批处理。后续考虑进行静态drawcall合并。
+周末对游戏引擎[HXEngine](https://github.com/huangx916/HXEngine)进行了简单的场景管理及动态批处理。后续考虑进行八叉树管理及静态drawcall合并。
 ## 正文  
 #总体思路：  
-首选在编辑器或者配置文件中为所有场景中的gameobject配置一个render queue值，值越小就越先渲染。这里大致分为几类
+首选在编辑器或者配置文件中为所有场景中的gameobject配置一个render queue值，值越小就越先渲染。这里大致分为几类：
 ```
 enum ERenderQueue
 {
@@ -28,8 +28,8 @@ enum ERenderQueue
 };
 ```
 然后根据是否需要alpha blend(render queue == 3000 为分界线)，把gameobject分为两大类opaque和transparent。分别将gameobject的submesh对应的可渲染单位放入相应的列表中。  
-opaque以render queue为key，把相同render queue下相同材质的renderable放入到一个队列中，每帧渲染时这个队列就作为一个batch，只需设置一次材质状态。  
-transparent以render queue为key，把相同render queue的renderable放入到一个队列中，每帧渲染时需要对这个队列按同相机距离从远到近排序。把相邻的相同材质的renderable作为一个batch，顺序渲染。
+1. opaque以render queue为key，把相同render queue下相同材质的renderable放入到一个队列中，每帧渲染时这个队列就作为一个batch，只需设置一次材质状态。  
+2. transparent以render queue为key，把相同render queue的renderable放入到一个队列中，每帧渲染时需要对这个队列按同相机距离从远到近排序。把相邻的相同材质的renderable作为一个batch，顺序渲染。
 #具体实现：  
 场景管理器中的数据结构如下：
 ```
@@ -43,8 +43,9 @@ std::map<int, mapStringVector> opaqueMap;
 // transparent
 std::map<int, vectorRenderable> transparentMap;
 ```
-gameObjectTreeRoot为gameobject树状结构根节点，用于具体管理场景中的gameobject(查询、创建、删除等)。
-按上述思路根据gameobjecttree创建opaqueMap和transparentMap用于渲染：
+gameObjectTreeRoot为gameobject树状结构根节点，用于具体管理场景中的gameobject(查询、创建、删除等)。  
+按上述思路根据gameObjectTree创建opaqueMap和transparentMap用于渲染。  
+具体渲染过程：
 ```
 void HXSceneManager::OnDisplay(bool shadow)
 {
@@ -183,4 +184,6 @@ glUniform1i(tex_uniform_loc, nTexIndex);
 glActiveTexture(GL_TEXTURE0 + nTexIndex);
 glBindTexture(GL_TEXTURE_2D, tex->texId);
 ```
-后续考虑进行静态批处理，把静态物体提前生成到同一个vbo中以合并drawcall
+后续考虑：  
+进行静态批处理，把静态物体提前生成到同一个vbo中以合并drawcall。  
+GameObjectTree进行八叉树管理等
