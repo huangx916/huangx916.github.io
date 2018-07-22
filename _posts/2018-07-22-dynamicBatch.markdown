@@ -30,6 +30,7 @@ enum ERenderQueue
 然后根据是否需要alpha blend(render queue == 3000 为分界线)，把gameobject分为两大类opaque和transparent。分别将gameobject的submesh对应的可渲染单位放入相应的列表中。  
 1. opaque以render queue为key，把相同render queue下相同材质的renderable放入到一个队列中，每帧渲染时这个队列就作为一个batch，只需设置一次材质状态。  
 2. transparent以render queue为key，把相同render queue的renderable放入到一个队列中，每帧渲染时需要对这个队列按同相机距离从远到近排序。把相邻的相同材质的renderable作为一个batch，顺序渲染。  
+
 #具体实现：  
 场景管理器中的数据结构如下：
 ```
