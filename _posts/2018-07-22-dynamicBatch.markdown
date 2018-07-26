@@ -16,7 +16,7 @@ tags:
 周末对游戏引擎[HXEngine](https://github.com/huangx916/HXEngine)进行了简单的场景管理及动态批处理。后续考虑进行八叉树管理及静态drawcall合并。
 ## 正文  
 #总体思路：  
-首选在编辑器或者配置文件中为所有场景中的gameobject配置一个render queue值，值越小就越先渲染。这里大致分为几类：
+首选在编辑器或者配置文件中为所有场景中gameobject的submesh的renderable的material配置一个render queue值，值越小就越先渲染。这里大致分为几类：
 ```
 enum ERenderQueue
 {
@@ -27,7 +27,7 @@ enum ERenderQueue
 	RQ_OVERLAY = 4000
 };
 ```
-然后根据是否需要alpha blend(render queue == 3000 为分界线)，把gameobject分为两大类opaque和transparent。分别将gameobject的submesh对应的可渲染单位放入相应的列表中。  
+然后根据是否需要alpha blend(render queue == 3000 为分界线)，把material分为两大类opaque和transparent。分别将gameobject的submesh对应的可渲染单位放入相应的列表中。  
 1. opaque以render queue为key，把相同render queue下相同材质的renderable放入到一个队列中，每帧渲染时这个队列就作为一个batch，只需设置一次材质状态。  
 2. transparent以render queue为key，把相同render queue的renderable放入到一个队列中，每帧渲染时需要对这个队列按同相机距离从远到近排序。把相邻的相同材质的renderable作为一个batch，顺序渲染。  
 
