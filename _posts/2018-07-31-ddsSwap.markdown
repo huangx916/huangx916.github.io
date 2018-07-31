@@ -14,8 +14,9 @@ tags:
 
 ## 前言
 [HXEngine](https://github.com/huangx916/HXEngine)中加载PNG和DDS时，发现贴图UV值V反转了。PNG左下角为(0,0)，DDS左上角为(0,0)。如下图：
-<img class="shadow" src="/img/in-post/ddsSwap/1.png" width="400"><img class="shadow" src="/img/in-post/ddsSwap/2.png" width="400">
-gDEBugger中的texture显示，左图为PNG，右图为DDS。
+<img class="shadow" src="/img/in-post/ddsSwap/1.png" width="600">
+<img class="shadow" src="/img/in-post/ddsSwap/2.png" width="600">
+gDEBugger中的texture显示，上图为PNG，下图为DDS。
 ## 正文  
 为保证引擎使用统一的模型UV值，则需要将其中之一的纹理数据保存时垂直方向翻转。这里对DDS数据进行垂直翻转。  
 ```
@@ -54,6 +55,6 @@ static void swapDDS(void * pData, size_t stride, size_t height)
 }
 ```
 翻转后的DDS如下图；
-<img class="shadow" src="/img/in-post/ddsSwap/3.png" width="400">
+<img class="shadow" src="/img/in-post/ddsSwap/3.png" width="600">
 ## 后记
 类似的还有BMP等，由于DX和OpenGL UV坐标系的不同，开发过程中需要保持统一。
