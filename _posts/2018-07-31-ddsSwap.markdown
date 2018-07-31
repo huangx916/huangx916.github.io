@@ -36,7 +36,7 @@ for (level = 0; level < image->mipLevels; ++level)
 	depth >>= 1;
 }
 ```
-其中** swapDDS(ptr, vgl_GetDDSStride(file_header, width), height); **正是对数据进行垂直翻转操作:
+其中**swapDDS(ptr, vgl_GetDDSStride(file_header, width), height);**正是对数据进行垂直翻转操作:
 ```
 static void swapDDS(void * pData, size_t stride, size_t height)
 {
