@@ -1,0 +1,352 @@
+---
+layout:     post
+title:      "QT自定义外观"
+subtitle:   " \"游戏引擎\""
+date:       2018-08-03 12:00:00
+author:     "A-SHIN"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 技术
+---
+
+> “Yeah It's on. ”
+
+## 前言
+由于QT默认应用程序外观比较普通，而且不同的操作系统标题栏也会不同。因此打算动手更改QT程序外观。  
+可选方案：  
+1. 使用QApplication::setStyle(QStyleFactory::create("Fusion"));调用QT自带style  
+优点：简单
+缺点：可选方案少，不够灵活，不能改变标题栏  
+2. 使用qss  
+优点： 灵活，可用自定义标题栏使其统一
+缺点： 复杂  
+
+默认外观:
+<img class="shadow" src="/img/in-post/qtSkin/3.png" width="600">
+自定义外观:
+<img class="shadow" src="/img/in-post/qtSkin/4.png" width="600">
+## 正文  
+本文使用qss自定义外观.  
+首先创建qss文本文件，然后进行样式编辑。(可从网上寻找现成的加以修改)
+<img class="shadow" src="/img/in-post/qtSkin/1.png" width="600">
+接下来将写好的qss文件和引用到的图片等资源添加到QT的.qrc文件中。  
+<img class="shadow" src="/img/in-post/qtSkin/2.png" width="600">
+在main函数中调用：
+```
+int main(int argc, char *argv[])
+{
+	QApplication a(argc, argv);
+	QFile qss(":/stylesheet.qss");
+	qss.open(QFile::ReadOnly);
+	a.setStyleSheet(qss.readAll());
+	qss.close();
+	HXWinWrap ww;
+	ww.show();
+	return a.exec();
+}
+```
+标题栏需要特殊处理，只有自定义的标题栏才能应用qss样式。因此我们需要隐藏默认标题栏
+```
+setWindowFlags(Qt::FramelessWindowHint | windowFlags());
+```
+自定义标题栏实现如下:  
+.h文件
+```
+#ifndef TITLE_BAR
+#define TITLE_BAR
+
+#include <QWidget>
+
+class QLabel;
+class QPushButton;
+
+class TitleBar : public QWidget
+{
+	Q_OBJECT
+
+public:
+	explicit TitleBar(QWidget *parent = 0);
+	~TitleBar();
+
+protected:
+
+	// 双击标题栏进行界面的最大化/还原
+	virtual void mouseDoubleClickEvent(QMouseEvent *event);
+
+	// 进行鼠界面的拖动
+	virtual void mousePressEvent(QMouseEvent *event);
+
+	// 设置界面标题与图标
+	virtual bool eventFilter(QObject *obj, QEvent *event);
+
+	private slots:
+
+	// 进行最小化、最大化/还原、关闭操作
+	void onClicked();
+
+private:
+
+	// 最大化/还原
+	void updateMaximize();
+
+private:
+	QLabel *m_pIconLabel;
+	QLabel *m_pTitleLabel;
+	QPushButton *m_pMinimizeButton;
+	QPushButton *m_pMaximizeButton;
+	QPushButton *m_pCloseButton;
+};
+
+#endif // TITLE_BAR
+```
+.cpp文件
+```
+#include <QLabel>
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QEvent>
+#include <QMouseEvent>
+#include <QApplication>
+#include "title_bar.h"
+
+#ifdef Q_OS_WIN
+#pragma comment(lib, "user32.lib")
+#include <qt_windows.h>
+#endif
+
+TitleBar::TitleBar(QWidget *parent)
+	: QWidget(parent)
+{
+	setFixedHeight(30);
+
+	m_pIconLabel = new QLabel(this);
+	m_pTitleLabel = new QLabel(this);
+	m_pMinimizeButton = new QPushButton(this);
+	m_pMaximizeButton = new QPushButton(this);
+	m_pCloseButton = new QPushButton(this);
+
+	m_pIconLabel->setFixedSize(32, 32);
+	m_pIconLabel->setScaledContents(true);
+
+	m_pTitleLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+	m_pMinimizeButton->setFixedSize(27, 22);
+	m_pMaximizeButton->setFixedSize(27, 22);
+	m_pCloseButton->setFixedSize(27, 22);
+
+	m_pTitleLabel->setObjectName("whiteLabel");
+	m_pMinimizeButton->setObjectName("minimizeButton");
+	m_pMaximizeButton->setObjectName("maximizeButton");
+	m_pCloseButton->setObjectName("closeButton");
+
+	m_pMinimizeButton->setToolTip("Minimize");
+	m_pMaximizeButton->setToolTip("Maximize");
+	m_pCloseButton->setToolTip("Close");
+
+	QHBoxLayout *pLayout = new QHBoxLayout(this);
+	pLayout->addWidget(m_pIconLabel);
+	pLayout->addSpacing(5);
+	pLayout->addWidget(m_pTitleLabel);
+	pLayout->addWidget(m_pMinimizeButton);
+	pLayout->addWidget(m_pMaximizeButton);
+	pLayout->addWidget(m_pCloseButton);
+	pLayout->setSpacing(0);
+	pLayout->setContentsMargins(5, 0, 5, 0);
+
+	setLayout(pLayout);
+
+	connect(m_pMinimizeButton, SIGNAL(clicked(bool)), this, SLOT(onClicked()));
+	connect(m_pMaximizeButton, SIGNAL(clicked(bool)), this, SLOT(onClicked()));
+	connect(m_pCloseButton, SIGNAL(clicked(bool)), this, SLOT(onClicked()));
+}
+
+TitleBar::~TitleBar()
+{
+
+}
+
+void TitleBar::mouseDoubleClickEvent(QMouseEvent *event)
+{
+	Q_UNUSED(event);
+
+	emit m_pMaximizeButton->clicked();
+}
+
+void TitleBar::mousePressEvent(QMouseEvent *event)
+{
+#ifdef Q_OS_WIN
+	if (ReleaseCapture())
+	{
+		QWidget *pWindow = this->window();
+		if (pWindow->isTopLevel())
+		{
+			SendMessage(HWND(pWindow->winId()), WM_SYSCOMMAND, SC_MOVE + HTCAPTION, 0);
+		}
+	}
+	event->ignore();
+#else
+#endif
+}
+
+bool TitleBar::eventFilter(QObject *obj, QEvent *event)
+{
+	switch (event->type())
+	{
+	case QEvent::WindowTitleChange:
+	{
+		QWidget *pWidget = qobject_cast<QWidget *>(obj);
+		if (pWidget)
+		{
+			m_pTitleLabel->setText(pWidget->windowTitle());
+			return true;
+		}
+	}
+	case QEvent::WindowIconChange:
+	{
+		QWidget *pWidget = qobject_cast<QWidget *>(obj);
+		if (pWidget)
+		{
+			QIcon icon = pWidget->windowIcon();
+			m_pIconLabel->setPixmap(icon.pixmap(m_pIconLabel->size()));
+			return true;
+		}
+	}
+	case QEvent::WindowStateChange:
+	case QEvent::Resize:
+		updateMaximize();
+		return true;
+	}
+	return QWidget::eventFilter(obj, event);
+}
+
+void TitleBar::onClicked()
+{
+	QPushButton *pButton = qobject_cast<QPushButton *>(sender());
+	QWidget *pWindow = this->window();
+	if (pWindow->isTopLevel())
+	{
+		if (pButton == m_pMinimizeButton)
+		{
+			pWindow->showMinimized();
+		}
+		else if (pButton == m_pMaximizeButton)
+		{
+			pWindow->isMaximized() ? pWindow->showNormal() : pWindow->showMaximized();
+		}
+		else if (pButton == m_pCloseButton)
+		{
+			pWindow->close();
+		}
+	}
+}
+
+void TitleBar::updateMaximize()
+{
+	QWidget *pWindow = this->window();
+	if (pWindow->isTopLevel())
+	{
+		bool bMaximize = pWindow->isMaximized();
+		if (bMaximize)
+		{
+			m_pMaximizeButton->setToolTip(tr("Restore"));
+			m_pMaximizeButton->setProperty("maximizeProperty", "restore");
+		}
+		else
+		{
+			m_pMaximizeButton->setProperty("maximizeProperty", "maximize");
+			m_pMaximizeButton->setToolTip(tr("Maximize"));
+		}
+
+		m_pMaximizeButton->setStyle(QApplication::style());
+	}
+}
+```
+最后添加自定义标题栏时特别需要注意**不能在QMainWindow中添加(无法放到标题栏位置)。需要外层再套个widget，把标题栏和mainwindow按0:10的比例添加进去（使mainwindow填充满剩余空间）。并实现拖动等响应**  
+HXWinWrap.h
+```
+#pragma once
+#include <QWidget>
+
+class HXWinWrap : public QWidget {
+	Q_OBJECT
+
+public:
+	HXWinWrap(QWidget * parent = Q_NULLPTR);
+	~HXWinWrap();
+
+	void mouseMoveEvent(QMouseEvent *event);
+	void mousePressEvent(QMouseEvent *event);
+	void mouseReleaseEvent(QMouseEvent *event);
+
+private:
+	bool m_bPressed;
+	QPoint m_point;
+
+};
+
+```
+HXWinWrap.cpp
+```
+#include "HXWinWrap.h"
+#include "title_bar.h"
+#include "HXEditorWin.h"
+#include <QIcon>
+#include <QBoxLayout>
+#include <QMouseEvent>
+#ifdef Q_OS_WIN
+#include <qt_windows.h>
+#include <Windowsx.h>
+#endif
+
+HXWinWrap::HXWinWrap(QWidget * parent) : QWidget(parent)
+, m_bPressed(false)
+{
+	setWindowFlags(Qt::FramelessWindowHint | windowFlags());
+	//setAttribute(Qt::WA_TranslucentBackground, true);
+
+	TitleBar *pTitleBar = new TitleBar(this);
+	installEventFilter(pTitleBar);
+
+	resize(1000, 600);
+	setWindowTitle("HXEngine Editor");
+	setWindowIcon(QIcon(":/icon"));
+
+	QVBoxLayout *pLayout = new QVBoxLayout();
+	pLayout->addWidget(pTitleBar,0);
+	pLayout->addWidget(HXEditorWin::GetInstance(),10);
+	setLayout(pLayout);
+}
+
+HXWinWrap::~HXWinWrap() 
+{
+	
+}
+
+// 鼠标相对于窗体的位置 event->globalPos() - this->pos()
+void HXWinWrap::mousePressEvent(QMouseEvent *event)
+{
+	if (event->button() == Qt::LeftButton)
+	{
+		m_bPressed = true;
+		m_point = event->pos();
+	}
+}
+
+// 若鼠标左键被按下，移动窗体位置
+void HXWinWrap::mouseMoveEvent(QMouseEvent *event)
+{
+	if (m_bPressed)
+		move(event->pos() - m_point + pos());
+}
+
+// 设置鼠标未被按下
+void HXWinWrap::mouseReleaseEvent(QMouseEvent *event)
+{
+	Q_UNUSED(event);
+
+	m_bPressed = false;
+}
+```
+## 后记
+[源码下载](https://github.com/huangx916/HXEngine)
