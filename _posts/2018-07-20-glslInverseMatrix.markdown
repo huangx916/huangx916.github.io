@@ -15,7 +15,8 @@ tags:
 ## 前言
 
 ## 正文  
-逆矩阵计算公式:  
+1. glsl内置函数inverse  
+2. 自定义逆矩阵计算公式:  
 ```
 mat3 inverse_mat3(mat3 m)
 {
