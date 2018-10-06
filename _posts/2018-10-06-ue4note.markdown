@@ -1,0 +1,64 @@
+---
+layout:     post
+title:      "unreal engine note"
+subtitle:   " \"游戏引擎\""
+date:       2018-10-06 21:00:00
+author:     "A-SHIN"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 技术
+---
+
+> “Yeah It's on. ”
+
+## 前言
+9月份有幸得到某厂专业引擎开发大佬review引擎框架，指点迷津。相比商业引擎有很多不够成熟的地方。因此接下来的一段时间阅读unreal engine源码，并作相关笔记。
+## 正文  
+前期主要参考[InsideUE4](https://zhuanlan.zhihu.com/insideue4)阅读引擎源码  
+
+实体组件模式推崇“组合优于继承”的概念  
+程序=数据+算法  
+
+Classes、Private、Public  
+
+Object->Actor+Component->Level->World->WorldContext->GameInstance->Engine  
+
+UObject  
+AActor : public UObject								InputComponent  
+UActorComponent : public UObject  
+USceneComponent : public UActorComponent			FTransform  
+UPrimitiveComponent : public USceneComponent  
+UMeshComponent : public UPrimitiveComponent			Actor可以带多个SceneComponent来渲染多个Mesh实体  
+UChildActorComponent : public USceneComponent  
+
+AInfo : public AActor  
+ALevelScriptActor : public AActor  
+AWorldSettings : public AInfo  
+ULevel : public UObject								ALevelScriptActor AWorldSettings  
+UWorld final : public UObject						PersisitentLevel	subLevels  
+FWorldContext  
+UGameInstance : public UObject						FWorldContext  
+UEngine : public UObject							TIndirectArray<FWorldContext>	WorldList;  
+UGameplayStatics : public UBlueprintFunctionLibrary  
+
+面向对象派生下来的Pawn和Character，支持组合的Controller们。  
+APawn : public AActor								Controller	PhysicsCollision	MovementInput  
+ADefaultPawn : public APawn  
+ASpectatorPawn : public ADefaultPawn  
+ACharacter : public APawn  
+AController : public AActor							APawn  
+APlayerController : public AController				在任一刻，Player:PlayerController:PlayerState是1:1:1的关系。但是PlayerController可以有多个备选用来切换，PlayerState也可以相应多个切换。UPlayer的概念会在之后讲解，但目前可以简单理解为游戏里一个全局的玩家逻辑实体，而PlayerController代表的就是玩家的意志，PlayerState代表的是玩家的状态。  
+AAIController : public AController  
+APlayerState : public AInfo							用来保存玩家的游戏数据  
+
+UE的世界观是，World更多是逻辑的概念，而Level是资源场景表示。  
+AGameModeBase : public AInfo  
+AGameMode : public AGameModeBase					Class登记、游戏内实体的Spawn、游戏的进度、Level的切换、多人游戏的步调同步  
+AGameStateBase : public AInfo  
+AGameState : public AGameStateBase					保存当前游戏的状态数据  
+AGameSession : public AInfo  
+
+按照软件工程的理念，没有什么问题是不能通过加一个间接层解决的，不行就加两层！  
+## 后记
+持续更新中...
