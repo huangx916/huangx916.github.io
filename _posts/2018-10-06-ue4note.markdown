@@ -38,7 +38,7 @@ AWorldSettings : public AInfo
 ULevel : public UObject								ALevelScriptActor AWorldSettings  
 UWorld final : public UObject						PersisitentLevel	subLevels  
 FWorldContext  
-UGameInstance : public UObject						FWorldContext  
+UGameInstance : public UObject						FWorldContext	LocalPlayers  
 UEngine : public UObject							TIndirectArray<FWorldContext>	WorldList;  
 UGameplayStatics : public UBlueprintFunctionLibrary  
 
@@ -47,8 +47,8 @@ APawn : public AActor								Controller	PhysicsCollision	MovementInput
 ADefaultPawn : public APawn  
 ASpectatorPawn : public ADefaultPawn  
 ACharacter : public APawn  
-AController : public AActor							APawn  
-APlayerController : public AController				在任一刻，Player:PlayerController:PlayerState是1:1:1的关系。但是PlayerController可以有多个备选用来切换，PlayerState也可以相应多个切换。UPlayer的概念会在之后讲解，但目前可以简单理解为游戏里一个全局的玩家逻辑实体，而PlayerController代表的就是玩家的意志，PlayerState代表的是玩家的状态。  
+AController : public AActor							APawn	APlayerState  
+APlayerController : public AController				UPlayer		在任一刻，Player:PlayerController:PlayerState是1:1:1的关系。但是PlayerController可以有多个备选用来切换，PlayerState也可以相应多个切换。UPlayer的概念会在之后讲解，但目前可以简单理解为游戏里一个全局的玩家逻辑实体，而PlayerController代表的就是玩家的意志，PlayerState代表的是玩家的状态。  
 AAIController : public AController  
 APlayerState : public AInfo							用来保存玩家的游戏数据  
 
@@ -60,5 +60,16 @@ AGameState : public AGameStateBase					保存当前游戏的状态数据
 AGameSession : public AInfo  
 
 按照软件工程的理念，没有什么问题是不能通过加一个间接层解决的，不行就加两层！  
+UPlayer : public UObject							PlayerController  
+ULocalPlayer : public UPlayer						Viewport	LocalPlayer才是PlayerController产生的源头，也因此才有了Input  
+UNetConnection : public UPlayer  
+
+UGameInstance : public UObject  
+UGameInstance里的接口大概有4类：   
+1. 引擎的初始化加载，Init和ShutDown等（在引擎流程章节会详细叙述）   
+2. Player的创建，如CreateLocalPlayer，GetLocalPlayers之类的。   
+3. GameMode的重载修改，这是从4.14新增加进来改进，本来你只能为特定的某个Map配置好GameModeClass，但是现在GameInstance允许你重载它的PreloadContentForURL、CreateGameModeForURL和OverrideGameModeClass方法来hook改变这一流程。   
+4. OnlineSession的管理，这部分逻辑跟网络的机制有关（到时候再详细介绍），目前可以简单理解为有一个网络会话的管理辅助控制类。  
+
 ## 后记
 持续更新中...
