@@ -13,7 +13,7 @@ tags:
 > “Yeah It's on. ”
 
 ## 前言
-9月份有幸得到某厂专业引擎开发大佬review引擎框架，指点迷津。相比商业引擎有很多不够成熟的地方。因此接下来的一段时间阅读unreal engine源码，并作相关笔记。
+9月份有幸得到某厂专业引擎开发大佬view引擎框架，指点迷津。相比商业引擎有很多不够成熟的地方。因此接下来的一段时间阅读unreal engine源码，并作相关笔记。
 ## 正文  
 前期主要参考[InsideUE4](https://zhuanlan.zhihu.com/insideue4)阅读引擎源码  
 
@@ -24,7 +24,8 @@ Classes、Private、Public
 
 Object->Actor+Component->Level->World->WorldContext->GameInstance->Engine  
 
-UObject  
+UObjectBaseUtility : public UObjectBase  
+UObject : public UObjectBaseUtility					元数据、反射生成、GC垃圾回收、序列化、编辑器可见、Class Default Object等  
 AActor : public UObject								InputComponent  
 UActorComponent : public UObject  
 USceneComponent : public UActorComponent			FTransform  
@@ -70,6 +71,7 @@ UGameInstance里的接口大概有4类：
 2. Player的创建，如CreateLocalPlayer，GetLocalPlayers之类的。   
 3. GameMode的重载修改，这是从4.14新增加进来改进，本来你只能为特定的某个Map配置好GameModeClass，但是现在GameInstance允许你重载它的PreloadContentForURL、CreateGameModeForURL和OverrideGameModeClass方法来hook改变这一流程。   
 4. OnlineSession的管理，这部分逻辑跟网络的机制有关（到时候再详细介绍），目前可以简单理解为有一个网络会话的管理辅助控制类。  
+USaveGame : public UObject  
 
 ## 后记
 持续更新中...
