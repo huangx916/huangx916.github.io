@@ -73,5 +73,22 @@ UGameInstance里的接口大概有4类：
 4. OnlineSession的管理，这部分逻辑跟网络的机制有关（到时候再详细介绍），目前可以简单理解为有一个网络会话的管理辅助控制类。  
 USaveGame : public UObject  
 
+
+BP  
+UHT（Unreal Header Tool，一个分析源码标记并生成代码的工具）  
+UBT  
+
+类型系统：  
+UMetaData : public UObject  
+UInterface : public UObject  
+UField : public UObject								UMetaData  
+UProperty : public UField  
+UEnum : public UField  
+UStruct : public UField								UProperty  
+UFunction : public UStruct  
+UClass : public UStruct								UFunction  
+UScriptStruct : public UStruct						UFunction  
+
+
 ## 后记
 持续更新中...
