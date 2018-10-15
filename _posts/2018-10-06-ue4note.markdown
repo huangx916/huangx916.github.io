@@ -78,7 +78,7 @@ BP
 UHT（Unreal Header Tool，一个分析源码标记并生成代码的工具）  
 UBT  
 
-类型系统：  
+类型系统：											生成，收集，注册，链接  
 UMetaData : public UObject  
 UInterface : public UObject  
 UField : public UObject								UMetaData  
@@ -89,6 +89,7 @@ UFunction : public UStruct
 UClass : public UStruct								UFunction  
 UScriptStruct : public UStruct						UFunction  
 
+观察UHT生成的代码可知，其实就分两部分，一是各种Z_辅助方法用来构造出各种UClass*等对象；另一部分是都包含着一两个static对象用来在程序启动的时候驱动登记，继而调用到前者的Z_方法，最终完成注册。   
 
 ## 后记
 持续更新中...
