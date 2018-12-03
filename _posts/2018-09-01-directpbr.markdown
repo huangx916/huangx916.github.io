@@ -10,6 +10,8 @@ tags:
     - 技术
 ---
 
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
 > “Yeah It's on. ”
 
 ## 前言
