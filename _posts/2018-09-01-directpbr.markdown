@@ -21,15 +21,15 @@ tags:
 ## 正文  
 ##### 渲染方程
 完整的渲染方程：  
-$ L_o = \int_\Omega f(p_i, w_i, w_o) L_i(p_i, w_i) n \cdot w_i{\rm d}w_i $  
+$L_o = \int_\Omega f(p_i, w_i, w_o) L_i(p_i, w_i) n \cdot w_i{\rm d}w_i$  
 
 其中：  
 
-$$L_o$$：表示的是经过着色之后，从$w_o$方向观察点$p_i$时的颜色  
+$ L_o $：表示的是经过着色之后，从$$w_o$$方向观察点$$ p_i $$时的颜色  
 
 $f(p_i, w_i, w_o)$：表示的是点$p_i$上，从$w_o$方向反射出去的光照与从$wi$方向的入射的光照的比值，该函数称为BRDF（Bidirectional Reflection Distribution Function）  
 
-$L_i(p_i, w_i)$：表示从$wi$方向入射到$pi$点上的光照  
+$L_i(p_i, w_i)$：表示从$w_i$方向入射到$p_i$点上的光照  
 
 $n \cdot w_i$：表示的是光照的反射强度与光照方向与接受光照表面法线方向之间角度的关系，即Lambert Law  
 
