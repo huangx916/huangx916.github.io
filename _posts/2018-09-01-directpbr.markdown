@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "PBS Direct illumination section"
+title:      "PBS direct illumination section"
 subtitle:   " \"游戏引擎\""
 date:       2018-09-01 12:00:00
 author:     "A-SHIN"
@@ -21,8 +21,9 @@ tags:
 <img class="shadow" src="/img/in-post/directpbr/1.png" width="600">  
 
 ## 正文  
+##### 渲染方程
 完整的渲染方程：  
-$L_o = \int_\Omega f(p_i, w_i, w_o) L_i(p_i, w_i) n \cdot w_i{\rm d}w_i$  
+$ L_o = \int_\Omega f(p_i, w_i, w_o) L_i(p_i, w_i) n \cdot w_i{\rm d}w_i $  
 
 其中：  
 
@@ -43,10 +44,10 @@ $L_o = \int_\Omega (f_d + f_s) L_i (n \cdot w_i){\rm d}w_i$
 直接光照计算时，对于单一解析光源来说(比如平行光，点光源等)，物体表面上同一个点只会从一个方向接受到来自光源的光照，所以不需要进行积分计算。对于多个解析光源，我们也只要简单的分别对光源进行上述公式的计算，然后叠加结果即可。
 $L_o = (f_d + f_s) L_i(n \cdot w_i)$
 
-#####漫反射部分  
+##### 漫反射部分  
 这里使用经典的Lambertian Reflection模型：  
 $f_d = \frac{c}{\pi}$
-#####镜面反射部分  
+##### 镜面反射部分  
 建立在微表面模型上，这里使用Cook-Torrance模型：  
 $f_s = \frac{D \cdot F \cdot G}{4 \cdot (n \cdot l)(n \cdot v)}$
 
@@ -64,11 +65,11 @@ $G_{SchlickGGX}(n, v, \alpha)=\frac{n \cdot v}{(n \cdot v)(1-k) + k}$
 同时由于G项描述了Shadow和Mask两中情况，所以最终的G项为：  
 $G(n,v,l,\alpha) = G_{SchlickGGX}(n,v,\alpha) \cdot G_{SchlickGGX}(n,l,\alpha)$  
 
-#####新渲染方程  
+##### 新渲染方程  
 $L_o = (kd \cdot \frac{c}{\pi} + \frac{D \cdot F \cdot G}{4 \cdot (n \cdot l)(n \cdot v)}) L_i(n \cdot w_i)$
 
 
-###代码实现
+### 代码实现
 ```
 #version 330
 
@@ -157,14 +158,14 @@ void main(void)
     oColor = color;
 }
 ```
-######注：Fresnel效果计算  
+###### 注：Fresnel效果计算  
 ```
 vec3 F0 = mix(vec3(0.04, 0.04, 0.04), albedo, metalic);
 vec3 F = calc_frenel(h, v, F0);
 ```
 第一段就是计算出合适的$F_0$值出来，如果是非金属材质，那么就使用0.04来表示；如果是金属材质，就是用albedo里面存放的$F_0$属性；如果是介于之间的，就使用金属度进行插值。  
 
-######注：漫反射比例  
+###### 注：漫反射比例  
 由于F项表示的就是镜面反射的比例，那么剩下的就是漫反射的比例，再考虑金属材质没有漫反射部分的情况，得到如下的代码：
 ```
 vec3 T = vec3(1.0, 1.0, 1.0) - F;
