@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      "PBS direct illumination section"
+title:      "Test mathjax"
 subtitle:   " \"游戏引擎\""
-date:       2018-09-01 12:00:00
+date:       2018-12-03 12:00:00
 author:     "A-SHIN"
 header-img: "img/post-bg-2015.jpg"
 mathjax: true
@@ -14,5 +14,7 @@ tags:
 
 
 
-### $$ \left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)  $$
+$$
+L_o(p, v) = \int\limits_H L_i(p,l) f(l, v) n \cdot l dl
+$$
 
