@@ -10,8 +10,6 @@ tags:
     - 技术
 ---
 
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
-
 > “Yeah It's on. ”
 
 ## 前言
@@ -27,7 +25,7 @@ $ L_o = \int_\Omega f(p_i, w_i, w_o) L_i(p_i, w_i) n \cdot w_i{\rm d}w_i $
 
 其中：  
 
-$L_o$：表示的是经过着色之后，从$w_o$方向观察点$p_i$时的颜色  
+$$ L_o $$：表示的是经过着色之后，从$w_o$方向观察点$p_i$时的颜色  
 
 $f(p_i, w_i, w_o)$：表示的是点$p_i$上，从$w_o$方向反射出去的光照与从$wi$方向的入射的光照的比值，该函数称为BRDF（Bidirectional Reflection Distribution Function）  
 
