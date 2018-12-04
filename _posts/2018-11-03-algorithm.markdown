@@ -1,13 +1,13 @@
 ---
 layout:     post
 title:      "常用算法使用环境"
-subtitle:   " \"开发笔记\""
+subtitle:   " \"算法训练\""
 date:       2018-11-03 12:00:00
 author:     "A-SHIN"
 header-img: "img/post-bg-2015.jpg"
 catalog: true
 tags:
-    - 杂记
+    - 算法
 ---
 
 > “Yeah It's on. ”
