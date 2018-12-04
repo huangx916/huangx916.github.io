@@ -46,7 +46,7 @@ cocoscreator提供了自动合并图集功能的`auto atlas`，只需要在纹�
 * 配置表格式选取：  
 序列化配置表可选用json等紧凑格式，方便策划使用EXCEL配置、修改和转换。  
 * 粒子特效：
-粒子特效比较好性能，减少使用，或者减小`Total Particles`参数。  
+粒子特效比较耗性能，减少使用，或者减小`Total Particles`参数。  
 
 渲染顺序会影响到drawcall的合并，opaque类型的物体，一般引擎都会进行排序，使相同材质的物体在同一批次渲染。然而transparent类型的物体，为了显示的正常，渲染顺序严格按照在场景中从后往前的顺序渲染，即跟cocoscreator中node的zorder有关。果然相同材质UI之间存在其他材质的UI，则合批会被打断。  
 node作为cocoscreator最基本的组件，功能太过强大，以至于失去了一些灵活性，与U3D的gameobject不同的是node参与渲染排序。默认情况下按场景中node从上到下顺序渲染。
