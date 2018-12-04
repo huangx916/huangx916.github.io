@@ -1,0 +1,103 @@
+---
+layout:     post
+title:      "CocosCreator Optimize"
+subtitle:   " \"开发笔记\""
+date:       2018-12-04 10:00:00
+author:     "A-SHIN"
+header-img: "img/post-bg-2015.jpg"
+catalog: true
+tags:
+    - 杂记
+---
+
+> “Yeah It's on. ”
+
+## 前言
+这里简单总结下最近使用cocoscreator进行Facebook小游戏开发过程中性能优化相关的经验。
+## 正文  
+drawcall是衡量游戏性能的一个重要指标，是CPU对底层图形绘制接口的调用命令GPU执行渲染操作，渲染流程采用流水线实现，CPU和GPU并行工作，它们之间通过命令缓冲区连接，CPU向其中发送渲染命令，GPU接收并执行对应的渲染命令。drawcall影响绘制的原因主要是因为每次绘制时，CPU都需要调用drawcall而每个drawcall都需要很多准备工作，检测渲染状态、提交渲染数据、提交渲染状态。而GPU本身具有很强大的计算能力，可以很快就处理完渲染任务。当drawcall过多，CPU就会有很多额外开销用于准备工作，CPU本身负载，而这时GPU可能闲置了。  
+
+我们可以通过使用相同的材质、贴图、shader来合并drawcall以减少CPU负担。  
+
+cocoscreator提供了自动合并图集功能的`auto atlas`，只需要在纹理所在文件夹创建一个`auto atlas`即可。  
+<img class="shadow" src="/img/in-post/cocos/1.png" width="600">  
+然后在属性框点击`Preview`便能看到自动产生的图集。  
+<img class="shadow" src="/img/in-post/cocos/2.png" width="600">  
+**注意如果纹理文件夹存在嵌套情况，外层文件夹的`auto atlas`会包含子文件夹中的纹理，因此要避免子文件夹创建`auto atlas`产生重复多余的资源**  
+
+虽然`auto atlas`用起来很方便，开发过程中增减贴图不需要手动去调整图集，但也有局限性：  
+1. 可控性弱，如果同个文件夹上贴图比较多，或者存在子文件夹，自动产生的图集组织方式可能并不是你所希望的。需要细划并分归类每个文件夹中的贴图。
+2. 产生的图集是未经过严格压缩的，通常情况下能使用第三方图片压缩软件减少四分之三左右的存储空间。虽然非原生平台发布，可以选择打完包后将图集进行压缩后拖进ZIP包，但每次打包发布都需重复上述操作。
+3. 只有打包后才会真正产生并使用自动图集，因此开发过程中用的还是散的贴图，无法真实的查看drawcall指标。  
+
+如果项目处于后期优化阶段，并且之前用的是散图，那么`auto atlas`能快速降低游戏drawcall。  
+如果项目尚处初期，还是建议使用传统的开发流程。  
+* Canvas分辨率设置：  
+提前和美术商定好分辨率，使用美术制作资源时的分辨率设置Canvas，保证一致性。
+* 资源规划：
+每个界面独有的图片放在一个文件夹中，使用TexturePacker等软件单独打成一个图集，界面间可共用资源(如背景、关闭按钮等图片)可放入common文件夹中打成一个图集。  
+* 图集压缩：  
+使用[TinyPng](https://tinypng.com/)等软件可以高效的压缩图集存储空间。  
+* 引擎裁切：
+没使用到的引擎功能可以不勾选，以减小发布包中`cocos2d-js-min.js`的大小。  
+<img class="shadow" src="/img/in-post/cocos/3.png" width="600">  
+* 初始场景设计：
+初始场景尽量设计的轻量化，减少进入游戏和场景切换时的等待时间。在游戏运行过程中按需动态加载prefab。  
+* 配置表格式选取：  
+序列化配置表可选用json等紧凑格式，方便策划使用EXCEL配置、修改和转换。  
+* 粒子特效：
+粒子特效比较好性能，减少使用，或者减小`Total Particles`参数。  
+
+渲染顺序会影响到drawcall的合并，opaque类型的物体，一般引擎都会进行排序，使相同材质的物体在同一批次渲染。然而transparent类型的物体，为了显示的正常，渲染顺序严格按照在场景中从后往前的顺序渲染，即跟cocoscreator中node的zorder有关。果然相同材质UI之间存在其他材质的UI，则合批会被打断。  
+node作为cocoscreator最基本的组件，功能太过强大，以至于失去了一些灵活性，与U3D的gameobject不同的是node参与渲染排序。默认情况下按场景中node从上到下顺序渲染。
+我们可以通过node的`setLocalZOrder`调整渲染顺序  
+```
+/**
+     LocalZOrder is the 'key' used to sort the node relative to its siblings.
+
+     The Node's parent will sort all its children based on the LocalZOrder value.
+     If two nodes have the same LocalZOrder, then the node that was added first to the children's array will be in front of the other node in the array.
+     
+     Also, the Scene Graph is traversed using the "In-Order" tree traversal algorithm ( http://en.wikipedia.org/wiki/Tree_traversal#In-order )
+     And Nodes that have LocalZOrder values < 0 are the "left" subtree
+     While Nodes with LocalZOrder >=0 are the "right" subtree.
+     
+     @see `setGlobalZOrder`
+     @see `setVertexZ`
+     *
+     * @param localZOrder The local Z order value.
+     */
+    virtual void setLocalZOrder(std::int32_t localZOrder);
+```
+LocalZOrder 是 “key” (关键)来分辨节点和它兄弟节点的相关性。
+父节点将会通过 LocalZOrder 的值来分辨所有的子节点。
+如果两个节点有同样的 LocalZOrder，那么先加入子节点数组的节点将会显示在后加入的节点的前面。
+同样的，场景图使用 “In-Order（按顺序）” 遍历数算法来遍历
+( http://en.wikipedia.org/wiki/Tree_traversal#In-order ) 并且拥有小于 0 的 LocalZOrder 的值的节点是 “ left ” 子树（左子树）
+所以拥有大于 0 的 LocalZOrder 的值得节点是 “ right ”子树（右子树）。  
+以上是cocos官方翻译，In-Order应该是指二叉树中序遍历，但在实际测试中并不是按**左节点->父节点->右节点**的顺序渲染，而是按**父节点->左节点->右节点**的顺序先序遍历的。  
+<img class="shadow" src="/img/in-post/cocos/4.png" width="600">  
+因此先渲染父节点，同一父节点下的子节点之间的渲染顺序遵循ZOrder从小往大的顺序渲染。至此我们尽量保证相同材质球的节点紧挨着渲染，避免穿插渲染造成drawcall无法合并。  
+正确做法：
+>>A
+B B B B C  
+
+错误做法：
+>>A
+B B C B B  
+
+在处理排行榜等多Item UI时，我们通常把Item做成Prefab，然后顺序添加形成如下结构：
+>>B B B B C C  
+
+>>B B B B C C
+
+>>B B B B C C
+
+以上共有两个材质B和C，因此我们希望只产生两个drawcall。由于cocoscreator中空的父节点也会参与排序，所以无法通过`setLocalZOrder`使不同父节点下的B合并成一个批次。曾尝试过使用`setGlobalZOrder`然并卵，`creator.d.ts`中也无该接口导出，可能creator中已经废弃。所以上述三个Item至少产生六个drawcall。随着屏幕可显示Item数量增加而增加。  
+
+cocoscreator v1.x版本还需注意的是Color或Opacity不同无法批处理，Sliced和非Sliced共用同一贴图无法批处理，Opacity为0的节点仍占用drawcall，使用系统字体的Label无法批处理等。其中某些已在后续版本中修复
+<img class="shadow" src="/img/in-post/cocos/5.png" width="600">  
+
+
+## 后记  
+暂时想到这些，使用cocos不多久，如有不对的地方望指正和补充
