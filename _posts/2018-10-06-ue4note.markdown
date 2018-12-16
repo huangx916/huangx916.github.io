@@ -38,7 +38,7 @@ Object->Actor+Component->Level->World->WorldContext->GameInstance->Engine
 `UWorld final : public UObject`                       PersisitentLevel	subLevels  
 `FWorldContext`  
 `UGameInstance : public UObject`                      FWorldContext	LocalPlayers  
-`UEngine : public UObject`                            TIndirectArray<FWorldContext>	WorldList;  
+`UEngine : public UObject`                            TIndirectArray< FWorldContext >	WorldList;  
 `UGameplayStatics : public UBlueprintFunctionLibrary`  
 
 面向对象派生下来的Pawn和Character，支持组合的Controller们。  
