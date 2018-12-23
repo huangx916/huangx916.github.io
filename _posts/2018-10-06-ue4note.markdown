@@ -40,9 +40,9 @@ Object->Actor+Component->Level->World->WorldContext->GameInstance->Engine
 `UGameInstance : public UObject`                      FWorldContext	LocalPlayers  
 `UEngine : public UObject`                            TIndirectArray< FWorldContext >	WorldList;  
 `UGameplayStatics : public UBlueprintFunctionLibrary`  
-<img class="shadow" src="/img/in-post/ue4note/2.png" width="600">  
-<img class="shadow" src="/img/in-post/ue4note/3.png" width="600">  
-<img class="shadow" src="/img/in-post/ue4note/4.png" width="600">  
+<img class="shadow" src="/img/in-post/ue4note/2.png" width="1000">  
+<img class="shadow" src="/img/in-post/ue4note/3.png" width="300">  
+<img class="shadow" src="/img/in-post/ue4note/4.png" width="200">  
 面向对象派生下来的Pawn和Character，支持组合的Controller们。  
 `APawn : public AActor`                               Controller	PhysicsCollision	MovementInput  
 `ADefaultPawn : public APawn`  
@@ -77,7 +77,7 @@ MVC:
 <img class="shadow" src="/img/in-post/ue4note/6.png" width="600">  
 
 GamePlay框架:  
-<img class="shadow" src="/img/in-post/ue4note/7.png" width="600">  
+<img class="shadow" src="/img/in-post/ue4note/7.png" width="1000">  
 
 BP  
 UHT（Unreal Header Tool，一个分析源码标记并生成代码的工具）  
@@ -100,7 +100,7 @@ UBT
 在程序启动的时候，UE利用了Static自动注册模式把所有类的信息都一一登记一遍。而紧接着另一个就是顺序问题了，这么多类，谁先谁后，互相若是有依赖该怎么解决。众所周知，UE是以Module来组织引擎结构的（关于Module的细节会在以后章节叙述），一个个Module可以通过脚本配置来选择性的编译加载。在游戏引擎众多的模块中，玩家自己的Game模块是处于比较高级的层次的，都是依赖于引擎其他更基础底层的模块，而这些模块中，最最底层的就是Core模块（C++的基础库），接着就是CoreUObject，正是实现Object类型系统的模块  
 UE4利用了C++的static对象初始化模式，在程序最初启动的时候，main之前，就收集到了所有的类型元数据、函数指针回调、名字、CRC等信息。  
 
-<img class="shadow" src="/img/in-post/ue4note/8.png" width="600">  
+<img class="shadow" src="/img/in-post/ue4note/8.png" width="1000">  
 
 ## 后记
 主要参考[InsideUE4](https://zhuanlan.zhihu.com/insideue4)，持续更新中...
