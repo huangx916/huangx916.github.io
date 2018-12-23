@@ -20,9 +20,9 @@ drawcall是衡量游戏性能的一个重要指标，是CPU对底层图形绘制
 我们可以通过使用相同的材质、贴图、shader来合并drawcall以减少CPU负担。  
 
 cocoscreator提供了自动合并图集功能的`auto atlas`，只需要在纹理所在文件夹创建一个`auto atlas`即可。  
-<img class="shadow" src="/img/in-post/cocos/1.png" width="600">  
+<img class="shadow" src="/img/in-post/cocos/1.png" width="300">  
 然后在属性框点击`Preview`便能看到自动产生的图集。  
-<img class="shadow" src="/img/in-post/cocos/2.png" width="600">  
+<img class="shadow" src="/img/in-post/cocos/2.png" width="200">  
 **注意如果纹理文件夹存在嵌套情况，外层文件夹的`auto atlas`会包含子文件夹中的纹理，因此要避免子文件夹创建`auto atlas`产生重复多余的资源**  
 
 虽然`auto atlas`用起来很方便，开发过程中增减贴图不需要手动去调整图集，但也有局限性：  
