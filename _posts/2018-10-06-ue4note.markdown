@@ -74,7 +74,7 @@ UGameInstance里的接口大概有4类：
 `USaveGame : public UObject`  
 
 MVC:  
-<img class="shadow" src="/img/in-post/ue4note/6.png" width="600">  
+<img class="shadow" src="/img/in-post/ue4note/6.png" width="1200">  
 
 GamePlay框架:  
 <img class="shadow" src="/img/in-post/ue4note/7.png" width="1000">  
