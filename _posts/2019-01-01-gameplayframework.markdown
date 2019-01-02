@@ -17,7 +17,7 @@ tags:
 ## 正文  
 
 ##### 项目工程目录细分
-游戏引擎一般都会提供一个开发过程中存放各种资源的文件夹(如creator、u3d的`assets`，ue4的`content`等)。我们首先需要了解特定文件夹的作用，如`resources`。然后在`assets`下细分各种资源建立相应的文件夹，并告知美术人员。好处就是清晰、一目了然，模块化的texture创建`AutoAtlas`后更能减少drawcall以及防止未使用功能的资源提前下载载入内存。各个游戏资源划分大同小异，参考如下：
+游戏引擎一般都会提供一个开发过程中存放各种资源的文件夹(如creator、u3d的`assets`，ue4的`content`等)。我们首先需要了解特定文件夹的作用，如`resources`。然后在`assets`下细分各种资源建立相应的文件夹，并告知美术人员。好处就是清晰、一目了然，模块化的texture创建`AutoAtlas`后更能减少drawcall以及防止未使用功能的资源提前下载载入内存。各个游戏资源划分大同小异：
 <img class="shadow" src="/img/in-post/gpfw/1.png" width="300">
 
 ##### 框架使用简介
@@ -41,7 +41,7 @@ tags:
 
 ###### `ListenerManager`
 监听管理类，观察者模式，解耦调用视图层。  
-UI中注册：```ListenerManager.getInstance().add(ListenerType.GameStart, this, this.onGameStart);```
+UI中注册：```ListenerManager.getInstance().add(ListenerType.GameStart, this, this.onGameStart);```  
 管理类中触发：```ListenerManager.getInstance().trigger(ListenerType.GameStart);```
 
 ###### `TimeManager`
@@ -49,12 +49,12 @@ UI中注册：```ListenerManager.getInstance().add(ListenerType.GameStart, this,
 
 ###### `UIManager`
 UI管理类，可通过类名打开、关闭、显示、隐藏、获取对应UI。 UI类需继承`BaseUI`  
-打开：```UIManager.getInstance().openUI(LoadingUI);```
-关闭：```UIManager.getInstance().closeUI(LoadingUI);```
+打开：```UIManager.getInstance().openUI(LoadingUI);```  
+关闭：```UIManager.getInstance().closeUI(LoadingUI);```  
 获取:```let tipUI = UIManager.getInstance().getUI(TipUI) as TipUI```
 
 ###### Shader
-感谢小伙伴的[分享](https://forum.cocos.com/t/creator-2-0-shader/64755)，就不重造轮子了。
+感谢小伙伴的[分享](https://forum.cocos.com/t/creator-2-0-shader/64755)，就不重造轮子了。  
 `ShaderComponent`挂到`Sprite`下，选择自定义的Shader  
 `ShaderLab`中添加自定义Shader  
 `ShaderManager`  
