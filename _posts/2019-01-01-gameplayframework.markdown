@@ -17,7 +17,7 @@ tags:
 ## 正文  
 
 ##### 项目工程目录细分
-游戏引擎一般都会提供一个开发过程中存放各种资源的文件夹(如creator、u3d的`assets`，ue4的`content`等)。我们首先需要了解特定文件夹的作用，如`resources`。然后在`assets`下细分各种资源建立相应的文件夹，并告知美术人员。好处就是清晰、一目了然，模块化的texture创建`AutoAtlas`后更能减少drawcall以及防止未使用功能的资源提前下载载入内存。各个游戏资源划分大同小异：
+游戏引擎一般都会提供一个开发过程中存放各种资源的文件夹(如creator、u3d的`assets`，ue4的`content`等)。我们首先需要了解特定文件夹的作用，如`resources`。然后在`assets`下细分各种资源建立相应的文件夹，并告知美术人员。好处就是清晰、一目了然，模块化的texture创建`AutoAtlas`后更能减少drawcall以及防止未使用功能的资源提前下载载入内存。各个游戏资源划分大同小异
 <img class="shadow" src="/img/in-post/gpfw/1.png" width="300">
 
 ##### 框架使用简介
