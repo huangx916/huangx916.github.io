@@ -103,5 +103,10 @@ UE4利用了C++的static对象初始化模式，在程序最初启动的时候�
 
 <img class="shadow" src="/img/in-post/ue4note/8.png" width="600">  
 
+* GENERATED_UCLASS_BODY()：属于之前版本的宏，自动生成带有指定参数的构造函数，不用用户再去生明构造函数，需要在CPP中实现，否则报错，之后成员是public。  
+* GENERATED_BODY()：属于新版本的宏，不生成构造函数，如果需要自定义，需要自己声明并定义，之后成员是private。  
+* 总结：使用后者，不要使用前者。
+
+
 ## 后记
 主要参考[InsideUE4](https://zhuanlan.zhihu.com/insideue4)，持续更新中...
