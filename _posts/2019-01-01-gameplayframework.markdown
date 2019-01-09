@@ -66,6 +66,43 @@ UI管理类，可通过类名打开、关闭、显示、隐藏、获取对应UI�
 `StringExtension`字符串格式化  
 `UIHelp`Tip提示
 
+###### gulpfile
+下载部署好nodejs、npm、gulp、gulp-tinypng-nokey、gulp-javascript-obfuscator  
+cd到游戏工程根目录运行gulp  
+
+* 自动化图集压缩：  
+将构建出的ZIP包解压，修改下面的`Dragon`为对应的工程名，cd到当前目录下运行gulp命令，自动压缩完再打成ZIP包便可发布  
+```
+var gulp = require('gulp');
+var tinypng_nokey = require('gulp-tinypng-nokey');
+
+gulp.task('default', function (cb) {
+    gulp.src(["./build/fb-instant-games/Dragon/res/raw-assets/**/*.{png,jpg,jpeg}"])
+        .pipe(tinypng_nokey())
+        .pipe(gulp.dest("./build/fb-instant-games/Dragon/res/raw-assets/"))
+        .on("end", cb);
+});
+```  
+
+* 代码混淆：  
+将构建出的ZIP包解压，修改下面的`Dragon`为对应的工程名，cd到当前目录下运行gulp命令，自动混淆完再打成ZIP包便可发布  
+```
+var gulp = require('gulp');
+var javascriptObfuscator = require("gulp-javascript-obfuscator");
+
+gulp.task("default", function (cb) {
+    gulp.src(["./build/fb-instant-games/Dragon/src/project.js"])
+        .pipe(javascriptObfuscator({
+            // compact: true,//类型：boolean默认：true
+            mangle: true,//短标识符的名称，如a，b，c
+            stringArray: true,
+            target: "browser",
+        }))
+        .pipe(gulp.dest("./build/fb-instant-games/Dragon/src/")
+            .on("end", cb));
+});
+```
+
 ###### Others
 自定义`*.d.ts`编码提示等
 
