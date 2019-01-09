@@ -72,6 +72,7 @@ cd到游戏工程根目录运行gulp
 
 * 自动化图集压缩：  
 将构建出的ZIP包解压，修改下面的`Dragon`为对应的工程名，cd到当前目录下运行gulp命令，自动压缩完再打成ZIP包便可发布  
+
 ```
 var gulp = require('gulp');
 var tinypng_nokey = require('gulp-tinypng-nokey');
@@ -86,6 +87,7 @@ gulp.task('default', function (cb) {
 
 * 代码混淆：  
 将构建出的ZIP包解压，修改下面的`Dragon`为对应的工程名，cd到当前目录下运行gulp命令，自动混淆完再打成ZIP包便可发布  
+
 ```
 var gulp = require('gulp');
 var javascriptObfuscator = require("gulp-javascript-obfuscator");
