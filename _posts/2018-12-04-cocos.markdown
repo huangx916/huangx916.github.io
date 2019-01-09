@@ -38,6 +38,7 @@ cocoscreator提供了自动合并图集功能的`auto atlas`，只需要在纹�
 每个界面独有的图片放在一个文件夹中，使用TexturePacker等软件单独打成一个图集，界面间可共用资源(如背景、关闭按钮等图片)可放入common文件夹中打成一个图集。  
 * 图集压缩：  
 使用[TinyPng](https://tinypng.com/)等软件可以高效的压缩图集存储空间。  
+使用`gulp-tinypng-nokey`自动化压缩图集。具体如何使用可参看[GameplayFrameWork for CococsCreator](https://huangx916.github.io/2019/01/01/gameplayframework/)相关章节。  
 * 引擎裁切：
 没使用到的引擎功能可以不勾选，以减小发布包中`cocos2d-js-min.js`的大小。  
 <img class="shadow" src="/img/in-post/cocos/3.png" width="600">  
