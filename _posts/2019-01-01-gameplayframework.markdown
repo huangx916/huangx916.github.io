@@ -66,7 +66,7 @@ UI管理类，可通过类名打开、关闭、显示、隐藏、获取对应UI�
 `StringExtension`字符串格式化  
 `UIHelp`Tip提示
 
-###### gulpfile
+###### `gulpfile`
 下载部署好nodejs、npm、gulp、gulp-tinypng-nokey、gulp-javascript-obfuscator  
 cd到游戏工程根目录运行gulp  
 
