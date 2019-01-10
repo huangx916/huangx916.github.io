@@ -104,6 +104,9 @@ B B C B B
 cocoscreator v1.x版本还需注意的是Color或Opacity不同无法批处理，Sliced和非Sliced共用同一贴图无法批处理，Opacity为0的节点仍占用drawcall，使用系统字体的Label无法批处理等。其中某些已在后续版本中修复
 <img class="shadow" src="/img/in-post/cocos/5.png" width="600">  
 
+###### 性能分析
+发布到web后，可以按`F12`弹出浏览器开发者工具选择如下图设置模拟设备首次进入游戏。查找某些耗时比较久的条目，可点击查看对应资源进行针对性优化。
+<img class="shadow" src="/img/in-post/cocos/6.png" width="1000">  
 
 ## 后记  
 暂时想到这些，使用cocos不多久，如有不对的地方望指正和补充
