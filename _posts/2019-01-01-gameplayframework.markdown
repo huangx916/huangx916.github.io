@@ -67,6 +67,15 @@ UI管理类，可通过类名打开、关闭、显示、隐藏、获取对应UI�
 `UIHelp`Tip提示  
 `LogWrap`Log封装  
 参考[此文章](https://blog.csdn.net/u013158916/article/details/53537922)增加log调用堆栈、时间、类别、颜色等。通过`OPENLOGFLAG`开关。
+```
+onLoad()
+{
+    LogWrap.log("test log");
+    LogWrap.info("test info");
+    LogWrap.warn("test warn");
+    LogWrap.err("test err");
+}
+```
 <img class="shadow" src="/img/in-post/gpfw/3.png" width="350">
 
 
