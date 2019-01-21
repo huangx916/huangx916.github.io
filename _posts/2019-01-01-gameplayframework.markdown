@@ -85,6 +85,7 @@ cd到游戏工程根目录运行gulp
 
 * 自动化图集压缩：  
 将构建出的ZIP包解压，修改下面的`Dragon`为对应的工程名，cd到当前目录下运行gulp命令，自动压缩完再打成ZIP包便可发布  
+<img class="shadow" src="/img/in-post/gpfw/4.png" width="276">
 
 ```
 var gulp = require('gulp');
