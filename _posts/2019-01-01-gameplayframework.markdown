@@ -123,7 +123,7 @@ gulp.task("default", function (cb) {
 
 ## 后记  
 使用ts和cocoscreator不多久，所以封装的比较简陋，后续慢慢完善吧。欢迎小伙伴补充扩展。  
-笔力有限、框架详细代码可前往[https://github.com/huangx916/GameplayFramework](https://github.com/huangx916/GameplayFramework)下载。
+笔力有限、框架详细代码可前往[此处，点击跳转](https://github.com/huangx916/GameplayFramework)下载。
 
 ## 参考文献  
 https://forum.cocos.com/t/creator-2-0-shader/64755  
