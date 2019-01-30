@@ -53,8 +53,7 @@ UI管理类，可通过类名打开、关闭、显示、隐藏、获取对应UI�
 关闭：```UIManager.getInstance().closeUI(LoadingUI);```  
 获取:```let tipUI = UIManager.getInstance().getUI(TipUI) as TipUI```
 
-###### Shader
-感谢小伙伴的[分享](https://forum.cocos.com/t/creator-2-0-shader/64755)，就不重造轮子了。  
+###### Shader  
 `ShaderComponent`挂到`Sprite`下，选择自定义的Shader  
 `ShaderLab`中添加自定义Shader  
 `ShaderManager`  
@@ -66,7 +65,7 @@ UI管理类，可通过类名打开、关闭、显示、隐藏、获取对应UI�
 `StringExtension`字符串格式化  
 `UIHelp`Tip提示  
 `LogWrap`Log封装  
-参考[此文章](https://blog.csdn.net/u013158916/article/details/53537922)增加log调用堆栈、时间、类别、颜色等。通过`OPENLOGFLAG`开关。
+增加log调用堆栈、时间、类别、颜色等。通过`OPENLOGFLAG`开关。
 ```
 onLoad()
 {
@@ -125,3 +124,7 @@ gulp.task("default", function (cb) {
 ## 后记  
 使用ts和cocoscreator不多久，所以封装的比较简陋，后续慢慢完善吧。欢迎小伙伴补充扩展。  
 笔力有限、框架详细代码可前往[https://github.com/huangx916/GameplayFramework](https://github.com/huangx916/GameplayFramework)下载。
+
+## 参考文献  
+https://forum.cocos.com/t/creator-2-0-shader/64755  
+https://blog.csdn.net/u013158916/article/details/53537922  
