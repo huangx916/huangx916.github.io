@@ -24,6 +24,8 @@ cocoscreator提供了自动合并图集功能的`auto atlas`，只需要在纹�
 然后在属性框点击`Preview`便能看到自动产生的图集。  
 <img class="shadow" src="/img/in-post/cocos/2.png" width="200">  
 **注意如果纹理文件夹存在嵌套情况，外层文件夹的`auto atlas`会包含子文件夹中的纹理，因此要避免子文件夹创建`auto atlas`产生重复多余的资源**  
+**如果`auto atlas`未包含任何图片，打包发布时会报`ReferenceError: pac is not defined`的错误。可通过点击`auto atlas`的`Preview`按钮查看哪个报的错**
+<img class="shadow" src="/img/in-post/cocos/7.png" width="1200">  
 
 虽然`auto atlas`用起来很方便，开发过程中增减贴图不需要手动去调整图集，但也有局限性：  
 1. 可控性弱，如果同个文件夹上贴图比较多，或者存在子文件夹，自动产生的图集组织方式可能并不是你所希望的。需要细划并分归类每个文件夹中的贴图。
