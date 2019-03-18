@@ -46,7 +46,7 @@ vec2 sampling_equirectangular_map(vec3 n)
 }
 ```
 然后通过设置FOV为90度的摄像机，分别朝着+X,-X,+Y,-Y,+Z,-Z去观察该球体，然后渲染CubeMap的6个面，从而得到一张HDR的CubeMap。
-
+<img class="shadow" src="/img/in-post/pbs-ibl-diff/3.png" width="600">  
 ##### 预计算漫反射CubeMap  
 $L_o=\int_\Omega f_dL_in⋅w_idw_i$  
 其中：$f_d = kD\frac{c}{\pi}$对于同一点为常量，因此可从积分中提取出来：  
@@ -71,14 +71,16 @@ for (float phi = 0.0; phi < 2.0 * PI; phi = phi + samplingStep) {
     for (float theta = 0.0; theta < 0.5 * PI; theta = theta + samplingStep) {
         vec3 d = calc_cartesian(phi, theta);  // Transform spherical coordinate to cartesian coordinate
         d = d.x * r + d.y * u + d.z * n;  // Transform tangent space coordinate to world space coordinate
-        l = l + filtering_cube_map(glb_CubeMap, normalize(d)) * cos(theta) * sin(theta);  // L * (ndotl) * sin(theta) d(theta)d(phi)
+        l = l + filtering_cube_map(CubeMap, normalize(d)) * cos(theta) * sin(theta);  // L * (ndotl) * sin(theta) d(theta)d(phi)
         sampler = sampler + 1;
         }
     }
     l = PI * l * (1.0 / sampler);
 }
 ```
+$p_i$点法线半球空间漫反射信息卷积到32*32的低频CubeMap中:
 <img class="shadow" src="/img/in-post/pbs-ibl-diff/2.png" width="600">  
+
 ### IBL Diffuse 着色  
 $L_o \approx \frac{kD⋅c⋅\pi}{N_1 N_2} \sum_0^{N_1} \sum_0^{N_2} L_i cos\theta sin\theta$  
 其中：  
@@ -93,7 +95,7 @@ vec3 calc_ibl(vec3 n, vec3 v, vec3 albedo, float roughness, float metalic) {
     vec3 T = vec3(1.0, 1.0, 1.0) - F;
     vec3 kD = T * (1.0 - metalic);
 
-    vec3 irradiance = filtering_cube_map(glb_IrradianceMap, n);
+    vec3 irradiance = filtering_cube_map(IrradianceMap, n);
 
     return kD * albedo * irradiance;
 }
