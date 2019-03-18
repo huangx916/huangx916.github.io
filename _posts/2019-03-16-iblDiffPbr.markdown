@@ -61,7 +61,7 @@ $L_o \approx f_d \frac{2\pi}{N_1} \frac{\pi}{2N_2}\sum_0^{N_1} \sum_0^{N_2} L_i 
 其中：  
 $f_d = kD \frac{c}{\pi}$  
 带入得：  
-$L_o \approx kD \frac{c}{\pi} \frac{2\pi}{N_1} \frac{\pi}{2N_2}\sum_0^{N_1} \sum_0^{N_2} L_i cos\theta sin\theta = \frac{kD*c*\pi}{N_1 N_2} \sum_0^{N_1} \sum_0^{N_2} L_i cos\theta sin\theta$  
+$L_o \approx kD \frac{c}{\pi} \frac{2\pi}{N_1} \frac{\pi}{2N_2}\sum_0^{N_1} \sum_0^{N_2} L_i cos\theta sin\theta = \frac{kD⋅c⋅\pi}{N_1 N_2} \sum_0^{N_1} \sum_0^{N_2} L_i cos\theta sin\theta$  
 
 ```
 float samplingStep = 0.025;
@@ -80,7 +80,7 @@ for (float phi = 0.0; phi < 2.0 * PI; phi = phi + samplingStep) {
 ```
 <img class="shadow" src="/img/in-post/pbs-ibl-diff/2.png" width="600">  
 ### IBL Diffuse 着色  
-$L_o \approx \frac{kD*c*\pi}{N_1 N_2} \sum_0^{N_1} \sum_0^{N_2} L_i cos\theta sin\theta$  
+$L_o \approx \frac{kD⋅c⋅\pi}{N_1 N_2} \sum_0^{N_1} \sum_0^{N_2} L_i cos\theta sin\theta$  
 其中：  
 $\frac{\pi}{N_1 N_2} \sum_0^{N_1} \sum_0^{N_2} L_i cos\theta sin\theta$  
 已经通过预计算保存在了Cube Map里面，所以我们只要根据法线n获取Cube Map里面对应的值，然后乘上剩下的kD∗c就可以了
