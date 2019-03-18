@@ -32,7 +32,7 @@ $=\int_\Omega L_i(l)f(l, v)cos\theta dw_i$
 $L_0 \approx \frac{1}{N}\sum_{k=1}^{N}\frac{L_i(l_k) f(l_k, v) cos\theta_k}{p(l_k, v)}$  
 Epic Games将上述公式划分成了两个不同求和部分，这两个不同的求和部分能够分别通过预先计算来得到结果。  
 $L_0 \approx \frac{1}{N}\sum_{k=1}^{N}\frac{L_i(l_k) f(l_k, v) cos\theta_k}{p(l_k, v)} \approx (\frac{1}{\sum_{k=1}^{N}cos\theta_k}\sum_{k=1}^{N}L_i(l_k) cos\theta_k)(\frac{1}{N}\sum_{k=1}^{N}\frac{f(l_k, v)cos\theta_k}{p(l_k, v)})$  
-我们分别将上面两个求和部分命名为LD项和DFG项。其中，LD项是对入射光进行求和的部分，需要输入描述周围环境光照的环境贴图（主要是CubeMap）；DFG项和光照信息无关，所以只要预计算一次，就能够重复利用了。  
+我们分别将上面两个求和部分命名为LD项和DFG项。其中，LD项是对入射光进行求和的部分，需要输入描述周围环境光照的环境贴图；DFG项和光照信息无关，所以只要预计算一次，就能够重复利用了。  
 
 ##### EquirectangularMap转化成CubeMap  
 参见[上篇](https://huangx916.github.io/2019/03/16/iblDiffPbr/)对应章节，这里使用同样的方式生成。  
