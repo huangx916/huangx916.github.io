@@ -53,7 +53,7 @@ $L_o=\int_\Omega f_dL_in⋅w_idw_i$
 $L_o=f_d\int_\Omega L_in⋅w_idw_i$  
 
 然后转化为球面坐标系:  
-$L_o=f_d\int_\phi\int_\theta L_icos\theta sin\theta d\theta d\phi$  
+$L_o(p,\phi_o, \theta_o) = f_d \int_{\phi = 0}^{2\pi} \int_{\theta = 0}^{\frac{1}{2}\pi} L_i(p,\phi_i, \theta_i) \cos(\theta) \sin(\theta)  d\phi d\theta$  
 其中：$n⋅w_i=cos\theta$，$dw_i=sin\theta d\theta d\phi$  
 
 然后利用[黎曼和](https://en.wikipedia.org/wiki/Riemann_sum)将积分简化为求和公式:  
