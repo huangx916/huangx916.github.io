@@ -14,7 +14,7 @@ tags:
 > “Yeah It's on. ”
 
 ## 前言
-最近在往引擎中添加基于物理的着色，接上篇[直接光照PBS](https://huangx916.github.io/2018/09/01/directpbr/)，这次实现了基于图像的光照，此篇介绍diffuse部分的实现。  
+最近在往[引擎](https://github.com/huangx916/HXEngine)中添加基于物理的着色，接上篇[直接光照PBS](https://huangx916.github.io/2018/09/01/directpbr/)，这次实现了基于图像的光照，此篇介绍diffuse部分的实现。  
 
 IBL DIFFUSE PBS效果如下：  
 <img class="shadow" src="/img/in-post/pbs-ibl-diff/1.png" width="600">  
@@ -31,7 +31,7 @@ $\int_\Omega \ldots {\rm d}w_i$：这里点pi法线方向上的半球中所有�
 
 我们可以[sIBL archive](http://www.hdrlabs.com/sibl/archive.html)下载到丰富的HDRI环境贴图。这个网站里面的HDR贴图并不是CubeMap的形式，而是EquirectangularMap的形式进行保存的，所以首先我们需要将此EquirectangularMap渲染到CubeMap中。
 
-##### CubeMap生成  
+##### EquirectangularMap转化成CubeMap  
 .hdr文件可使用github上开源的[stb_image](https://github.com/nothings/stb/blob/master/stb_image.h)库来读取并绑定到GL_TEXTURE_2D上。使用法线转化成UV坐标采样该纹理来绘制球体
 ```
 vec2 sampling_equirectangular_map(vec3 n) 

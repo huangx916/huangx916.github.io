@@ -14,7 +14,7 @@ tags:
 > “Yeah It's on. ”
 
 ## 前言
-最近在往引擎中添加基于物理的着色，实现了直接光照部分，后续调整引擎框架实现通用的render texture组件后利用IBL和预计算实现间接光照及性能优化。  
+最近在往[引擎](https://github.com/huangx916/HXEngine)中添加基于物理的着色，实现了直接光照部分，后续调整引擎框架实现通用的render texture组件后利用IBL和预计算实现间接光照及性能优化。  
 
 直接光照PBS效果如下：  
 <img class="shadow" src="/img/in-post/directpbr/1.png" width="600">  
