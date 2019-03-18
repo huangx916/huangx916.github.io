@@ -17,8 +17,8 @@ tags:
 最近在往[引擎](https://github.com/huangx916/HXEngine)中添加基于物理的着色，接上篇[PBS IBL Diffuse](https://huangx916.github.io/2019/03/16/iblDiffPbr/)，这次实现了基于图像的光照，此篇介绍specular部分的实现。  
 
 IBL SPECULAR PBS效果如下：  
-<img class="shadow" src="/img/in-post/pbs-ibl-spec/1.png" width="600">  
-<img class="shadow" src="/img/in-post/pbs-ibl-spec/2.png" width="600">  
+<img class="shadow" src="/img/in-post/pbs-ibl-spec/11.png" width="600">  
+<img class="shadow" src="/img/in-post/pbs-ibl-spec/22.png" width="600">  
 
 ## 正文  
 ##### 渲染方程
