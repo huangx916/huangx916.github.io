@@ -14,7 +14,7 @@ tags:
 > “Yeah It's on. ”
 
 ## 前言
-最近在往[引擎](https://github.com/huangx916/HXEngine)中添加基于物理的着色，接上篇[PBS IBL Diffuse](https://huangx916.github.io/2019/03/16/iblDiffPbr/)，这次实现了基于图像的光照，此篇介绍specular部分的实现。  
+接上篇[PBS IBL Diffuse](https://huangx916.github.io/2019/03/16/iblDiffPbr/)，这次实现了基于图像的光照specular部分。  
 
 IBL SPECULAR PBS效果如下：  
 <img class="shadow" src="/img/in-post/pbs-ibl-spec/11.png" width="600">  
@@ -27,7 +27,7 @@ $L_o = \int_\Omega (f_d + f_s) L_i (n \cdot w_i){\rm d}w_i$
 
 本篇处理Specular部分：  
 $L_o=\int_\Omega f_sL_in⋅w_idw_i$  
-$L_o=\int_\Omega L_i(l)f(l, v)cos\theta dw_i$  
+$=\int_\Omega L_i(l)f(l, v)cos\theta dw_i$  
 通过Importace Sampling，使用Monte Carlo积分来求解上面的积分方程：  
 $L_0 \approx \frac{1}{N}\sum_{k=1}^{N}\frac{L_i(l_k) f(l_k, v) cos\theta_k}{p(l_k, v)}$  
 Epic Games将上述公式划分成了两个不同求和部分，这两个不同的求和部分能够分别通过预先计算来得到结果。  
@@ -79,12 +79,12 @@ $p(l_k,v) = \frac{D(n⋅h)}{4(v⋅h)}$
 $cos\theta_k = n⋅l$  
 代入得：  
 $
-DFG=\frac{1}{N}\sum_{k=1}^{N}\frac{f(l_k, v)cos\theta_k}{p(l_k, v)}
-=\frac{1}{N}\sum_{k=1}^{N}\frac{DFG}{4(n⋅l)(n⋅v)}⋅\frac{4(v⋅h)}{D(n⋅h)}⋅(n⋅l)
-=\frac{1}{N}\sum_{k=1}^{N}\frac{FG}{(n⋅v)}⋅\frac{(v⋅h)}{(n⋅h)}
-=\frac{1}{N}\sum_{k=1}^{N}\frac{(F0+(1-F0)(1-v⋅h)^5)G}{(n⋅v)}⋅\frac{(v⋅h)}{(n⋅h)}
-=\frac{1}{N}\sum_{k=1}^{N}\frac{(F0⋅[1-(1-v⋅h)^5]+(1-v⋅h)^5)G}{(n⋅v)}⋅\frac{(v⋅h)}{(n⋅h)}
-=F0⋅[\frac{1}{N}\sum_{k=1}^{N}\frac{([1-(1-v⋅h)^5])G}{(n⋅v)}⋅\frac{(v⋅h)}{(n⋅h)}]+[\frac{1}{N}\sum_{k=1}^{N}\frac{(1-v⋅h)^5G}{(n⋅v)}⋅\frac{(v⋅h)}{(n⋅h)}]
+DFG=\frac{1}{N}\sum_{k=1}^{N}\frac{f(l_k, v)cos\theta_k}{p(l_k, v)}$  
+$=\frac{1}{N}\sum_{k=1}^{N}\frac{DFG}{4(n⋅l)(n⋅v)}⋅\frac{4(v⋅h)}{D(n⋅h)}⋅(n⋅l)$  
+$=\frac{1}{N}\sum_{k=1}^{N}\frac{FG}{(n⋅v)}⋅\frac{(v⋅h)}{(n⋅h)}$  
+$=\frac{1}{N}\sum_{k=1}^{N}\frac{(F0+(1-F0)(1-v⋅h)^5)G}{(n⋅v)}⋅\frac{(v⋅h)}{(n⋅h)}$  
+$=\frac{1}{N}\sum_{k=1}^{N}\frac{(F0⋅[1-(1-v⋅h)^5]+(1-v⋅h)^5)G}{(n⋅v)}⋅\frac{(v⋅h)}{(n⋅h)}$  
+$=F0⋅[\frac{1}{N}\sum_{k=1}^{N}\frac{([1-(1-v⋅h)^5])G}{(n⋅v)}⋅\frac{(v⋅h)}{(n⋅h)}]+[\frac{1}{N}\sum_{k=1}^{N}\frac{(1-v⋅h)^5G}{(n⋅v)}⋅\frac{(v⋅h)}{(n⋅h)}]
 $  
 令： 
  $scale = \frac{1}{N}\sum_{k=1}^{N}\frac{([1-(1-v⋅h)^5])G}{(n⋅v)}⋅\frac{(v⋅h)}{(n⋅h)}$  
@@ -92,11 +92,11 @@ $
  因此：  
  $DFG = F0*scale + bias$  
 
- 通过上面的推导可总结出： 
-输入：roughness和ndotv 
-输出：scale和bais 
+ 通过上面的推导可总结出：  
+输入：roughness和ndotv  
+输出：scale和bais  
 我们使用一张2D贴图来进行保存，其中u坐标表示ndotv，v坐标表示roughness。每一个像素的r表示scale，g表示bias  
-<img class="shadow" src="/img/in-post/pbs-ibl-spec/5.png" width="600">  
+<img class="shadow" src="/img/in-post/pbs-ibl-spec/5.png" width="400">  
 ```
 vec3 convolution_cube_map(vec2 uv) {
     vec3 n = vec3(0.0, 0.0, 1.0);
