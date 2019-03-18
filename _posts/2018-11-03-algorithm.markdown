@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "常用算法使用环境"
+title:      "Algorithm Training"
 subtitle:   " \"算法训练\""
 date:       2018-11-03 12:00:00
 author:     "A-SHIN"
