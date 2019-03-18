@@ -105,5 +105,5 @@ vec3 calc_ibl(vec3 n, vec3 v, vec3 albedo, float roughness, float metalic) {
 这里涉及到积分运算，《普林斯顿微积分读本》是本不错的这方面的书
 
 ## 参考文献  
-[https://learnopengl.com/PBR/IBL/Diffuse-irradiance](https://learnopengl.com/PBR/IBL/Diffuse-irradiance)
+[https://learnopengl.com/PBR/IBL/Diffuse-irradiance](https://learnopengl.com/PBR/IBL/Diffuse-irradiance)  
 [https://en.wikipedia.org/wiki/Riemann_sum](https://en.wikipedia.org/wiki/Riemann_sum)
