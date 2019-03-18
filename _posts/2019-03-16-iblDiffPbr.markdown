@@ -29,10 +29,10 @@ $L_o=\int_\Omega f_dL_in⋅w_idw_i$
 
 $\int_\Omega \ldots {\rm d}w_i$：这里点pi法线方向上的半球中所有入射光线我们从环境贴图中进行卷积计算获取。  
 
-我们可以[在此链接](http://www.hdrlabs.com/sibl/archive.html)下载到丰富的HDRI环境贴图。这个网站里面的HDR贴图并不是CubeMap的形式，而是EquirectangularMap的形式进行保存的，所以首先我们需要将此EquirectangularMap渲染到CubeMap中。
+我们可以[sIBL archive](http://www.hdrlabs.com/sibl/archive.html)下载到丰富的HDRI环境贴图。这个网站里面的HDR贴图并不是CubeMap的形式，而是EquirectangularMap的形式进行保存的，所以首先我们需要将此EquirectangularMap渲染到CubeMap中。
 
 ##### CubeMap生成  
-.hdr文件可使用github上开源的stb_image库来读取并绑定到GL_TEXTURE_2D上。使用法线转化成UV坐标采样该纹理来绘制球体
+.hdr文件可使用github上开源的[stb_image](https://github.com/nothings/stb/blob/master/stb_image.h)库来读取并绑定到GL_TEXTURE_2D上。使用法线转化成UV坐标采样该纹理来绘制球体
 ```
 vec2 sampling_equirectangular_map(vec3 n) 
 {
@@ -56,7 +56,7 @@ $L_o=f_d\int_\Omega L_in⋅w_idw_i$
 $L_o=f_d\int_\phi\int_\theta L_icos\theta sin\theta d\theta d\phi$  
 其中：$n⋅w_i=cos\theta$，$dw_i=sin\theta d\theta d\phi$  
 
-然后利用黎曼和将积分简化为求和公式:  
+然后利用[黎曼和](https://en.wikipedia.org/wiki/Riemann_sum)将积分简化为求和公式:  
 $L_o \approx f_d \frac{2\pi}{N_1} \frac{\pi}{2N_2}\sum_0^{N_1} \sum_0^{N_2} L_i cos\theta sin\theta$  
 其中：  
 $f_d = kD \frac{c}{\pi}$  
@@ -106,3 +106,4 @@ vec3 calc_ibl(vec3 n, vec3 v, vec3 albedo, float roughness, float metalic) {
 
 ## 参考文献  
 [https://learnopengl.com/PBR/IBL/Diffuse-irradiance](https://learnopengl.com/PBR/IBL/Diffuse-irradiance)
+[https://en.wikipedia.org/wiki/Riemann_sum](https://en.wikipedia.org/wiki/Riemann_sum)
