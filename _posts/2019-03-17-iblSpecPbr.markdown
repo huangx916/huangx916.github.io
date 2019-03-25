@@ -34,6 +34,18 @@ Epic Games将上述公式划分成了两个不同求和部分，这两个不同�
 $L_0 \approx \frac{1}{N}\sum_{k=1}^{N}\frac{L_i(l_k) f(l_k, v) cos\theta_k}{p(l_k, v)} \approx (\frac{1}{\sum_{k=1}^{N}cos\theta_k}\sum_{k=1}^{N}L_i(l_k) cos\theta_k)(\frac{1}{N}\sum_{k=1}^{N}\frac{f(l_k, v)cos\theta_k}{p(l_k, v)})$  
 我们分别将上面两个求和部分命名为LD项和DFG项。其中，LD项是对入射光进行求和的部分，需要输入描述周围环境光照的环境贴图；DFG项和光照信息无关，所以只要预计算一次，就能够重复利用了。  
 
+##### 预计算过程  
+主要任务就是将均匀分布转化为重要性分布采样点后求光照信息  
+1. 利用hammersley算法将采样变量i采样数sampler生成作用域[0，1]的2维均匀分布点  
+2. 通过PDF求出CDF，用上一步均匀分布点对CDF(累积密度函数)求逆后使用GGX进行采样，得到球面坐标的重要性采样点  
+3. 利用球面坐标得到半角向量并由切线空间转化到世界空间  
+4. 利用半角向量和视向量得到光照向量  
+5. 使用基于重要性的光照向量对环境CubeMap进行采样  
+6. 采样结果累积最后除以采样数得到该点法线方向半球空间的光照数据保存到卷积CubeMap中  
+
+Hammersley低偏差序列：  
+<img class="shadow" src="/img/in-post/pbs-ibl-spec/7.png" width="350">  
+
 ##### EquirectangularMap转化成CubeMap  
 参见[上篇](https://huangx916.github.io/2019/03/16/iblDiffPbr/)对应章节，这里使用同样的方式生成。  
 
