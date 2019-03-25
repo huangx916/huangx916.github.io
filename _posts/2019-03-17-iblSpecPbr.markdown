@@ -45,6 +45,29 @@ $L_0 \approx \frac{1}{N}\sum_{k=1}^{N}\frac{L_i(l_k) f(l_k, v) cos\theta_k}{p(l_
 
 Hammersley低偏差序列：  
 <img class="shadow" src="/img/in-post/pbs-ibl-spec/7.png" width="350">  
+```
+uint sampler = 256u;
+vec3 specular = vec3(0.0, 0.0, 0.0);
+
+for (uint i = 0u; i < sampler; i++) {
+    vec2 xi = hammersley(i, sampler);
+    vec3 h = importance_sampling_ggx(xi, roughness, n);
+    vec3 l = 2.0 * dot(v, h) * h - v;
+
+    float ndotv = max(0.0, dot(n, v));
+    float ndoth = max(0.0, dot(n, h));
+    float vdoth = max(0.0, dot(v, h));
+    float ndotl = max(0.0, dot(n, l));
+
+    if (ndotl > 0.0) {
+        vec3 light = filtering_cube_map(CubeMap, l).xyz;
+        float G = calc_Geometry_Smith_IBL(n, v, l, roughness);
+        vec3 F = calc_fresnel(h, v, F0);
+        specular = specular + light * F * G * vdoth / (ndoth * ndotv);
+    }
+}
+specular = specular / sampler;
+```
 
 ##### EquirectangularMap转化成CubeMap  
 参见[上篇](https://huangx916.github.io/2019/03/16/iblDiffPbr/)对应章节，这里使用同样的方式生成。  
