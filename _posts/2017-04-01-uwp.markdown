@@ -1,0 +1,24 @@
+---
+layout:     post
+title:      "Generate Appx For Universal Windows Platform (UWP) With U3D 4.X"
+subtitle:   " \"开发笔记\""
+date:       2017-04-01 12:00:00
+author:     "A-SHIN"
+header-img: "img/post-bg-2015.jpg"
+mathjax: true
+catalog: true
+tags:
+    - 技术
+---
+
+> “Yeah It's on. ”
+
+## 前言
+前段时间公司跟微软合作，打算将游戏发布到通用Windows平台(UWP)上。
+## 正文  
+由于我们的游戏使用U3D 4.X开发的，不支持win10发布，因此决定使用`Desktop Bridge`来生成UWP上的appx。  
+另外集成动态磁贴(Live Tiles)需要调用.net frame 4.6以上版本。而U3D 4.X使用的是.net frame 2.0。 我们通过C++编写调用.net frame 4.6相应接口封装成DLL供U3D C#端调用解决。  
+具体实现细节：[Smooth Windows 10 migration for desktop RPG Tale of Wuxia from BianFeng](https://microsoft.github.io/techcasestudies/desktop%20bridge/2017/03/27/Bianfeng.html?from=timeline&isappinstalled=0)
+## 后记  
+
+ 
