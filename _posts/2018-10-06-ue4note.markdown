@@ -109,5 +109,17 @@ UE4利用了C++的static对象初始化模式，在程序最初启动的时候�
 * 总结：使用后者，不要使用前者。
 
 
+object运行时通过反射获得类型系统对象  
+
+生成、收集、注册(第一个UCLASS: UObject::StaticClass())  
+
+生成：GENERATED_BODY |	Hello_Source_Hello_MyClass_h_11_GENERATED_BODY |    Hello_Source_Hello_MyClass_h_11_ENHANCED_CONSTRUCTORS |	static TClassCompiledInDefer<UMyClass> AutoInitializeUMyClass(TEXT("UMyClass"), sizeof(UMyClass), 899540749);  
+					 |                                                 |    Hello_Source_Hello_MyClass_h_11_INCLASS	              |	static FCompiledInDefer Z_CompiledInDefer_UClass_UMyClass(Z_Construct_UClass_UMyClass, &UMyClass::StaticClass, TEXT("UMyClass"), false, nullptr, nullptr, nullptr);  
+
+收集：static时收集到各容器中  
+
+注册：static时生成第一个UCLASS: UObject::StaticClass()、Main函数中CoreUObject模块加载时UClassRegisterAllCompiledInClasses: TClass::StaticClass()、InitUObject(在UObjectBaseInit初始化结束后，就已经可以开始NewObject了，标志着整个UObject系统的成功创建)、ProcessNewlyLoadedUObjects  
+
+
 ## 后记
 主要参考[InsideUE4](https://zhuanlan.zhihu.com/insideue4)，持续更新中...
