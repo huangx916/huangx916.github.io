@@ -15,6 +15,9 @@ tags:
 ## 前言
 前段时间有幸得到某厂专业引擎开发大佬view[引擎](https://github.com/huangx916/HXEngine)框架，指点迷津。相比商业引擎有很多不够成熟的地方。因此接下来的一段时间着重阅读unreal engine源码。
 ## 正文  
+
+### GamePlay框架  
+
 实体组件模式推崇“组合优于继承”的概念  
 程序=数据+算法  
 
@@ -80,20 +83,22 @@ GamePlay框架:
 <img class="shadow" src="/img/in-post/ue4note/7.png" width="1000">  
 <img class="shadow" src="/img/in-post/ue4note/ue4.png" width="1000">  
 
+### 类型系统  
+
 BP  
 UHT（Unreal Header Tool，一个分析源码标记并生成代码的工具）  
 UBT  
 
-类型系统：                                          生成，收集，注册，链接  
+类型系统：                                             生成，收集，注册，链接  
 `UMetaData : public UObject`  
 `UInterface : public UObject`  
-`UField : public UObject`                             UMetaData  
+`UField : public UObject`                             可包含UMetaData  
 `UProperty : public UField`  
 `UEnum : public UField`  
-`UStruct : public UField`                             UProperty  
+`UStruct : public UField`                             可包含UProperty  
 `UFunction : public UStruct`  
-`UClass : public UStruct`                             UFunction  
-`UScriptStruct : public UStruct`                      UFunction  
+`UClass : public UStruct`                             可包含UFunction  
+`UScriptStruct : public UStruct`                      可包含UFunction  
 
 
 
@@ -111,12 +116,23 @@ UE4利用了C++的static对象初始化模式，在程序最初启动的时候�
 
 object运行时通过反射获得类型系统对象  
 
-生成、收集、注册(第一个UCLASS: UObject::StaticClass())  
+生成、收集(第一个UCLASS: UObject::StaticClass()) 、注册(TClass::StaticClass())  
 
 ###### 生成：  
 * Class:  
-GENERATED_BODY |	Hello_Source_Hello_MyClass_h_11_GENERATED_BODY |    Hello_Source_Hello_MyClass_h_11_ENHANCED_CONSTRUCTORS |	static TClassCompiledInDefer<UMyClass> AutoInitializeUMyClass(TEXT("UMyClass"), sizeof(UMyClass), 899540749);  
-					 |                                                 |    Hello_Source_Hello_MyClass_h_11_INCLASS	              |	static FCompiledInDefer Z_CompiledInDefer_UClass_UMyClass(Z_Construct_UClass_UMyClass, &UMyClass::StaticClass, TEXT("UMyClass"), false, nullptr, nullptr, nullptr);  
+GENERATED_BODY：Hello_Source_Hello_MyClass_h_11_GENERATED_BODY | Hello_Source_Hello_MyClass_h_11_ENHANCED_CONSTRUCTORS | static TClassCompiledInDefer<UMyClass> AutoInitializeUMyClass(TEXT("UMyClass"), sizeof(UMyClass), 899540749);  
+-| -| Hello_Source_Hello_MyClass_h_11_INCLASS | static FCompiledInDefer Z_CompiledInDefer_UClass_UMyClass(Z_Construct_UClass_UMyClass, &UMyClass::StaticClass, TEXT("UMyClass"), false, nullptr, nullptr, nullptr);  
+
+* Struct:  
+GENERATED_USTRUCT_BODY: Hello_Source_Hello_MyStruct_h_8_GENERATED_BODY | static class UScriptStruct* StaticStruct(); | static FCompiledInDeferStruct Z_CompiledInDeferStruct_UScriptStruct_FMyStruct(FMyStruct::StaticStruct, TEXT("/Script/Hello"), TEXT("MyStruct"), false, nullptr, nullptr);  
+-| -| ``` static struct FScriptStruct_Hello_StaticRegisterNativesFMyStruct
+{
+	FScriptStruct_Hello_StaticRegisterNativesFMyStruct()
+	{
+		UScriptStruct::DeferCppStructOps(FName(TEXT("MyStruct")),new UScriptStruct::TCppStructOps<FMyStruct>);
+	}
+} ScriptStruct_Hello_StaticRegisterNativesFMyStruct; ```
+
 
 ###### 收集：  
 static时收集到各容器中  
@@ -135,6 +151,8 @@ static时收集到各容器中
 * static时生成第一个UCLASS: UObject::StaticClass()  
 
 * Main函数中CoreUObject模块加载时UClassRegisterAllCompiledInClasses(消费GetDeferredClassRegistration): TClass::StaticClass(),把CoreUObject里面定义的类的UClass都给先构建出来。但是其实这些UClass对象内部的值还没有完成初始化设置  
+描述对象类型的只有UClass，UScriptStruct和UEnum是两个保存结构和枚举元数据信息的对象，而构造对象就需要先有其UClass。  
+<img class="shadow" src="/img/in-post/ue4note/9.png" width="720">
 
 * InitUObject(在UObjectBaseInit初始化结束后，就已经可以开始NewObject了，标志着整个UObject系统的成功创建)建立各UClass*对象之间互相的联系(OuterPrivate，ClassPrivate，SuperStruct，NamePrivate)  
 
@@ -142,4 +160,4 @@ static时收集到各容器中
 
 
 ## 后记
-主要参考[InsideUE4](https://zhuanlan.zhihu.com/insideue4)，持续更新中...
+文中图片主要参考[InsideUE4](https://zhuanlan.zhihu.com/insideue4)，持续更新中...
