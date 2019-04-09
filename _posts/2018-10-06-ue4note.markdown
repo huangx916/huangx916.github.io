@@ -109,9 +109,7 @@ UE4利用了C++的static对象初始化模式，在程序最初启动的时候�
 
 <img class="shadow" src="/img/in-post/ue4note/8.png" width="600">  
 
-* GENERATED_UCLASS_BODY()：属于之前版本的宏，自动生成带有指定参数的构造函数，不用用户再去生明构造函数，需要在CPP中实现，否则报错，之后成员是public。  
-* GENERATED_BODY()：属于新版本的宏，不生成构造函数，如果需要自定义，需要自己声明并定义，之后成员是private。  
-* 总结：使用后者，不要使用前者。
+
 
 
 object运行时通过反射获得类型系统对象  
@@ -120,10 +118,12 @@ object运行时通过反射获得类型系统对象
 
 ###### 生成：  
 * Class:  
+
 | GENERATED_BODY | Hello_Source_Hello_MyClass_h_11_GENERATED_BODY | Hello_Source_Hello_MyClass_h_11_ENHANCED_CONSTRUCTORS | static TClassCompiledInDefer<UMyClass> AutoInitializeUMyClass(TEXT("UMyClass"), sizeof(UMyClass), 899540749); |
 | - | - | Hello_Source_Hello_MyClass_h_11_INCLASS | static FCompiledInDefer Z_CompiledInDefer_UClass_UMyClass(Z_Construct_UClass_UMyClass, &UMyClass::StaticClass, TEXT("UMyClass"), false, nullptr, nullptr, nullptr); |  
 
 * Struct:  
+
 | GENERATED_USTRUCT_BODY | Hello_Source_Hello_MyStruct_h_8_GENERATED_BODY | static class UScriptStruct* StaticStruct(); | static FCompiledInDeferStruct Z_CompiledInDeferStruct_UScriptStruct_FMyStruct(FMyStruct::StaticStruct, TEXT("/Script/Hello"), TEXT("MyStruct"), false, nullptr, nullptr); |
 | - | - | - | ``` static struct FScriptStruct_Hello_StaticRegisterNativesFMyStruct
 {
@@ -133,10 +133,11 @@ object运行时通过反射获得类型系统对象
 	}
 } ScriptStruct_Hello_StaticRegisterNativesFMyStruct; ``` |  
 
+
 | 一个普通标题 | 一个普通标题 | 一个普通标题 |
-| ------ | ------ | ------ |
 | 短文本 | 中等文本 | 稍微长一点的文本 |
 | 稍微长一点的文本 | 短文本 | 中等文本 |
+
 
 ###### 收集：  
 static时收集到各容器中  
@@ -170,6 +171,9 @@ static时收集到各容器中
 
 
 ## 后记
+* GENERATED_UCLASS_BODY()：属于之前版本的宏，自动生成带有指定参数的构造函数，不用用户再去生明构造函数，需要在CPP中实现，否则报错，之后成员是public。  
+* GENERATED_BODY()：属于新版本的宏，不生成构造函数，如果需要自定义，需要自己声明并定义，之后成员是private。  
+* 总结：使用后者，不要使用前者。  
 
 ## 参考文献  
 文章及图片主要参考[InsideUE4](https://zhuanlan.zhihu.com/insideue4)，持续更新中...
