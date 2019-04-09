@@ -129,8 +129,7 @@ UClass、UEnum、UStruct、UInterface、UProperty、UFunction的代码生成
 | GENERATED_USTRUCT_BODY | Hello_Source_Hello_MyStruct_h_8_GENERATED_BODY | static class UScriptStruct* StaticStruct(); | static FCompiledInDeferStruct Z_CompiledInDeferStruct_UScriptStruct_FMyStruct(FMyStruct::StaticStruct, TEXT("/Script/Hello"), TEXT("MyStruct"), false, nullptr, nullptr); |
 | - | - | - | static FScriptStruct_Hello_StaticRegisterNativesFMyStruct ScriptStruct_Hello_StaticRegisterNativesFMyStruct; |  
 
-* Enum：  
-
+* Enum  
 | static class UEnum* EMyEnum_StaticEnum() | static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EMyEnum(EMyEnum_StaticEnum, TEXT("/Script/Hello"), TEXT("EMyEnum"), false, nullptr, nullptr); |  
 
 * Interface：  
