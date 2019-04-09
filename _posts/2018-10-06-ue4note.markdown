@@ -120,12 +120,12 @@ object运行时通过反射获得类型系统对象
 
 ###### 生成：  
 * Class:  
-| GENERATED_BODY | Hello_Source_Hello_MyClass_h_11_GENERATED_BODY | Hello_Source_Hello_MyClass_h_11_ENHANCED_CONSTRUCTORS | static TClassCompiledInDefer<UMyClass> AutoInitializeUMyClass(TEXT("UMyClass"), sizeof(UMyClass), 899540749); |  
-|-|-| Hello_Source_Hello_MyClass_h_11_INCLASS | static FCompiledInDefer Z_CompiledInDefer_UClass_UMyClass(Z_Construct_UClass_UMyClass, &UMyClass::StaticClass, TEXT("UMyClass"), false, nullptr, nullptr, nullptr); |  
+| GENERATED_BODY | Hello_Source_Hello_MyClass_h_11_GENERATED_BODY | Hello_Source_Hello_MyClass_h_11_ENHANCED_CONSTRUCTORS | static TClassCompiledInDefer<UMyClass> AutoInitializeUMyClass(TEXT("UMyClass"), sizeof(UMyClass), 899540749); |
+| - | - | Hello_Source_Hello_MyClass_h_11_INCLASS | static FCompiledInDefer Z_CompiledInDefer_UClass_UMyClass(Z_Construct_UClass_UMyClass, &UMyClass::StaticClass, TEXT("UMyClass"), false, nullptr, nullptr, nullptr); |  
 
 * Struct:  
-| GENERATED_USTRUCT_BODY | Hello_Source_Hello_MyStruct_h_8_GENERATED_BODY | static class UScriptStruct* StaticStruct(); | static FCompiledInDeferStruct Z_CompiledInDeferStruct_UScriptStruct_FMyStruct(FMyStruct::StaticStruct, TEXT("/Script/Hello"), TEXT("MyStruct"), false, nullptr, nullptr); |  
-|-|-|-| ``` static struct FScriptStruct_Hello_StaticRegisterNativesFMyStruct
+| GENERATED_USTRUCT_BODY | Hello_Source_Hello_MyStruct_h_8_GENERATED_BODY | static class UScriptStruct* StaticStruct(); | static FCompiledInDeferStruct Z_CompiledInDeferStruct_UScriptStruct_FMyStruct(FMyStruct::StaticStruct, TEXT("/Script/Hello"), TEXT("MyStruct"), false, nullptr, nullptr); |
+| - | - | - | ``` static struct FScriptStruct_Hello_StaticRegisterNativesFMyStruct
 {
 	FScriptStruct_Hello_StaticRegisterNativesFMyStruct()
 	{
