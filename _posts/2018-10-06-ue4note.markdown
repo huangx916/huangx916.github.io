@@ -138,6 +138,7 @@ UClass、UEnum、UStruct、UInterface、UProperty、UFunction的代码生成
 * Interface：  
 
 | GENERATED_UINTERFACE_BODY | Hello_Source_Hello_MyInterface_h_8_GENERATED_BODY | GENERATED_UINTERFACE_BODY_COMMON | DECLARE_CLASS(UMyInterface, UInterface, COMPILED_IN_FLAGS(CLASS_Abstract \| CLASS_Interface), 0, TEXT("/Script/Hello"), NO_API) | static void StaticRegisterNativesUMyInterface(); |
+| - | - | - | IMPLEMENT_CLASS(UMyInterface, 4286549343); | - | - |
 | - | - | Hello_Source_Hello_MyInterface_h_8_ENHANCED_CONSTRUCTORS | NO_API UMyInterface(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()) : Super(ObjectInitializer) { }; | - | - |
 | - | - | - | DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UMyInterface) | - | - |
 | GENERATED_IINTERFACE_BODY | Hello_Source_Hello_MyInterface_h_13_GENERATED_BODY | Hello_Source_Hello_MyInterface_h_8_INCLASS_IINTERFACE_NO_PURE_DECLS | - | - | - |
