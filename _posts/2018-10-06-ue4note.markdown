@@ -113,12 +113,31 @@ object运行时通过反射获得类型系统对象
 
 生成、收集、注册(第一个UCLASS: UObject::StaticClass())  
 
-生成：GENERATED_BODY |	Hello_Source_Hello_MyClass_h_11_GENERATED_BODY |    Hello_Source_Hello_MyClass_h_11_ENHANCED_CONSTRUCTORS |	static TClassCompiledInDefer<UMyClass> AutoInitializeUMyClass(TEXT("UMyClass"), sizeof(UMyClass), 899540749);  
+###### 生成：  
+* Class: GENERATED_BODY |	Hello_Source_Hello_MyClass_h_11_GENERATED_BODY |    Hello_Source_Hello_MyClass_h_11_ENHANCED_CONSTRUCTORS |	static TClassCompiledInDefer<UMyClass> AutoInitializeUMyClass(TEXT("UMyClass"), sizeof(UMyClass), 899540749);  
 					 |                                                 |    Hello_Source_Hello_MyClass_h_11_INCLASS	              |	static FCompiledInDefer Z_CompiledInDefer_UClass_UMyClass(Z_Construct_UClass_UMyClass, &UMyClass::StaticClass, TEXT("UMyClass"), false, nullptr, nullptr, nullptr);  
 
-收集：static时收集到各容器中  
+###### 收集：  
+static时收集到各容器中  
 
-注册：static时生成第一个UCLASS: UObject::StaticClass()、Main函数中CoreUObject模块加载时UClassRegisterAllCompiledInClasses: TClass::StaticClass()、InitUObject(在UObjectBaseInit初始化结束后，就已经可以开始NewObject了，标志着整个UObject系统的成功创建)、ProcessNewlyLoadedUObjects  
+* Class: TArray<FFieldCompiledInInfo*> GetDeferredClassRegistration()、TArray<class UClass *(*)()> GetDeferredCompiledInRegistration()  
+
+* Enum: TArray<FPendingEnumRegistrant> GetDeferredCompiledInEnumRegistration()  
+
+* Struct: TArray<FPendingStructRegistrant> GetDeferredCompiledInStructRegistration()、TMap<FName,UScriptStruct::ICppStructOps*> GetDeferredCppStructOps()  
+
+* Function: void(UObject::*GCasts[255])(FFrame &Stack, RESULT_DECL)、UClass::AddNativeFunction、Native GNatives[256]  
+
+* UObject: 提前注册：IMPLEMENT_VM_FUNCTION(EX_CallMath, execCallMathFunction) -> UObject::StaticClass()  
+
+###### 注册：  
+* static时生成第一个UCLASS: UObject::StaticClass()  
+
+* Main函数中CoreUObject模块加载时UClassRegisterAllCompiledInClasses(消费GetDeferredClassRegistration): TClass::StaticClass(),把CoreUObject里面定义的类的UClass都给先构建出来。但是其实这些UClass对象内部的值还没有完成初始化设置  
+
+* InitUObject(在UObjectBaseInit初始化结束后，就已经可以开始NewObject了，标志着整个UObject系统的成功创建)建立各UClass*对象之间互相的联系(OuterPrivate，ClassPrivate，SuperStruct，NamePrivate)  
+
+* 多次调用ProcessNewlyLoadedUObjects  
 
 
 ## 后记
