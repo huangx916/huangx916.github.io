@@ -159,11 +159,11 @@ static时收集到各容器中
 ###### 注册：  
 * static时生成第一个UCLASS: UObject::StaticClass()  
 
-* Main函数中CoreUObject模块加载时UClassRegisterAllCompiledInClasses(消费GetDeferredClassRegistration): TClass::StaticClass(),把CoreUObject里面定义的类的UClass都给先构建出来。但是其实这些UClass对象内部的值还没有完成初始化设置  
+* Main函数中CoreUObject模块加载时调用UClassRegisterAllCompiledInClasses(消费GetDeferredClassRegistration): TClass::StaticClass(),把CoreUObject里面定义的类的UClass都给先构建出来。但是其实这些UClass对象内部的值还没有完成初始化设置  
 描述对象类型的只有UClass，UScriptStruct和UEnum是两个保存结构和枚举元数据信息的对象，而构造对象就需要先有其UClass。  
 <img class="shadow" src="/img/in-post/ue4note/9.png" width="720">
 
-* InitUObject(在UObjectBaseInit初始化结束后，就已经可以开始NewObject了，标志着整个UObject系统的成功创建)建立各UClass*对象之间互相的联系(OuterPrivate，ClassPrivate，SuperStruct，NamePrivate)  
+* InitUObject调用UObjectProcessRegistrants->UObjectForceRegistration->UObjectBase::DeferredRegister(在UObjectBaseInit初始化结束后，就已经可以开始NewObject了，标志着整个UObject系统的成功创建)建立各UClass*对象之间互相的联系(OuterPrivate，ClassPrivate，SuperStruct，NamePrivate)  
 1. NamePrivate：定义了对象的名字  
 2. OuterPrivate：定义了对象的从属关系  
 3. ClassPrivate：定义了对象的类型关系  
@@ -171,7 +171,16 @@ static时收集到各容器中
 <img class="shadow" src="/img/in-post/ue4note/10.png" width="618">
 <img class="shadow" src="/img/in-post/ue4note/11.png" width="720">
 
-* 多次调用ProcessNewlyLoadedUObjects  
+* 多次调用ProcessNewlyLoadedUObjects,调用UClassRegisterAllCompiledInClasses(消费GetDeferredClassRegistration)进行TClass::StaticClass()生成UClass*,调用GetDeferredCompiledInRegistration、GetDeferredCompiledInStructRegistration、GetDeferredCompiledInEnumRegistration(消费收集阶段信息)提取收集到的注册项信息，调用UObjectProcessRegistrants注册UClass*,调用UObjectLoadAllCompiledInStructs->Z_Construct开头的函数为代码里的枚举和结构构造类型对象,调用UObjectLoadAllCompiledInDefaultProperties->Z_Construct_UClass_UMyClass为代码里的类继续构造UClass对象,调用UClass::AssembleReferenceTokenStreams构造引用记号流，为后续GC用  
+1. UClassRegisterAllCompiledInClasses里面主要是为每一个编译进来的class调用TClass::StaticClass()来构造出UClass*对象。
+2. GetDeferredCompiledInRegistration()是之前信息收集的时候static FCompiledInDefer变量初始化时收集到的全局数组，和定义的class一对一。
+3. GetDeferredCompiledInStructRegistration()是之前信息收集的时候static FCompiledInDeferStruct变量初始化时收集到的全局数组，和定义的struct一对一。
+4. GetDeferredCompiledInEnumRegistration()是之前信息收集的时候static FCompiledInDeferEnum变量初始化时收集到的全局数组，和定义的enum一对一。
+5. UObjectProcessRegistrants()为之前生成的UClass*注册，生成其Package。这里调用的目的是在后续的操作之前确保内存里已经把相关的类型UClass*对象都已经注册完毕。
+6. UObjectLoadAllCompiledInStructs()里为enum和struct分别生成UEnum和UScriptStruct对象。
+7. UObjectLoadAllCompiledInDefaultProperties()里为UClass*们继续构造和创建类默认对象(CDO)。
+8. 最后一步判断如果有新UClass*对象生成了，并且现在不在初始化载入阶段（GIsInitialLoad初始=true，只有在后续开启GC后才=false表示初始化载入过程结束了），用AssembleReferenceTokenStreams为UClass创建引用记号流（一种辅助GC分析对象引用的数据结构）。  
+<img class="shadow" src="/img/in-post/ue4note/12.png" width="1685">
 
 
 ## 后记
