@@ -114,7 +114,7 @@ UE4利用了C++的static对象初始化模式，在程序最初启动的时候�
 
 object运行时通过反射获得类型系统对象  
 
-生成、收集(第一个UCLASS: UObject::StaticClass()) 、注册(TClass::StaticClass())  
+生成、收集(第一个UCLASS: UObject::StaticClass()) 、注册(TClass::StaticClass())、绑定(bind把函数指针绑定到正确的地址)、链接(link)、CDO创建、引用记号流构建  
 
 ###### 生成：  
 UClass、UEnum、UStruct、UInterface、UProperty、UFunction的代码生成  
