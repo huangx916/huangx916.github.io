@@ -116,6 +116,7 @@ gulp.task('default', function (cb) {
 * 代码混淆：  
 将构建出的ZIP包解压，修改下面的`Dragon`为对应的工程名，cd到当前目录下运行gulp命令，自动混淆完再打成ZIP包便可发布  
 
+方法一：  
 ```
 var gulp = require('gulp');
 var javascriptObfuscator = require("gulp-javascript-obfuscator");
@@ -127,6 +128,21 @@ gulp.task("default", function (cb) {
             mangle: true,//短标识符的名称，如a，b，c
             stringArray: true,
             target: "browser",
+        }))
+        .pipe(gulp.dest("./build/fb-instant-games/Dragon/src/")
+            .on("end", cb));
+});
+```
+
+方法二(支持eval函数)：  
+```
+var gulp = require('gulp');
+var javascriptObfuscator = require("gulp-javascriptobfuscator");
+
+gulp.task("default", function (cb) {
+    gulp.src(["./build/fb-instant-games/Dragon/src/project.js"])
+        .pipe(javascriptObfuscator({
+            exclusions: ["^NumberUtil"]
         }))
         .pipe(gulp.dest("./build/fb-instant-games/Dragon/src/")
             .on("end", cb));
