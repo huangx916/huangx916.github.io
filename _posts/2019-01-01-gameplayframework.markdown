@@ -20,12 +20,27 @@ tags:
 游戏引擎一般都会提供一个开发过程中存放各种资源的文件夹(如creator、u3d的`assets`，ue4的`content`等)。我们首先需要了解特定文件夹的作用，如`resources`。然后在`assets`下细分各种资源建立相应的文件夹，并告知美术人员。好处就是清晰、一目了然，模块化的texture创建`AutoAtlas`后更能减少drawcall以及防止未使用功能的资源提前下载载入内存。各个游戏资源划分大同小异
 <img class="shadow" src="/img/in-post/gpfw/1.png" width="300">
 
+##### 屏幕适配  
+1. 开发之初需要跟美工约定好制图分辨率，美工在该分辨率下设计，程序在工程中设置`Canvas`相应分辨率：
+<img class="shadow" src="/img/in-post/gpfw/6.png" width="298">
+如此便可直接使用美工给的图片原始大小(`Sprite`的`SizeMode`选择`RAW`即可)  
+2. 不希望出现黑边的，背景图片尽量用单色，然后挂载`Widget`全屏填充适配，单色防止图片拉伸时变形  
+3. 将屏幕划分为九宫格，使用`Widget`作锚点适配(中间那块可以不做适配)  
+4. 在游戏入口点根据硬件设备分辨率长宽比动态选择`Canvas`的`Fit Height`or`Fit Width`,避免控件显示不全(如IphoneX下，屏幕中间部分未挂载`Widget`的控件两边被裁剪掉了)，代码如下：  
+```
+let frameSize = cc.view.getFrameSize();
+let bFitWidth = (frameSize.width / frameSize.height) < (750 / 1334)
+cc.Canvas.instance.fitWidth = bFitWidth;
+cc.Canvas.instance.fitHeight = !bFitWidth;
+```
+
+
 ##### 框架使用简介
 
 ##### `GameMain`
 游戏入口，挂`Canvas`下。  
 
-所有管理类使用单例模式，使用`getInstance()`获取实例。
+所有管理类使用单例模式，使用`getInstance()`获取实例，包含屏幕分辨率自适应代码。
 
 ###### `AudioManager`
 音效及背景音乐管理类，负责游戏音乐音效开关，状态可在`GameData`中序列化保存。
