@@ -26,7 +26,7 @@ tags:
 如此便可直接使用美工给的图片原始大小(`Sprite`的`SizeMode`选择`RAW`即可)  
 2. 不希望出现黑边的，背景图片尽量用单色，然后挂载`Widget`全屏填充适配，单色防止图片拉伸时变形  
 3. 将屏幕划分为九宫格，使用`Widget`作锚点适配(中间那块可以不做适配)  
-4. 在游戏入口点根据硬件设备分辨率长宽比动态选择`Canvas`的`Fit Height`or`Fit Width`,避免控件显示不全(如IphoneX下，屏幕中间部分未挂载`Widget`的控件两边被裁剪掉了)，代码如下：  
+4. 在游戏入口点根据硬件设备分辨率长宽比动态选择`Canvas`的`Fit Height`or`Fit Width`,避免控件显示不全(如IphoneX下，屏幕中间部分未挂载`Widget`的控件两边可能被裁剪掉)，代码如下：  
 ```
 let frameSize = cc.view.getFrameSize();
 let bFitWidth = (frameSize.width / frameSize.height) < (750 / 1334)
