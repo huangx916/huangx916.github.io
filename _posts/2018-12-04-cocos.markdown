@@ -106,6 +106,12 @@ B B C B B
 cocoscreator v1.x版本还需注意的是Color或Opacity不同无法批处理，Sliced和非Sliced共用同一贴图无法批处理，Opacity为0的节点仍占用drawcall，使用系统字体的Label无法批处理等。其中某些已在后续版本中修复
 <img class="shadow" src="/img/in-post/cocos/5.png" width="600">  
 
+对于游戏中频繁创建销毁的物体使用`NodePool`进行管理[http://docs.cocos.com/creator/api/zh/classes/NodePool.html](http://docs.cocos.com/creator/api/zh/classes/NodePool.html)  
+
+对于元素个数比较多的scrollview可参考引擎自带的scrollview例子，滑动过程中动态设置元素，实现元素资源重复使用。  
+
+cocoscreator系统字特别耗性能，使用内存占有小的TTF或者字体图集代替。  
+
 ###### 性能分析
 发布到web后，可以按`F12`弹出浏览器开发者工具选择如下图设置模拟设备首次进入游戏。查找某些耗时比较久的条目，可点击查看对应资源进行针对性优化。
 <img class="shadow" src="/img/in-post/cocos/6.png" width="1000">  
