@@ -112,9 +112,16 @@ cocoscreator v1.x版本还需注意的是Color或Opacity不同无法批处理，
 
 cocoscreator系统字特别耗性能，使用内存占有小的TTF或者字体图集代替。  
 
+原生平台下避免频繁的本地存储。
+
 ###### 性能分析
-发布到web后，可以按`F12`弹出浏览器开发者工具选择如下图设置模拟设备首次进入游戏。查找某些耗时比较久的条目，可点击查看对应资源进行针对性优化。
+* 发布到web后，可以按`F12`弹出浏览器开发者工具选择如下图设置模拟设备首次进入游戏。查找某些耗时比较久的条目，可点击查看对应资源进行针对性优化。
 <img class="shadow" src="/img/in-post/cocos/6.png" width="1000">  
+* 真机调试参考[官方文档](https://docs.cocos.com/creator/manual/zh/publish/debug-jsb.html)，使用DEBUG模式打包,保持电脑和移动设备在同一局域网下，在Chrome浏览器输入相应地址，在浏览器开发者工具`More tools`中选择`JavaScript Profiler`  
+<img class="shadow" src="/img/in-post/cocos/8.png" width="1200">  
+点击`Start`、`Stop`按钮后进行该阶段真机性能分析和断点调试。  
+<img class="shadow" src="/img/in-post/cocos/9.png" width="1200">  
+<img class="shadow" src="/img/in-post/cocos/10.png" width="1200">  
 
 ## 后记  
 暂时想到这些，使用cocos不多久，如有不对的地方望指正和补充
