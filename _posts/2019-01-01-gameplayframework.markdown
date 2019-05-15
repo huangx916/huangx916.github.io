@@ -150,11 +150,25 @@ gulp.task("default", function (cb) {
 ```
 
 ###### Others
-自定义`*.d.ts`编码提示等
+自定义`*.d.ts`编码提示等  
+
+事件穿透传递(触摸吞噬)：  
+```
+private _isSwallow: boolean = false;
+
+onLoad()
+{
+    this.overlayNode.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
+    if (this.overlayNode._touchListener) {
+        this.overlayNode._touchListener.setSwallowTouches(this._isSwallow);
+    }
+}
+```
 
 ## 后记  
 使用ts和cocoscreator不多久，所以封装的比较简陋，后续慢慢完善吧。欢迎小伙伴补充扩展。  
-笔力有限、框架详细代码可前往[此处，点击跳转](https://github.com/huangx916/GameplayFramework)下载。
+笔力有限、框架详细代码可前往[此处，点击跳转](https://github.com/huangx916/GameplayFramework)下载。  
+性能优化相关见[上篇](https://huangx916.github.io/2018/12/04/cocos/)。
 
 ## 参考文献  
 https://forum.cocos.com/t/creator-2-0-shader/64755  
