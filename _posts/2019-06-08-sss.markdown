@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "预积分的皮肤着色(Pre-Integrated Skin Shading)"
+title:      "Pre-Integrated Skin Shading"
 subtitle:   " \"游戏引擎\""
 date:       2019-06-08 20:00:00
 author:     "A-SHIN"
@@ -21,7 +21,7 @@ SSS渲染前后对比图:
 
 ## 正文  
 #### 次表面散射  
-实际渲染中，如果光线出射点的位置和入射点相距不足一个像素，我们就认为入射点和出射点位置相同，这时候当前像素的光照只受其自身影响；如果入射点和出射点相距超过一个像素，则表示某个像素的光照结果不仅仅受当前像素影响，同时还受附近其他像素的光照影响，这就是我们常说的次表面散射效果了。  
+实际渲染中，如果光线出射点的位置和入射点相距不足一个像素，我们就认为入射点和出射点位置相同，这时候当前像素的光照只受其自身影响；如果入射点和出射点相距超过一个像素，则表示某个像素的光照结果不仅仅受当前像素影响，同时还受附近其他像素的光照影响，这就是我们常说的次表面散射效果。  
 皮肤与通用材质的本质区别就是如下图所示，通用材质入射光和出射光都在一个像素内，而皮肤这类材质则需要在内部进行折射和散射，也就是当前要处理的像素点还要受到附近像素点的影响。  
 <img class="shadow" src="/img/in-post/sss/1.png" width="720">
 #### 皮肤渲染原理  
@@ -29,7 +29,7 @@ SSS渲染前后对比图:
 <img class="shadow" src="/img/in-post/sss/2.png" width="300">
 ##### 镜面反射（specular reflection）
 镜面反射项相对而言很简单，Gems 3中推荐Kelemen and Szirmay-Kalos specular BRDF用于皮肤镜面反射项的计算。因为Kelemen and Szirmay-Kalos specular BRDF在实现和Torrance-Sparrow模型一样的渲染效果时，计算量要小得多。传统的Blin-Phong也会得到不错的效果。  
-Kelemen and Szirmay-Kalos specular利用LUT图改变数值区间  
+Kelemen and Szirmay-Kalos specular利用LUT图改变数值区间:  
 <img class="shadow" src="/img/in-post/sss/3.png" width="256">  
 ```
 float PH = pow(2.0 * texture(KelemenLUT,vec2(NoH, _smooth)).r, 10.0 );
@@ -37,24 +37,24 @@ float F = 0.028;//fresnelReflectance( H, viewDir, 0.028 );
 vec3 specular = vec3(max( PH * F / dot( _h, _h ), 0 ) * _SpecularScale);
 ```  
 ##### 次表面散射（Subsurface Scattering）
-这里选择使用预积分技术。预积分的皮肤着色（Pre-Integrated Skin Shading），其实是一个从结果反推实现的方案，具体思路是把次表面散射的效果预计算成一张二维查找表，查找表的参数分别是dot(N,L)和曲率，因为这两者结合就能够反映出光照随着曲率的变化。
+关于次表面散射计算有很多方案，这里介绍最简单的预积分技术。预积分的皮肤着色（Pre-Integrated Skin Shading），其实是一个从结果反推实现的方案，具体思路是把次表面散射的效果预计算成一张二维查找表，查找表的参数分别是dot(N,L)和曲率，因为这两者结合就能够反映出光照随着曲率的变化。
 <img class="shadow" src="/img/in-post/sss/4.png" width="720">  
 横坐标是：NoL = dot(worldNormal,lightDir)  
-纵坐标是模型曲率，这个值是法线微分和坐标微分长度的商  
+纵坐标是模型曲率，这个值是法线微分和坐标微分长度的商:  
 <img class="shadow" src="/img/in-post/sss/5.png" width="227">  
-实际用的时候需要根据模型大小再乘个系数归一化到0-1之间  
+实际用的时候需要根据模型大小再乘个系数归一化到0-1之间:  
 ```
 float cuv = saturate(_CurveFactor * (length(fwidth(worldNormal)) / length(fwidth(worldPos))));
 ```
-利用得到的坐标到LUT取值，然后用这个值代替NoL作为最后的光照值系数。  
+利用得到的坐标到LUT取值，然后用这个值代替NoL作为最后的光照值系数:  
 ```
 vec3 diffuse = texture(SSSLUT,vec2(NoL*0.5+0.5,cuv)).rgb;
 ```
-最后将镜面反射和次表面散射结合输出最终颜色  
+最后将镜面反射和次表面散射结合输出最终颜色:  
 ```
 vec3 finalColor = (ambient + (diffuse + specular)) * albedo;
 ```
 
 ## 后记
-注意，LUT图的wrap mode必须设置成clamp，否则会出现深色污迹。
+注意，LUT图的wrap mode必须设置成clamp，否则会出现深色污迹。  
 完整shader文件链接:[https://github.com/huangx916/HXEngine/blob/master/HXEngine/Debug/builtin/SkinSSS.frag](https://github.com/huangx916/HXEngine/blob/master/HXEngine/Debug/builtin/SkinSSS.frag)
