@@ -16,8 +16,8 @@ tags:
 ## 前言
 游戏中对于真实感皮肤渲染主要采用次表面散射(Subsurface Scattering)模型，就是我们熟称的SSS材质。
 SSS渲染前后对比图:  
-<img class="shadow" src="/img/in-post/sss/11.png" width="1000">
 <img class="shadow" src="/img/in-post/sss/22.png" width="1000">
+<img class="shadow" src="/img/in-post/sss/11.png" width="1000">
 
 ## 正文  
 #### 次表面散射  
