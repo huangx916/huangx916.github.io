@@ -57,4 +57,5 @@ vec3 finalColor = (ambient + (diffuse + specular)) * albedo;
 
 ## 后记
 注意，LUT图的wrap mode必须设置成clamp，否则会出现深色污迹。  
-完整shader文件链接:[https://github.com/huangx916/HXEngine/blob/master/HXEngine/Debug/builtin/SkinSSS.frag](https://github.com/huangx916/HXEngine/blob/master/HXEngine/Debug/builtin/SkinSSS.frag)
+完整shader文件链接:  
+[https://github.com/huangx916/HXEngine/blob/master/HXEngine/Debug/builtin/SkinSSS.frag](https://github.com/huangx916/HXEngine/blob/master/HXEngine/Debug/builtin/SkinSSS.frag)
