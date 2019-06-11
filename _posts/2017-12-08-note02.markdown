@@ -4,7 +4,7 @@ title:      "游戏开发笔记(二)"
 subtitle:   " \"开发笔记\""
 date:       2017-12-08 21:00:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/009.jpg"
 catalog: true
 tags:
     - 杂记

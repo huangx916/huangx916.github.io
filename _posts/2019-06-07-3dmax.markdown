@@ -4,7 +4,7 @@ title:      "3DMAX Note"
 subtitle:   " \"实用工具\""
 date:       2019-06-07 12:00:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/031.jpg"
 mathjax: true
 catalog: true
 tags:

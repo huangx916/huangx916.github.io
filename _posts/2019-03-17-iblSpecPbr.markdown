@@ -4,7 +4,7 @@ title:      "PBS IBL Sepcular"
 subtitle:   " \"游戏引擎\""
 date:       2019-03-17 12:00:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/030.jpg"
 mathjax: true
 catalog: true
 tags:

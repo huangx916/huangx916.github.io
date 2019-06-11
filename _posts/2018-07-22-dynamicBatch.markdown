@@ -4,7 +4,7 @@ title:      "游戏引擎场景管理及动态批处理"
 subtitle:   " \"游戏引擎\""
 date:       2018-07-22 10:00:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/021.jpg"
 catalog: true
 tags:
     - 技术

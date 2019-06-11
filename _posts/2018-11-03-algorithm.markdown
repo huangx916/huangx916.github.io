@@ -4,7 +4,7 @@ title:      "Algorithm Training"
 subtitle:   " \"算法训练\""
 date:       2018-11-03 12:00:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/026.jpg"
 catalog: true
 tags:
     - 算法

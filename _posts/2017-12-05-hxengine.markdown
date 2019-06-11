@@ -4,7 +4,7 @@ title:      "HXEngine"
 subtitle:   " \"随便写写\""
 date:       2017-12-05 21:00:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/006.jpg"
 catalog: true
 tags:
     - 闲聊

@@ -4,7 +4,7 @@ title:      "U3D热更新方案"
 subtitle:   " \"开发笔记\""
 date:       2018-04-12 22:22:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/015.jpg"
 catalog: true
 tags:
     - 技术

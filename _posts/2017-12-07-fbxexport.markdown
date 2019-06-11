@@ -4,7 +4,7 @@ title:      "fbx导出轴变换及骨骼动画加载Tricks"
 subtitle:   " \"踩坑记录\""
 date:       2017-12-07 21:00:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/007.jpg"
 catalog: true
 tags:
     - 技术

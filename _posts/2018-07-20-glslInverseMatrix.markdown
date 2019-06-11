@@ -4,7 +4,7 @@ title:      "GLSL 逆矩阵计算Tricks"
 subtitle:   " \"游戏引擎\""
 date:       2018-07-20 21:38:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/019.jpg"
 catalog: true
 tags:
     - 技术

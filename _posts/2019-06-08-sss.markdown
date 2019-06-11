@@ -4,7 +4,7 @@ title:      "Pre-Integrated Skin Shading"
 subtitle:   " \"游戏引擎\""
 date:       2019-06-08 20:00:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/032.jpg"
 mathjax: true
 catalog: true
 tags:

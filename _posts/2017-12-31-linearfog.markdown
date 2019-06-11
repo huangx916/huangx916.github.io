@@ -4,7 +4,7 @@ title:      "可编程管线线性雾"
 subtitle:   " \"游戏引擎\""
 date:       2017-12-31 21:00:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/012.jpg"
 catalog: true
 tags:
     - 技术

@@ -4,7 +4,7 @@ title:      "GameplayFrameWork for CococsCreator"
 subtitle:   " \"开发笔记\""
 date:       2019-01-01 10:00:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/028.jpg"
 catalog: true
 tags:
     - 杂记

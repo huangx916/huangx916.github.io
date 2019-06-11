@@ -4,7 +4,7 @@ title:      "NGUI源码阅读笔记"
 subtitle:   " \"开发笔记\""
 date:       2018-03-10 22:22:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/014.jpg"
 catalog: true
 tags:
     - 笔记

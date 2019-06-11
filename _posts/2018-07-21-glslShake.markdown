@@ -4,7 +4,7 @@ title:      "GLSL 切线空间光照计算 抖动BUG解决"
 subtitle:   " \"游戏引擎\""
 date:       2018-07-21 16:38:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/020.jpg"
 catalog: true
 tags:
     - 技术

@@ -4,7 +4,7 @@ title:      "线性变化、仿射变换、正交矩阵概念及矩阵求逆"
 subtitle:   " \"游戏引擎\""
 date:       2018-07-19 21:38:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/018.jpg"
 catalog: true
 tags:
     - 技术

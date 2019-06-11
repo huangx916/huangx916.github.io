@@ -4,7 +4,7 @@ title:      "windows平台下编译libpng库"
 subtitle:   " \"踩坑记录\""
 date:       2017-11-30 16:09:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/004.jpg"
 catalog: true
 tags:
     - 技术

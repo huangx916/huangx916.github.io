@@ -4,7 +4,7 @@ title:      "QT自定义外观"
 subtitle:   " \"游戏引擎\""
 date:       2018-08-03 12:00:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/023.jpg"
 catalog: true
 tags:
     - 技术

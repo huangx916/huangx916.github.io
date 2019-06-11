@@ -4,7 +4,7 @@ title:      "纹理贴图错误显示为黑色"
 subtitle:   " \"踩坑记录\""
 date:       2017-12-04 14:43:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/005.jpg"
 catalog: true
 tags:
     - 技术
