@@ -4,7 +4,7 @@ title:      "扩展T4M支持8张细节贴图"
 subtitle:   " \"开发笔记\""
 date:       2016-07-18 21:09:00
 author:     "A-SHIN"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/bg/001.jpg"
 catalog: true
 tags:
     - 技术
