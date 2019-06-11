@@ -4,7 +4,7 @@ title:      "PBS IBL Diffuse"
 subtitle:   " \"游戏引擎\""
 date:       2019-03-16 12:00:00
 author:     "A-SHIN"
-header-img: "img/bg/029.jpg"
+header-img: "img/bg/006.jpg"
 mathjax: true
 catalog: true
 tags:
