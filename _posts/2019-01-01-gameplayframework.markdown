@@ -90,8 +90,9 @@ onLoad()
     LogWrap.err("test err");
 }
 ```
-<img class="shadow" src="/img/in-post/gpfw/3.png" width="350">
+<img class="shadow" src="/img/in-post/gpfw/3.png" width="350">  
 
+`NumberUtil.js`大数运算、格式化数字等  
 
 ###### `gulpfile`
 下载部署好nodejs、npm、gulp、gulp-tinypng-nokey、gulp-javascript-obfuscator  
