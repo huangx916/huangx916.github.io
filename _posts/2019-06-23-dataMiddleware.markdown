@@ -17,6 +17,40 @@ tags:
 程序=数据+算法  
 游戏开发过程中数据处理必不可少，不管是面向对象还是面向数据的编程方式都会将同一模块的数据封装在一起，需要进行本地存储时，用一个key将该数据对象完整的序列化保存。
 ```
+export class PlayerInfo
+{
+    public static className = "PlayerInfo";
+
+    private _gold: number = 2000;
+    public get gold(): number
+    {
+        return this._gold;
+    }
+    public set gold(value: number)
+    {
+        this._gold = value;
+        GameDataManager.getInstance().getGameData().updatePlayerInfo();
+        ListenerManager.getInstance().trigger(ListenerType.GoldChanged);
+    }
+
+    private _level: number = 1;
+    public get level(): number
+    {
+        return this._level;
+    }
+    public set level(value: number)
+    {
+        this._level = value;
+        GameDataManager.getInstance().getGameData().updatePlayerInfo();
+    }
+}
+```
+```
+updatePlayerInfo()
+{
+    // serializeData
+    cc.sys.localStorage.setItem(PlayerInfo.className, this.playerInfo);
+}
 ```
 这些看似简单明了，条理清晰，但是频繁的大块数据读写会对性能造成巨大的负担。
 因此我们需要寻求一种既能保持上层数据结构关联性不破坏其封装，在数据读写时又可以无视其关联性能够有选择的单独读写其中某条数据的解决方案。  
