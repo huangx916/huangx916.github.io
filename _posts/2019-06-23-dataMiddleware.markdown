@@ -61,6 +61,39 @@ updatePlayerInfo()
 * 存储数据时，接收一个Key和一个完整的数据结构，然后内部将该数据结构进行逐条拆分并按一定规则根据参数Key生成相对应的subkey进行存储  
 * 读取数据时，接收一个Key和需要填充的数据结构，然后内部按上一步存储时相同的规则生成subkey进行数据读取并保存到需填充结构的相对应的字段中，最后用户便拿到了已填充完毕的数据结构  
 
+#### Key的生成规则  
+为防止不同模块下的子模块Key相同造成数据覆盖，需要生成模块唯一Key用来存储，首先能够想到的是根据模块嵌套结构进行拼接。
+```
+|-XXGame
+	|-MainWorld
+		|-Mainland1
+			|-Skyland
+				|-SublandOtherInfo
+					|-sublandCoins
+```
+`XXGame_MainWorld_Mainland1_Skyland_SublandOtherInfo_sublandCoins`  
+
+#### 数据结构拆分  
+这一步将传入的数据结构进行逐条拆分，用来后续将子数据和上一步生成的subkey进行对应存取操作(这里只进行一层拆分，支持数据传入时两层嵌套)。  
+```
+for(let key in this.pureDataCache)
+{
+    let value = this.pureDataCache[key];
+    if(value && typeof value === "object")
+    {
+        for(let childKey in value)
+        {
+            this.setLocalItemImmediately(key+childKey, value[childKey]);
+        }
+    }
+    else
+    {
+        this.setLocalItemImmediately(key, value);
+    }
+}
+```
+
+
 
 未完待续。。。
 
