@@ -93,6 +93,40 @@ for(let key in this.pureDataCache)
 }
 ```
 
+#### 延迟存储  
+由于游戏里有很多数据更新非常频繁，所以需要对这些数据进行缓存，每个一段时间才将它们写入本地存储中。  
+```
+private static _syncLocalDataInterval()
+{
+    if(!this.intervalId) 
+    {
+        this.intervalId = setTimeout(()=>{
+            this.intervalId = null;
+            this._syncLocalData();
+        },this.syncLocalDataInterval);
+    }
+}
+
+private static _syncLocalData()
+{
+    for(let uniKey in this.keyMap)
+    {
+        let keysObj = this.keyMap[uniKey];
+        let key = keysObj["key"];
+        let subKey = keysObj["subKey"];
+        if(!subKey)
+        {
+            this._setData(uniKey, this.gameDataRef[key]);
+        }
+        else
+        {
+            this._setData(uniKey, this.gameDataRef[key][subKey]);
+        }
+    }
+    this.keyMap = {};
+}
+```
+
 
 
 未完待续。。。
