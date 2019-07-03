@@ -67,14 +67,14 @@ updatePlayerInfo()
 XXGame
   |--MainWorld
     |--Mainland1
-      |--Skyland
+      |--Subland1
         |--SublandOtherInfo
            |--sublandCoins
 ```
-`XXGame_MainWorld_Mainland1_Skyland_SublandOtherInfo_sublandCoins`  
+`XXGame_MainWorld_Mainland1_Subland1_SublandOtherInfo_sublandCoins`  
 
 #### 数据结构拆分  
-这一步将传入的数据结构进行逐条拆分，用来后续将子数据和上一步生成的subkey进行对应存取操作(这里只进行一层拆分，支持数据传入时两层嵌套)。  
+这一步将传入的数据结构进行逐条拆分，用来后续将子数据和上一步生成的subkey进行对应存取操作(这里只进行一层拆分，支持数据传入时两层嵌套，暂时够用，后续考虑进行递归拆分)。  
 ```
 for(let key in this.pureDataCache)
 {
@@ -94,7 +94,7 @@ for(let key in this.pureDataCache)
 ```
 
 #### 延迟存储  
-由于游戏里有很多数据更新非常频繁，所以需要对这些数据进行缓存，每个一段时间才将它们写入本地存储中。  
+由于游戏里有很多数据更新非常频繁，所以需要对这些数据进行缓存，每隔一段时间才将它们写入本地存储中。  
 ```
 private static _syncLocalDataInterval()
 {
@@ -127,9 +127,84 @@ private static _syncLocalData()
 }
 ```
 
+### 公有接口说明  
+`register`：定时器开关注册，用于切到后台后关闭延迟存储定时器  
+`getAllLocalData`：游戏开始时获取所有本地存储的数据  
+`setLocalItemDefer`：延迟存储接口  
+`setLocalItemImmediately`：立即存储接口  
+`getLocalItem`：获取本地存储数据  
+`getGameDataItem`：获取游戏内存数据  
 
+### 使用说明  
+#### 数据读取  
+游戏开始时调用`getAllLocalData`传入需要从本地存储读取数据的Key(如没有此数据则返回输入的默认值)  
+```
+getDataKeys() 
+{
+    var keys = {};
+    keys[this.worldInfo.settingInfo._storageKey] = this.worldInfo.settingInfo;
+    keys[this.worldInfo.worldOtherInfo._storageKey] = this.worldInfo.worldOtherInfo;
+    for(let i = 0; i < this.worldInfo.mainlandInfoList.length; ++i)
+    {
+        let mainlandInfo = this.worldInfo.mainlandInfoList[i];
+        keys[mainlandInfo.mainlandOtherInfo._storageKey] = mainlandInfo.mainlandOtherInfo;
+        for(let j = 0; j < mainlandInfo.sublandInfoList.length; ++j)
+        {
+            let sublandInfo = mainlandInfo.sublandInfoList[j];
+            keys[sublandInfo.sublandOtherInfo._storageKey] = sublandInfo.sublandOtherInfo;
+        }
+    }
+    return keys;
+}
 
-未完待续。。。
+StorageUtil.getAllLocalData(this.getDataKeys(), (first)=>{});
+```
+#### 数据写入  
+在需要本地存储的数据的set方法里调用`setLocalItemDefer`，每隔一段时间(默认500ms)进行存储  
+```
+export default class SublandOtherInfo
+{
+    public _storageKey = "SublandOtherInfo";
 
+    constructor(prefix: string)
+    {
+        this._storageKey = prefix + "_" + this._storageKey;
+    }
+
+    private _sublandCoins: string = '100';
+    public get sublandCoins(): string
+    {
+        if(this._sublandCoins === undefined)
+        {
+            this._sublandCoins = "0";
+        }
+        return this._sublandCoins;
+    }
+    public set sublandCoins(value: string)
+    {
+        this._sublandCoins = value;
+        GameDataManager.getInstance().getGameData().updateSublandOtherInfo(this);
+        ListenerManager.getInstance().trigger(ListenerType.SublandCoinsChanged);
+    }
+}
+```
+#### 本地存储结构截图  
+业务逻辑中的层级嵌套数据结构  
+```
+WorldInfo
+  |--WorldOtherInfo
+    |--_worldCoins
+  |--SettingInfo
+    |--_closeAudio
+  |--MainlandInfo
+    |--MainlandOtherInfo
+      |--_mainlandCoins
+    |--SublandInfo
+      |--SublandOtherInfo
+        |--_sublandCoins
+```
+被中间件拆分后的扁平化存储  
+<img class="shadow" src="/img/in-post/dataMiddleware/1.png" width="738">  
 
 ## 后记  
+完整代码和示例已集成到框架中[https://github.com/huangx916/GameplayFramework](https://github.com/huangx916/GameplayFramework)
