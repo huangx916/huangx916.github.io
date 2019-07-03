@@ -66,10 +66,10 @@ updatePlayerInfo()
 ```
 XXGame
   |--MainWorld
-	|--Mainland1
-	  |--Skyland
-		|--SublandOtherInfo
-		  |--sublandCoins
+    |--Mainland1
+      |--Skyland
+        |--SublandOtherInfo
+           |--sublandCoins
 ```
 `XXGame_MainWorld_Mainland1_Skyland_SublandOtherInfo_sublandCoins`  
 
