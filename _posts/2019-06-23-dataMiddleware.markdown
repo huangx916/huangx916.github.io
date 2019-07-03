@@ -64,12 +64,12 @@ updatePlayerInfo()
 #### Key的生成规则  
 为防止不同模块下的子模块Key相同造成数据覆盖，需要生成模块唯一Key用来存储，首先能够想到的是根据模块嵌套结构进行拼接。
 ```
-|-XXGame
-	|-MainWorld
-		|-Mainland1
-			|-Skyland
-				|-SublandOtherInfo
-					|-sublandCoins
+XXGame
+  |--MainWorld
+	|--Mainland1
+	  |--Skyland
+		|--SublandOtherInfo
+		  |--sublandCoins
 ```
 `XXGame_MainWorld_Mainland1_Skyland_SublandOtherInfo_sublandCoins`  
 
