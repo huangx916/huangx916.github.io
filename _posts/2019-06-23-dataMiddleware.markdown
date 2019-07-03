@@ -136,7 +136,7 @@ private static _syncLocalData()
 `getGameDataItem`：获取游戏内存数据  
 
 ### 使用说明  
-#### 数据读取  
+* 数据读取  
 游戏开始时调用`getAllLocalData`传入需要从本地存储读取数据的Key(如没有此数据则返回输入的默认值)  
 ```
 getDataKeys() 
@@ -159,7 +159,7 @@ getDataKeys()
 
 StorageUtil.getAllLocalData(this.getDataKeys(), (first)=>{});
 ```
-#### 数据写入  
+* 数据写入  
 在需要本地存储的数据的set方法里调用`setLocalItemDefer`，每隔一段时间(默认500ms)进行存储  
 ```
 export default class SublandOtherInfo
@@ -188,7 +188,7 @@ export default class SublandOtherInfo
     }
 }
 ```
-#### 本地存储结构截图  
+* 本地存储结构截图  
 业务逻辑中的层级嵌套数据结构  
 ```
 WorldInfo
