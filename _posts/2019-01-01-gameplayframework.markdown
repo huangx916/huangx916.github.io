@@ -96,7 +96,7 @@ onLoad()
 `NumberUtil.js`大数运算、格式化数字等  
 
 ###### 编辑器扩展  
-一键对json配置文件进行base64加密生成对应txt文件，读取时解密后解析。  
+一键对json配置文件进行base64加密生成对应txt文件，读取时解密后解析。(**注意：window.btoa和Editor.assetdb.createOrSave等不能在主进程调用，只能在渲染进程调用**)  
 <img class="shadow" src="/img/in-post/gpfw/7.png" width="416">  
 <img class="shadow" src="/img/in-post/gpfw/8.png" width="390">  
 
