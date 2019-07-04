@@ -76,7 +76,7 @@ UI管理类，可通过类名打开、关闭、显示、隐藏、获取对应UI�
 <img class="shadow" src="/img/in-post/gpfw/2.png" width="300">
 
 ###### Utils
-`StorageUtil`[游戏数据设计及读写中间件](https://huangx916.github.io/2019/06/23/dataMiddleware/)
+`StorageUtil`[游戏数据设计及读写中间件](https://huangx916.github.io/2019/06/23/dataMiddleware/)  
 `MathExtension`数学扩展库  
 `StringExtension`字符串格式化  
 `UIHelp`Tip提示  
