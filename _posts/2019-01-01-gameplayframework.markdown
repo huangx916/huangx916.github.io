@@ -76,6 +76,7 @@ UI管理类，可通过类名打开、关闭、显示、隐藏、获取对应UI�
 <img class="shadow" src="/img/in-post/gpfw/2.png" width="300">
 
 ###### Utils
+`StorageUtil`[游戏数据设计及读写中间件](https://huangx916.github.io/2019/06/23/dataMiddleware/)
 `MathExtension`数学扩展库  
 `StringExtension`字符串格式化  
 `UIHelp`Tip提示  
@@ -93,6 +94,11 @@ onLoad()
 <img class="shadow" src="/img/in-post/gpfw/3.png" width="350">  
 
 `NumberUtil.js`大数运算、格式化数字等  
+
+###### 编辑器扩展  
+一键对json配置文件进行base64加密生成对应txt文件，读取时解密后解析。  
+<img class="shadow" src="/img/in-post/gpfw/7.png" width="416">  
+<img class="shadow" src="/img/in-post/gpfw/8.png" width="390">  
 
 ###### `gulpfile`
 下载部署好nodejs、npm、gulp、gulp-tinypng-nokey、gulp-javascript-obfuscator  
