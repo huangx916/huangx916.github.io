@@ -157,7 +157,55 @@ getDataKeys()
     return keys;
 }
 
-StorageUtil.getAllLocalData(this.getDataKeys(), (first)=>{});
+StorageUtil.getAllLocalData(this.getDataKeys(), (first)=>{
+    if(first)
+    {
+        this.initSettingInfo(null);
+        this.initWorldOtherInfo(null);
+        for(let i = 0; i < this.worldInfo.mainlandInfoList.length; ++i)
+        {
+            let mainlandInfo = this.worldInfo.mainlandInfoList[i];
+            this.initMainlandOtherInfo(null, mainlandInfo.mainlandOtherInfo);
+            for(let j = 0; j < mainlandInfo.sublandInfoList.length; ++j)
+            {
+                let sublandInfo = mainlandInfo.sublandInfoList[j];
+                this.initSublandOtherInfo(null, sublandInfo.sublandOtherInfo);
+            }
+        }
+    }
+    else
+    {
+        this.initSettingInfo(StorageUtil.getGameDataItem(this.worldInfo.settingInfo._storageKey));
+        this.initWorldOtherInfo(StorageUtil.getGameDataItem(this.worldInfo.worldOtherInfo._storageKey));
+        for(let i = 0; i < this.worldInfo.mainlandInfoList.length; ++i)
+        {
+            let mainlandInfo = this.worldInfo.mainlandInfoList[i];
+            this.initMainlandOtherInfo(StorageUtil.getGameDataItem(mainlandInfo.mainlandOtherInfo._storageKey), mainlandInfo.mainlandOtherInfo);
+            for(let j = 0; j < mainlandInfo.sublandInfoList.length; ++j)
+            {
+                let sublandInfo = mainlandInfo.sublandInfoList[j];
+                this.initSublandOtherInfo(StorageUtil.getGameDataItem(sublandInfo.sublandOtherInfo._storageKey), sublandInfo.sublandOtherInfo);
+            }
+        }
+    }
+});
+
+initSettingInfo(settingInfo: SettingInfo)
+{
+    if(settingInfo && Object.getOwnPropertyNames(settingInfo).length > 0 )
+    {
+        this.worldInfo.settingInfo = settingInfo;
+        this.worldInfo.settingInfo["__proto__"] = SettingInfo.prototype;
+    }
+    else
+    {
+        this.updateSettingInfo();
+    }
+}
+updateSettingInfo()
+{
+    StorageUtil.setLocalItemDefer(this.worldInfo.settingInfo._storageKey, this.worldInfo.settingInfo);
+}
 ```
 ##### 数据写入  
 在需要本地存储的数据的set方法里调用`setLocalItemDefer`，每隔一段时间(默认500ms)进行存储  
