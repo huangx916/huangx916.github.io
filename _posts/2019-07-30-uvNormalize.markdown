@@ -18,8 +18,8 @@ shader编写时很多效果会用到uv坐标，creator中uv左上角为(0,0),右
 
 ## 正文  
 #### 思路  
-application阶段，通过`spriteFrame`中的rect信息获取该frame在图集中的偏移位置及大小信息。然后根据frame是否旋转计算出该frame在图集中的归一化的上下左右偏移率，将是否旋转和上下左右偏移率传给shader进行下一步处理。  
-shader阶段，获取上阶段传入的变量。根据偏移率可将图集中的uv0坐标转换到SpriteFrame下的标准uv坐标，如果图集中的该frame进行过旋转，则还需进行逆旋转uv转化。最后便得到了我们想要的frame uv坐标。  
+* application阶段，通过`spriteFrame`中的rect信息获取该frame在图集中的偏移位置及大小信息。然后根据frame是否旋转计算出该frame在图集中的归一化的上下左右偏移率，将是否旋转和上下左右偏移率传给shader进行下一步处理。  
+* shader阶段，获取上阶段传入的变量。根据偏移率可将图集中的uv0坐标转换到SpriteFrame下的标准uv坐标，如果图集中的该frame进行过旋转，则还需进行逆旋转uv转化。最后便得到了我们想要的frame uv坐标。  
 
 ##### 偏移率计算
 ```
