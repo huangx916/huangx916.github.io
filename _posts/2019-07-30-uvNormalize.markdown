@@ -4,7 +4,7 @@ title:      "CocosCreator transform atlas uv coord into frame uv coord in shader
 subtitle:   " \"开发笔记\""
 date:       2019-07-30 12:00:00
 author:     "A-SHIN"
-header-img: "img/bg/037.jpg"
+header-img: "img/bg/036.jpg"
 mathjax: true
 catalog: true
 tags:
