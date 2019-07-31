@@ -71,8 +71,8 @@ if(rotated > 0.5)
 ```
 
 ##### 示例展示
-<img class="shadow" src="/img/in-post/uvNormalize/1.png" width="628">  
-<img class="shadow" src="/img/in-post/uvNormalize/2.png" width="398">  
+<img class="shadow" src="/img/in-post/uvNormalize/1.png" width="300">  
+<img class="shadow" src="/img/in-post/uvNormalize/2.png" width="200">  
 
 ## 后记  
 示例源码[点此下载](https://github.com/huangx916/GameplayFramework/tree/master/assets/scripts/shader)
