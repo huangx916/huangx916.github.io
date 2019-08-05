@@ -28,7 +28,7 @@ Lua中便捷使用:
 
 `LuaInjectionData`类继承自`MonoBehaviour`:  将编辑器上的属性组织到LuaTable中。  
 `LuaInjectionDataInspector`类继承自`Editor`：`LuaInjectionData`的编辑器扩展，提供编辑器中添加编辑属性。  
-`LuaBehaviour`类继承自`MonoBehaviour`：Lua脚本组件，包含Lua
+`LuaBehaviour`类继承自`MonoBehaviour`：Lua脚本组件，包含Lua脚本初始化，属性注入，特定函数绑定(`Awake`、`Start`等)，监听器添加。  
 `LuaBehaviourInspector`类继承自`Editor`：`LuaBehaviour`编辑器扩展，用于在编辑中输入目标Lua脚本。  
 <img class="shadow" src="/img/in-post/luaInjection/5.png" width="1024">
 
