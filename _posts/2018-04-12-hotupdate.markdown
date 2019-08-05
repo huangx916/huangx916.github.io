@@ -26,4 +26,5 @@ CDN目录：
 <img class="shadow" src="/img/in-post/hotupdate/3.png" width="673">  
 游戏打包时将`Resources`下进行热更的资源删掉。启动游戏时`HotUpdateManager.cs`负责热更。
 ## 后记
-方案具体源码工程链接:[https://github.com/huangx916/HotUpdateSolution](https://github.com/huangx916/HotUpdateSolution)
+方案具体源码工程链接:[https://github.com/huangx916/HotUpdateSolution](https://github.com/huangx916/HotUpdateSolution)  
+[U3D绑定注入Lua数据编辑器扩展](https://huangx916.github.io/2018/04/21/luaInjection/)
