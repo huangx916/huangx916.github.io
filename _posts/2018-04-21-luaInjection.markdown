@@ -116,4 +116,5 @@ private void InjectData()
 <img class="shadow" src="/img/in-post/luaInjection/5.png" width="1024">
 
 ## 后记
-热更方案见上篇，[U3D热更新方案](https://huangx916.github.io/2018/04/12/hotupdate/)
+源码下载:[https://github.com/huangx916/HotUpdateSolution](https://github.com/huangx916/HotUpdateSolution)  
+热更方案见上篇:[U3D热更新方案](https://huangx916.github.io/2018/04/12/hotupdate/)
