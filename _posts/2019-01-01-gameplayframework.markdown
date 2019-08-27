@@ -172,6 +172,22 @@ onLoad()
 }
 ```
 
+###### TS/JS间互相调用  
+
+* js调用ts  
+```
+let {UIManager} = require("../../../scripts/Manager/UIManager");
+let {GameGunUI} = require("../../../scripts/UI/GameGunUI");
+UIManager.getInstance().hideUI(GameGunUI);
+```
+
+* ts调用js  
+```
+import numberutil0 = require("../Libs/Facebook/util/number-util.js");
+let numberUtil:Number_util = numberutil0;
+let coins = numberUtil.galaxyMut(reward, rate);
+```
+
 ## 后记  
 使用ts和cocoscreator不多久，所以封装的比较简陋，后续慢慢完善吧。欢迎小伙伴补充扩展。  
 笔力有限、框架详细代码可前往[此处，点击跳转](https://github.com/huangx916/GameplayFramework)下载。  
