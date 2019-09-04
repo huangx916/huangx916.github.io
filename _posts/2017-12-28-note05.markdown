@@ -1,0 +1,32 @@
+---
+layout:     post
+title:      "游戏开发笔记(五)"
+subtitle:   " \"开发笔记\""
+date:       2017-12-28 22:00:00
+author:     "A-SHIN"
+header-img: "img/bg/021.jpg"
+catalog: true
+tags:
+    - 杂记
+---
+
+> “Yeah It's on. ”
+
+
+## 前言
+[接前篇](https://huangx916.github.io/2017/12/18/note04/)早些年游戏开发工作中的笔记，放上来以防丢失。有些规则现在可能不适用了(如一些是U3D4早些版本的记录)。有些因为水平有限，有理解错误的地方，望指正！~  
+笔记比较乱，没整理
+
+## 正文
+##### Unity3D  
+ECS: convert to entity  需要下载安装hybrid renderer包，否则运行后game object不可见。  
+##### UnrealEngine4  
+PreInit-> LoadCoreModules-> UClassRegisterAllCompiledInClasses-> TClassCompiledInDefer<TClass>::Register-> TClass::StaticClass-> GetPrivateStaticClass(TPackage)-> GetPrivateStaticClassBody-> InitializePrivateStaticClass->UObjectBase::Register  
+
+AppInit-> InitUObject-> StaticUObjectInit-> UObjectBaseInit-> UObjectProcessRegistrants-> UObjectForceRegistration-> UObjectBase::DeferredRegister-> AddObject
+
+ProcessNewlyLoadedUObjects-> UObjectLoadAllCompiledInDefaultProperties-> 
+Z_Construct_UClass_UMyClass  
+
+
+## 后记
