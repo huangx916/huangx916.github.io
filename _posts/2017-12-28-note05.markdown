@@ -20,6 +20,7 @@ tags:
 ## 正文
 ##### Unity3D  
 ECS: convert to entity  需要下载安装hybrid renderer包，否则运行后game object不可见。  
+
 ##### UnrealEngine4  
 PreInit-> LoadCoreModules-> UClassRegisterAllCompiledInClasses-> TClassCompiledInDefer<TClass>::Register-> TClass::StaticClass-> GetPrivateStaticClass(TPackage)-> GetPrivateStaticClassBody-> InitializePrivateStaticClass->UObjectBase::Register  
 
