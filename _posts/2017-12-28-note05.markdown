@@ -21,6 +21,14 @@ tags:
 ##### Unity3D  
 ECS: convert to entity  需要下载安装hybrid renderer包，否则运行后game object不可见。  
 
+ECS        Job system    Burst    SRP    LWRP HDRP    post-processing stack    asmdef (Assembly Definition Files)    Timeline&Cinemachine  
+
+post-processing local volume blend distance 形成的包围盒需要包含进post-process layer中设置的trigger坐标。不然local volume不起作用。  
+
+OnPostRender函数中调用Graphics.Blit没效果，可能是由于hdr开启的原因。    
+Every Graphics.Blit causes RenderTexture.ResolveAA if MSAA enabled which is killing framerate.  
+
+
 ##### UnrealEngine4  
 PreInit-> LoadCoreModules-> UClassRegisterAllCompiledInClasses-> TClassCompiledInDefer<TClass>::Register-> TClass::StaticClass-> GetPrivateStaticClass(TPackage)-> GetPrivateStaticClassBody-> InitializePrivateStaticClass->UObjectBase::Register  
 
