@@ -21,7 +21,7 @@ tags:
 ##### Unity3D  
 ECS: convert to entity  需要下载安装hybrid renderer包，否则运行后game object不可见。  
 
-ECS        Job system    Burst    SRP    LWRP HDRP    post-processing stack    asmdef (Assembly Definition Files)    Timeline&Cinemachine  
+ECS；        Job system；    Burst；    SRP LWRP HDRP；    post-processing stack；    asmdef (Assembly Definition Files)；    Timeline&Cinemachine；  
 
 post-processing local volume blend distance 形成的包围盒需要包含进post-process layer中设置的trigger坐标。不然local volume不起作用。  
 
