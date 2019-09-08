@@ -31,6 +31,18 @@ Every Graphics.Blit causes RenderTexture.ResolveAA if MSAA enabled which is kill
 Unity使用的是OpenGL标准，即-1是左和下，1是右和上， 0是远裁面，1是近裁面  
 
 GBuffer中储存当前像素的Albedo, Specular, AO, normal, Depth等  
+```
+struct UnityStandardData
+{
+    half3   diffuseColor;
+    half    occlusion;
+
+    half3   specularColor;
+    half    smoothness;
+
+    float3  normalWorld;        // normal in world space
+};
+```
 通过深度图反推世界坐标就需要viewProjection matrix的逆矩阵: 
 ```
 float4 worldPos = mul(_InvVP, float4(i.uv*2-1, depth, 1)); 
