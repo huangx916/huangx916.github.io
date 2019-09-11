@@ -48,6 +48,7 @@ struct UnityStandardData
 float4 worldPos = mul(_InvVP, float4(i.uv*2-1, depth, 1)); 
 ```
 
+渲染管线在决定使用哪一个Pass来绘制物体的时候，正是识别Pass的Lightmode来决定的  
 
 ##### UnrealEngine4  
 PreInit-> LoadCoreModules-> UClassRegisterAllCompiledInClasses-> TClassCompiledInDefer<TClass>::Register-> TClass::StaticClass-> GetPrivateStaticClass(TPackage)-> GetPrivateStaticClassBody-> InitializePrivateStaticClass->UObjectBase::Register  
