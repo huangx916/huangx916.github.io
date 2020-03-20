@@ -1,0 +1,29 @@
+---
+layout:     post
+title:      "Hierarchical Z-Buffer Occlusion Culling"
+subtitle:   " \"开发笔记\""
+date:       2019-09-16 12:00:00
+author:     "A-SHIN"
+header-img: "img/bg/024.jpg"
+mathjax: true
+catalog: true
+tags:
+    - 技术
+---
+
+> “Yeah It's on. ”
+
+## 前言  
+unreal的hzb oc相比unity的umbra oc性能提升显著。由于unity源码受专利保护，因此仅介绍unity移植unreal hzb的思路。
+
+## 正文  
+1. 在unity cull阶段之后，render阶段之前，对cull result(包括灯光)进行hzb可见性测试，根据renderer的hzbId并且frameNum匹配，在上帧产生的可见性数据中查询是否可见，如果不可见则从cull result中删除
+2. 将hzb测试前的cull result中的renderer的AABB的center和extent保存到OcclusionPrimitives列表中，并设置renderer的hzbId为列表的index以及frameNum为下一帧frameNum
+3. GBuffer渲染后可以得到depth texture，将depth texture降采样到1024*1024的texture的各级mipmap中，降采样时取深度较大的信息
+4. 将OcclusionPrimitives列表中的center和extent分别分块设置到BoundsCenterTexture和BoundsExtentsTexture
+5. 根据mipmap depth texture和BoundsCenterTexture以及BoundsExtentsTexture，在shader中将BoundsExtents收缩并和对应mipmap的depth texture的深度进行比较，将结果输出到VisibilityTexture
+6. 在present时将VisibilityTexture回读到CPU的可见性数据中，供下一帧可见性测试使用
+
+## 后记  
+#### 参考  
+https://www.nickdarnell.com/hierarchical-z-buffer-occlusion-culling/
