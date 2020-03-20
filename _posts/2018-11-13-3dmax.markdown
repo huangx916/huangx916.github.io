@@ -2,7 +2,7 @@
 layout:     post
 title:      "3DMAX Note"
 subtitle:   " \"实用工具\""
-date:       2019-06-07 12:00:00
+date:       2018-11-13 12:00:00
 author:     "A-SHIN"
 header-img: "img/bg/031.jpg"
 mathjax: true
