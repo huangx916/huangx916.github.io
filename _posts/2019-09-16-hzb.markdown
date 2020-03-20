@@ -14,7 +14,7 @@ tags:
 > “Yeah It's on. ”
 
 ## 前言  
-unreal的hzb oc相比unity的umbra oc性能提升显著。由于unity源码受专利保护，因此仅介绍unity移植unreal hzb的思路。
+unreal的hzb oc相比unity的umbra oc性能提升显著。由于unity源码受专利保护，因此仅简单介绍unity移植unreal hzb的思路
 
 ## 正文  
 1. 在unity cull阶段之后，render阶段之前，对cull result(包括灯光)进行hzb可见性测试，根据renderer的hzbId并且frameNum匹配，在上帧产生的可见性数据中查询是否可见，如果不可见则从cull result中删除
