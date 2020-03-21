@@ -25,5 +25,6 @@ unreal的hzb oc相比unity的umbra oc性能提升显著。由于unity源码受�
 6. 在present时将VisibilityTexture回读到CPU的可见性数据中，供下一帧可见性测试使用
 
 ## 后记  
-#### 参考  
+
+## 参考文献  
 https://www.nickdarnell.com/hierarchical-z-buffer-occlusion-culling/
