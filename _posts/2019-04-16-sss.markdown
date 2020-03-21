@@ -2,7 +2,7 @@
 layout:     post
 title:      "Pre-Integrated Skin Shading"
 subtitle:   " \"游戏引擎\""
-date:       2019-06-08 20:00:00
+date:       2019-04-16 20:00:00
 author:     "A-SHIN"
 header-img: "img/bg/032.jpg"
 mathjax: true
