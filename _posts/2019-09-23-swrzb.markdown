@@ -29,7 +29,7 @@ tags:
 #### SWRRenderable
     AABB渲染单元
 成员变量 | 含义  
--|-  
+:-: | :-:
 vertices | 顶点数组 |  
 indices	| 索引数组 |  
 backMasks | 三角形背面标识 |  
@@ -37,7 +37,7 @@ backMasks | 三角形背面标识 |
 #### Scanline
     水平方向光栅化结构
 成员变量 | 含义  
--|-  
+:-: | :-:
 v | 当前点
 step | 点之间的步进
 x | 起始X
@@ -47,20 +47,20 @@ width | 扫描线宽度
 #### SWRCuller
        所有实现都在该类中
 成员变量 | 含义  
--|-  
+:-: | :-:
 m_DepthTextureCPU | 将上一帧Depth Texture读取到StagingTexture中
 m_DepthData	| 将m_DepthTextureCPU Map到CPU指针中
 
     公有函数
 公有函数 | 功能  
--|-  
+:-: | :-:
 CleanUp	| MainThreadCleanup时调用清理m_DepthTextureCPU
 DoCulling |	裁剪函数
 ReadDepthTexture |	读取上一帧Depth Texture
 
     私有函数
 私有函数 | 功能  
--|-  
+:-: | :-:
 BeginCulling | 裁剪前将m_DepthTextureCPU Map到m_DepthData中
 EndCulling | m_DepthTextureCPU Unmap操作
 GenerateSWRRenderable | 生成NDC坐标系下的AABB顶点、索引、背面Mask
