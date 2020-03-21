@@ -1,0 +1,90 @@
+---
+layout:     post
+title:      "Software Rasterization Z-Buffer Ocllusion Culling"
+subtitle:   " \"开发笔记\""
+date:       2019-09-23 12:00:00
+author:     "A-SHIN"
+header-img: "img/bg/022.jpg"
+mathjax: true
+catalog: true
+tags:
+    - 技术
+---
+
+> “Yeah It's on. ”
+
+## 背景介绍  
+由于HZB进行深度比较时，当前屏幕空间下被遮挡的较大物体需要降采样与高mipmap等级的Depth Texture比较，而高mipmap等级的Depth Texture在降采样时周边较大深度的像素污染当前像素从而保存了较大的深度，引起该物体深度小于Depth Texture对应点的深度，造成该较大物体未被剔除。
+
+## 优化方案
+在HZB之后对渲染的队列中的物体的AABB进行软件光栅化与上一帧Depth Texture在mipmap 0等级上比较深度值进行二次OC。
+
+## 逻辑概览
+在上一帧进行绘制后将Depth Texture保存到m_DepthTextureCPU中。下一帧开始时将m_DepthTextureCPU映射到m_DepthData以便后续CPU操作，对HZB后的渲染队列中的物体的AABB生成NDC坐标系下的AABB顶点、索引、背面Mask保存在SWRRenderable结构中，然后过滤掉屏幕空间中较小的AABB，再进行三角形背面标记，TODO:根据法线视向量点积大小进行排序，优先光栅化正面相机的三角形(深度值更小)。对非背面的三角形进行光栅化的同时进行深度比较，一旦深度值比DepthTexture中的小则提前退出，表明该AABB包围的物体未被遮挡。如果AABB所有非背面三角形都光栅化后的深度都比DepthTexture中的大，则该AABB包围的物体被遮挡，需要剔除。
+
+## 深度优化
+以物体为单位进行有策略的分组，使用JobSystem进行多线程光栅化遮挡剔除。
+
+## 类成员变量与函数
+#### SWRRenderable
+    AABB渲染单元
+成员变量 | 含义  
+-|-  
+vertices | 顶点数组 |  
+indices	| 索引数组 |  
+backMasks | 三角形背面标识 |  
+
+Scanline
+    水平方向光栅化结构
+
+v	当前点
+step	点之间的步进
+x	起始X
+y	扫描线Y
+width	扫描线宽度
+SWRCuller
+       所有实现都在该类中
+
+m_DepthTextureCPU	将上一帧Depth Texture读取到StagingTexture中
+m_DepthData	将m_DepthTextureCPU Map到CPU指针中
+    公有函数
+
+CleanUp	MainThreadCleanup时调用清理m_DepthTextureCPU
+DoCulling	裁剪函数
+ReadDepthTexture	读取上一帧Depth Texture
+    私有函数
+
+BeginCulling	裁剪前将m_DepthTextureCPU Map到m_DepthData中
+EndCulling	m_DepthTextureCPU Unmap操作
+GenerateSWRRenderable	生成NDC坐标系下的AABB顶点、索引、背面Mask
+FilterBySize	过滤掉屏幕空间中较小的AABB
+BackfaceCullingAddSort	标记背面三角形，TODO:根据法线视向量点积大小进行排序
+RasterizationZCheck	对AABB光栅化并进行深度比较
+DrawTriangle	三角形切割并光栅化
+SortVertex	三角形顶点排序
+DrawFlatTopTriangle	平顶三角形光栅化
+DrawFlatBottomTriangle	平底三角形光栅化
+DrawScanline	水平方向光栅化
+GenerateScanline	生成水平方向光栅化所需结构
+Interp	position插值
+RoundfToInt	浮点数四舍五入
+
+Remarks:
+ProjectionMatrix需要根据情况进行Y和Z翻转
+```
+Matrix4x4f projMatrix = camera.GetProjectionMatrix();
+bool openGLStyle = GetGraphicsCaps().usesOpenGLTextureCoords;
+bool invertY = !openGLStyle;
+if (invertY)
+{
+projMatrix.Get(1, 0) = -projMatrix.Get(1, 0);
+projMatrix.Get(1, 1) = -projMatrix.Get(1, 1);
+projMatrix.Get(1, 2) = -projMatrix.Get(1, 2);
+projMatrix.Get(1, 3) = -projMatrix.Get(1, 3);
+}
+bool revertZ = GetGraphicsCaps().usesReverseZ;
+projMatrix.Get(2, 0) = projMatrix.Get(2, 0) * (revertZ ? -0.5f : 0.5f) + projMatrix.Get(3, 0) * 0.5f;
+projMatrix.Get(2, 1) = projMatrix.Get(2, 1) * (revertZ ? -0.5f : 0.5f) + projMatrix.Get(3, 1) * 0.5f;
+projMatrix.Get(2, 2) = projMatrix.Get(2, 2) * (revertZ ? -0.5f : 0.5f) + projMatrix.Get(3, 2) * 0.5f;
+projMatrix.Get(2, 3) = projMatrix.Get(2, 3) * (revertZ ? -0.5f : 0.5f) + projMatrix.Get(3, 3) * 0.5f;
+```
