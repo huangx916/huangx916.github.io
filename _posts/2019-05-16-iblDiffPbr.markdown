@@ -14,7 +14,7 @@ tags:
 > “Yeah It's on. ”
 
 ## 前言
-最近在往[引擎](https://github.com/huangx916/HXEngine)中添加基于物理的着色，接上篇[直接光照PBS](https://huangx916.github.io/2018/09/01/directpbr/)，这次实现了基于图像的光照，此篇介绍diffuse部分的实现。  
+最近在往[引擎](https://github.com/huangx916/HXEngine)中添加基于物理的着色，接上篇[直接光照PBS](https://huangx916.github.io/2019/05/01/directpbr/)，这次实现了基于图像的光照，此篇介绍diffuse部分的实现。  
 
 IBL DIFFUSE PBS效果如下：  
 <img class="shadow" src="/img/in-post/pbs-ibl-diff/1.png" width="600">  

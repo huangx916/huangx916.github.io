@@ -14,7 +14,7 @@ tags:
 > “Yeah It's on. ”
 
 ## 前言
-接上篇[PBS IBL Diffuse](https://huangx916.github.io/2019/03/16/iblDiffPbr/)，这次实现了基于图像的光照specular部分。  
+接上篇[PBS IBL Diffuse](https://huangx916.github.io/2019/05/16/iblDiffPbr/)，这次实现了基于图像的光照specular部分。  
 
 IBL SPECULAR PBS效果如下：  
 <img class="shadow" src="/img/in-post/pbs-ibl-spec/11.png" width="600">  
@@ -70,7 +70,7 @@ specular = specular / sampler;
 ```
 
 ##### EquirectangularMap转化成CubeMap  
-参见[上篇](https://huangx916.github.io/2019/03/16/iblDiffPbr/)对应章节，这里使用同样的方式生成。  
+参见[上篇](https://huangx916.github.io/2019/05/16/iblDiffPbr/)对应章节，这里使用同样的方式生成。  
 
 ##### LD项CubeMap生成  
 $LD = \frac{1}{\sum_{k=1}^{N}cos\theta_k}\sum_{k=1}^{N}L_i(l_k) cos\theta_k$  
