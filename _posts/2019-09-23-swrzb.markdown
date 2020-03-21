@@ -14,7 +14,7 @@ tags:
 > “Yeah It's on. ”
 
 ## 背景介绍  
-由于HZB进行深度比较时，当前屏幕空间下被遮挡的较大物体需要降采样与高mipmap等级的Depth Texture比较，而高mipmap等级的Depth Texture在降采样时周边较大深度的像素污染当前像素从而保存了较大的深度，引起该物体深度小于Depth Texture对应点的深度，造成该较大物体未被剔除。
+由于[上篇](https://huangx916.github.io/2019/09/16/hzb/)HZB进行深度比较时，当前屏幕空间下被遮挡的较大物体需要降采样与高mipmap等级的Depth Texture比较，而高mipmap等级的Depth Texture在降采样时周边较大深度的像素污染当前像素从而保存了较大的深度，引起该物体深度小于Depth Texture对应点的深度，造成该较大物体未被剔除。
 
 ## 优化方案
 在HZB之后对渲染的队列中的物体的AABB进行软件光栅化与上一帧Depth Texture在mipmap 0等级上比较深度值进行二次OC。
