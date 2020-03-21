@@ -28,11 +28,11 @@ tags:
 ## 类成员变量与函数
 #### SWRRenderable
     AABB渲染单元
-成员变量 | 含义  
-:-: | :-:
-vertices | 顶点数组 |  
-indices	| 索引数组 |  
-backMasks | 三角形背面标识 |  
+| 成员变量 | 含义 |
+| ---- | ---- |
+| vertices | 顶点数组 |  
+| indices | 索引数组 |  
+| backMasks | 三角形背面标识 |  
 
 #### Scanline
     水平方向光栅化结构
