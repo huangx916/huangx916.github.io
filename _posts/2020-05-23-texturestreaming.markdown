@@ -70,7 +70,7 @@ Streaming Priority：流入流出优先级，优先级越低表示越远(比距�
 * 树：原型所用的贴图进行流式管理  
 * 草：生成的atlas m_IsStreamable为false，不进行流式管理  
 
-美术资源制作时，将地形相关贴图都设置成streamable为false，将HLOD所用贴图设置成streamable为false，粒子特效所用贴图设置成streamable为false，Road期望Mip计算偏差所以也设置为false  
+美术资源制作时，将地形相关贴图都设置成streamable为false，将HLOD所用贴图设置成streamable为false，粒子特效所用贴图设置成streamable为false，Road期望Mip计算偏差所以也设置为false，shadowmask设置为false  
 
 某些在budget足够的情况下也比较糊的贴图也需要设置成streamable为false，这个是因为纹素密度计算的问题，跟资源制作和Mip算法选择都有关  
 
