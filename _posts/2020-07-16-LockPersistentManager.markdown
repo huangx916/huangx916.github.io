@@ -17,7 +17,7 @@ tags:
 
 主线程ReadObject时，如果资源未加载，则会等待m_Mutex直到可用后进行资源加载，如果此时子线程正在加载资源，占用了m_Mutex，则主线程等待m_Mutex时造成了阻塞。  
 
-<img class="shadow" src="/img/in-post/LockPersistentManager/1.png" width="666">  
+<img class="shadow" src="/img/in-post/LockPersistentManager/1.png" width="1666">  
 
 ##### 产生问题的原因：
 
@@ -56,4 +56,4 @@ PPtr<T>::operator T*() const
 ##### 解决：  
 
 避免object销毁后，仍旧使用  
-<img class="shadow" src="/img/in-post/LockPersistentManager/2.png" width="666">  
+<img class="shadow" src="/img/in-post/LockPersistentManager/2.png" width="1666">  
